@@ -22,13 +22,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        sqLiteDatabase.execSQL(CurrencyCatalogTable.createTable());
+        sqLiteDatabase.execSQL(HistoryTable.createTable());
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         if (i != i1) {
-
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CurrencyCatalogTable.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HistoryTable.TABLE_NAME);
+            this.onCreate(sqLiteDatabase);
         }
     }
 
