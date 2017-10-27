@@ -25,8 +25,8 @@ public class HistoryTable {
         return "CREATE TABLE "
                 + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY,"
-                + ID_CURRENCY_FROM + " TEXT,"
-                + ID_CURRENCY_TO + " TEXT,"
+                + ID_CURRENCY_FROM + " INTEGER,"
+                + ID_CURRENCY_TO + " INTEGER,"
                 + SUM_FROM + " INTEGER,"
                 + SUM_TO + " INTEGER,"
                 + RATE + " FLOAT,"
@@ -35,7 +35,6 @@ public class HistoryTable {
 
     public static String selectHistory() {
         return "SELECT * FROM " + TABLE_NAME
-                + " INNER JOIN"
                 + " ORDER BY " + TIME + " DESC";
     }
 
@@ -45,16 +44,16 @@ public class HistoryTable {
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(String currencyName) {
+    public static String selectHistory(int idCurrency) {
         return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " = '" + currencyName + "'"
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " = '"+ currencyName + "'"
+                + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " = " + idCurrency
+                + " OR " + HistoryTable.ID_CURRENCY_TO + " = "+ idCurrency
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(String[] currencyNames) {
+    public static String selectHistory(int[] ids) {
 
-        String in = createConditionIn(currencyNames);
+        String in = createConditionIn(ids);
 
         return "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " IN " + in
@@ -62,9 +61,9 @@ public class HistoryTable {
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(String[] currencyNames, long timeFrom, long timeTo) {
+    public static String selectHistory(int[] ids, long timeFrom, long timeTo) {
 
-        String in = createConditionIn(currencyNames);
+        String in = createConditionIn(ids);
 
         return "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + "(" + HistoryTable.ID_CURRENCY_FROM + " IN " + in
@@ -95,13 +94,11 @@ public class HistoryTable {
         return contentValues;
     }
 
-    private static String createConditionIn(String[] conditions){
+    private static String createConditionIn(int[] conditions){
         StringBuilder temp = new StringBuilder("(");
 
-        for (String s: conditions){
-            temp.append("'");
+        for (int s: conditions){
             temp.append(s);
-            temp.append("'");
             temp.append(",");
         }
 
