@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "currencyexchangeapp.db_change_history";
+    private static final String DB_NAME = "com.example.kolin.currencyconverterapp.db_change_history";
     private static final int DB_VERSION = 1;
 
     public DataBaseHelper(Context context) {
