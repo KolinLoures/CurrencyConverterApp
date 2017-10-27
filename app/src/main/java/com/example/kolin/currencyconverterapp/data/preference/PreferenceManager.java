@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.data.cache;
+package com.example.kolin.currencyconverterapp.data.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
