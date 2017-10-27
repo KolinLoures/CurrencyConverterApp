@@ -3,7 +3,7 @@ package com.example.kolin.currencyconverterapp.data.db;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
 
-import io.reactivex.Flowable;
+import java.util.List;
 
 /**
  * Created by kolin on 27.10.2017.
@@ -12,9 +12,9 @@ import io.reactivex.Flowable;
 public interface DAO {
 
     interface CurrencyCatalogDAO {
-        Flowable<CurrencyEntity> getAllCurrency();
+        List<CurrencyEntity> getAllCurrency();
 
-        Flowable<CurrencyEntity> getAllFavoriteCurrency();
+        List<CurrencyEntity> getAllFavoriteCurrency();
 
         void addCurrency(String name);
 
@@ -32,15 +32,15 @@ public interface DAO {
                         int sumTo,
                         float rate);
 
-        Flowable<CurrencyHistoryEntity> getHistory();
+        List<CurrencyHistoryEntity> getHistory();
 
-        Flowable<CurrencyHistoryEntity> getHistory(long timeFrom, long timeTo);
+        List<CurrencyHistoryEntity> getHistory(long timeFrom, long timeTo);
 
-        Flowable<CurrencyHistoryEntity> getHistory(String currencyName);
+        List<CurrencyHistoryEntity> getHistory(String currencyName);
 
-        Flowable<CurrencyHistoryEntity> getHistory(String[] currencyNames);
+        List<CurrencyHistoryEntity> getHistory(String[] currencyNames);
 
-        Flowable<CurrencyHistoryEntity> getHistory(String[] currencyNames, long timeFrom, long timeTo);
+        List<CurrencyHistoryEntity> getHistory(String[] currencyNames, long timeFrom, long timeTo);
 
         void clearHistory();
     }
