@@ -11,6 +11,14 @@ public class PreferenceManager {
 
     private static final String PREFERENCE_NAME = "com.example.kolin.currencyconverterapp.PREFERENCE";
 
+    public static final String KEY_PREF_CURR_FROM = "key_pref_currency_from";
+    public static final String KEY_PREF_CURR_TO = "key_pref_currency_to";
+
+    public static final String KEY_PREF_CACHE_TIME = "key_pref_cache_time";
+    public static final String KEY_PREF_BASE_CURR = "key_pref_base_curr";
+
+
+
     public void writeLongToPreference(Context context, String key, long value){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
 
