@@ -26,8 +26,8 @@ public interface DAO {
     }
 
     interface HistoryCurrencyDAO {
-        void addHistory(int idCurrencyFrom,
-                        int idCurrencyTo,
+        void addHistory(String currencyFrom,
+                        String currencyTo,
                         int sumFrom,
                         int sumTo,
                         float rate);
