@@ -50,4 +50,11 @@ public class FileWriterReader {
         }
         return null;
     }
+
+    public void clearDirectory(File file){
+        if (file != null && file.isDirectory()){
+            for (File f: file.listFiles())
+                f.delete();
+        }
+    }
 }
