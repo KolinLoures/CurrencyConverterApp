@@ -106,5 +106,17 @@ public class HistoryTable {
 
         return temp.toString();
     }
+
+    public static String[] getAllFields(){
+        return new String[]{
+                ID,
+                ID_CURRENCY_FROM,
+                ID_CURRENCY_TO,
+                SUM_FROM,
+                SUM_TO,
+                RATE,
+                TIME
+        };
+    }
 }
 

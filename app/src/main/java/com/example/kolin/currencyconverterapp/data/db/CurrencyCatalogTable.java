@@ -70,4 +70,13 @@ public class CurrencyCatalogTable {
 
         return contentValues;
     }
+
+    public static String[] getAllFields() {
+        return new String[]{
+                ID,
+                NAME,
+                IS_FAVORITE,
+                TIME,
+        };
+    }
 }
