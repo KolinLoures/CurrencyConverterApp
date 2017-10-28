@@ -12,13 +12,13 @@ public class HistoryTable {
 
     public static final String TABLE_NAME = "exchange_history_table";
 
-    private static final String ID = "id_exchange";
-    private static final String ID_CURRENCY_FROM = "id_currency_from";
-    private static final String ID_CURRENCY_TO = "id_currency_to";
-    private static final String SUM_FROM = "sum_from";
-    private static final String SUM_TO = "sum_to";
-    private static final String RATE = "rate";
-    private static final String TIME = "time_exchange";
+    public static final String ID = "id_exchange";
+    public static final String ID_CURRENCY_FROM = "id_currency_from";
+    public static final String ID_CURRENCY_TO = "id_currency_to";
+    public static final String SUM_FROM = "sum_from";
+    public static final String SUM_TO = "sum_to";
+    public static final String RATE = "rate";
+    public static final String TIME = "time_exchange";
 
 
     public static String createTable() {
