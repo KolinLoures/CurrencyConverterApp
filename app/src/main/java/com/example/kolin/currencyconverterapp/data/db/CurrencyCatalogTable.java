@@ -50,7 +50,7 @@ public class CurrencyCatalogTable {
                 + " WHERE " + ID + " = " + id;
     }
 
-    public static String getCurrencyIdByName(String name) {
+    public static String selectCurrencyIdByName(String name) {
         return "SELECT " + ID
                 + " FROM " + TABLE_NAME
                 + " WHERE " + NAME + " = '" + name + "'";
