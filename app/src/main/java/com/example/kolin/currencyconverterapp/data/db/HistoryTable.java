@@ -44,7 +44,7 @@ public class HistoryTable {
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(int currency) {
+    public static String selectHistory(String currency) {
         return "SELECT * FROM " + TABLE_NAME
                 + " WHERE " + HistoryTable.CURRENCY_FROM + " = '" + currency + "'"
                 + " OR " + HistoryTable.CURRENCY_TO + " = '"+ currency + "'"
