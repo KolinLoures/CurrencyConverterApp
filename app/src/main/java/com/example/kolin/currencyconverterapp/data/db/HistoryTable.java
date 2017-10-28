@@ -13,8 +13,8 @@ public class HistoryTable {
     public static final String TABLE_NAME = "exchange_history_table";
 
     public static final String ID = "id_exchange";
-    public static final String ID_CURRENCY_FROM = "id_currency_from";
-    public static final String ID_CURRENCY_TO = "id_currency_to";
+    public static final String CURRENCY_FROM = "currency_from";
+    public static final String CURRENCY_TO = "currency_to";
     public static final String SUM_FROM = "sum_from";
     public static final String SUM_TO = "sum_to";
     public static final String RATE = "rate";
@@ -25,8 +25,8 @@ public class HistoryTable {
         return "CREATE TABLE "
                 + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY,"
-                + ID_CURRENCY_FROM + " INTEGER,"
-                + ID_CURRENCY_TO + " INTEGER,"
+                + CURRENCY_FROM + " TEXT,"
+                + CURRENCY_TO + " TEXT,"
                 + SUM_FROM + " INTEGER,"
                 + SUM_TO + " INTEGER,"
                 + RATE + " FLOAT,"
@@ -44,30 +44,30 @@ public class HistoryTable {
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(int idCurrency) {
+    public static String selectHistory(int currency) {
         return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " = " + idCurrency
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " = "+ idCurrency
+                + " WHERE " + HistoryTable.CURRENCY_FROM + " = '" + currency + "'"
+                + " OR " + HistoryTable.CURRENCY_TO + " = '"+ currency + "'"
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(int[] ids) {
+    public static String selectHistory(String[] currencyNames) {
 
-        String in = createConditionIn(ids);
+        String in = createConditionIn(currencyNames);
 
         return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " IN " + in
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " IN " + in
+                + " WHERE " + HistoryTable.CURRENCY_FROM + " IN " + in
+                + " OR " + HistoryTable.CURRENCY_TO + " IN " + in
                 + " ORDER BY " + TIME + " DESC";
     }
 
-    public static String selectHistory(int[] ids, long timeFrom, long timeTo) {
+    public static String selectHistory(String[] currencyNames, long timeFrom, long timeTo) {
 
-        String in = createConditionIn(ids);
+        String in = createConditionIn(currencyNames);
 
         return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + "(" + HistoryTable.ID_CURRENCY_FROM + " IN " + in
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " IN " + in + " AND "
+                + " WHERE " + "(" + HistoryTable.CURRENCY_FROM + " IN " + in
+                + " OR " + HistoryTable.CURRENCY_TO + " IN " + in + " AND "
                 + "(" + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo + ")"
                 + " ORDER BY " + TIME + " DESC";
     }
@@ -76,16 +76,16 @@ public class HistoryTable {
         return "DELETE FROM " + TABLE_NAME;
     }
 
-    public static ContentValues getContentValues(int currencyFrom,
-                                                 int currencyTo,
+    public static ContentValues getContentValues(String currencyFrom,
+                                                 String currencyTo,
                                                  int sumFrom,
                                                  int sumTo,
                                                  float rate) {
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(ID_CURRENCY_FROM, currencyFrom);
-        contentValues.put(ID_CURRENCY_TO, currencyTo);
+        contentValues.put(CURRENCY_FROM, currencyFrom);
+        contentValues.put(CURRENCY_TO, currencyTo);
         contentValues.put(SUM_FROM, sumFrom);
         contentValues.put(SUM_TO, sumTo);
         contentValues.put(RATE, rate);
@@ -94,24 +94,26 @@ public class HistoryTable {
         return contentValues;
     }
 
-    private static String createConditionIn(int[] conditions){
-        StringBuilder temp = new StringBuilder("(");
+    private static String createConditionIn(String[] conditions){
+        StringBuilder sb = new StringBuilder("(");
 
-        for (int s: conditions){
-            temp.append(s);
-            temp.append(",");
+        for (String s: conditions){
+            sb.append("'");
+            sb.append(s);
+            sb.append("'");
+            sb.append(",");
         }
 
-        temp.append(")");
+        sb.append(")");
 
-        return temp.toString();
+        return sb.toString();
     }
 
     public static String[] getAllFields(){
         return new String[]{
                 ID,
-                ID_CURRENCY_FROM,
-                ID_CURRENCY_TO,
+                CURRENCY_FROM,
+                CURRENCY_TO,
                 SUM_FROM,
                 SUM_TO,
                 RATE,
