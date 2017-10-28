@@ -11,7 +11,6 @@ public class RatePojo {
     private HashMap<String, Float> rates;
 
     public RatePojo() {
-        rates = new HashMap<>();
     }
 
     public HashMap<String, Float> getRates() {
