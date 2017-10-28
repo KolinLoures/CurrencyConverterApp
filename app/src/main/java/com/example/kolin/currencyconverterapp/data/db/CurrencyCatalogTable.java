@@ -12,10 +12,10 @@ public class CurrencyCatalogTable {
 
     public static final String TABLE_NAME = "currency_catalog_table";
 
-    private static final String ID = "id_currency";
-    private static final String NAME = "name_currency";
-    private static final String IS_FAVORITE = "is_favorite";
-    private static final String TIME = "last_use";
+    public static final String ID = "id_currency";
+    public static final String NAME = "name_currency";
+    public static final String IS_FAVORITE = "is_favorite";
+    public static final String TIME = "last_use";
 
 
     public static String createTable() {
