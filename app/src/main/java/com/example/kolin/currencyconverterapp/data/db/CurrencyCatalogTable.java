@@ -62,7 +62,7 @@ public class CurrencyCatalogTable {
                 + " WHERE " + ID + " = " + id;
     }
 
-    public ContentValues getContentValues(String name) {
+    public static ContentValues getContentValues(String name) {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(NAME, name);
