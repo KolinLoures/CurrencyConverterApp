@@ -1,30 +1,24 @@
 package com.example.kolin.currencyconverterapp.domain;
 
+import java.util.HashMap;
+
 /**
  * Created by kolin on 28.10.2017.
  */
 
 public class RatePojo {
 
-    private String name;
-    private float rate;
+    private HashMap<String, Float> rates;
 
     public RatePojo() {
+        rates = new HashMap<>();
     }
 
-    public String getName() {
-        return name;
+    public HashMap<String, Float> getRates() {
+        return rates;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public float getRate() {
-        return rate;
-    }
-
-    public void setRate(float rate) {
-        this.rate = rate;
+    public void setRates(HashMap<String, Float> rates) {
+        this.rates = rates;
     }
 }
