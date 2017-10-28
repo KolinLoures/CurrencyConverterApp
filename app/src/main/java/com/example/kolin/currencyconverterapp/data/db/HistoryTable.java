@@ -76,8 +76,8 @@ public class HistoryTable {
         return "DELETE FROM " + TABLE_NAME;
     }
 
-    public static ContentValues getContentValues(String currencyFrom,
-                                                 String currencyTo,
+    public static ContentValues getContentValues(int currencyFrom,
+                                                 int currencyTo,
                                                  int sumFrom,
                                                  int sumTo,
                                                  float rate) {
