@@ -2,8 +2,7 @@ package com.example.kolin.currencyconverterapp.data;
 
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.domain.RatePojo;
-import com.example.kolin.currencyconverterapp.domain.SupportCurrencies;
+import com.example.kolin.currencyconverterapp.domain.SupportCurrenciesPojo;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -20,7 +19,7 @@ import java.util.Set;
  * Created by kolin on 01.11.2017.
  */
 
-public class SupportCurrenciesDeserializer implements JsonDeserializer<SupportCurrencies> {
+public class SupportCurrenciesDeserializer implements JsonDeserializer<SupportCurrenciesPojo> {
 
     private static final String TAG = SupportCurrenciesDeserializer.class.getSimpleName();
 
@@ -28,8 +27,8 @@ public class SupportCurrenciesDeserializer implements JsonDeserializer<SupportCu
     private static final String SERIALIZED_NAME_RATES = "rates";
 
     @Override
-    public SupportCurrencies deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        SupportCurrencies obj = new SupportCurrencies();
+    public SupportCurrenciesPojo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        SupportCurrenciesPojo obj = new SupportCurrenciesPojo();
         List<String> currencyNames = new LinkedList<>();
 
         if (json.isJsonObject()){

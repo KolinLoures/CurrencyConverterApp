@@ -6,11 +6,11 @@ import java.util.List;
  * Created by kolin on 01.11.2017.
  */
 
-public class SupportCurrencies {
+public class SupportCurrenciesPojo {
 
     private List<String> listCurrencies;
 
-    public SupportCurrencies() {
+    public SupportCurrenciesPojo() {
     }
 
     public List<String> getListCurrencies() {
