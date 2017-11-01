@@ -15,23 +15,23 @@ import java.util.Set;
  * Created by kolin on 28.10.2017.
  */
 
-public class ResponseDeserializer implements JsonDeserializer<RatePojo> {
+public class RateDeserializer implements JsonDeserializer<RatePojo> {
 
     @Override
     public RatePojo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         RatePojo obj = new RatePojo();
 
         if (json.isJsonObject()) {
-            Set<Map.Entry<String, JsonElement>> entries = json.getAsJsonObject().entrySet();
 
-            if (entries.size() > 1){
-                HashMap<String, Float> rates = new HashMap<>();
+            Set<Map.Entry<String, JsonElement>> entries =
+                    json.getAsJsonObject().get(JsonElementKey.SERIALIZED_NAME_RATES).getAsJsonObject().entrySet();
 
-                for (Map.Entry<String, JsonElement> next : entries) {
-                    rates.put(next.getKey(), next.getValue().getAsFloat());
-                }
+            if (!entries.isEmpty()) {
+                Map.Entry<String, JsonElement> next = entries.iterator().next();
 
-                obj.setRates(rates);
+                obj.setCurrencyTo(next.getKey());
+                obj.setRate(next.getValue().getAsFloat());
+
             }
         }
 

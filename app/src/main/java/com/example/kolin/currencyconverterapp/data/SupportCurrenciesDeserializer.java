@@ -23,8 +23,6 @@ public class SupportCurrenciesDeserializer implements JsonDeserializer<SupportCu
 
     private static final String TAG = SupportCurrenciesDeserializer.class.getSimpleName();
 
-    private static final String SERIALIZED_NAME_BASE = "base";
-    private static final String SERIALIZED_NAME_RATES = "rates";
 
     @Override
     public SupportCurrenciesPojo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -35,10 +33,10 @@ public class SupportCurrenciesDeserializer implements JsonDeserializer<SupportCu
 
             JsonObject asJsonObject = json.getAsJsonObject();
 
-            String base = asJsonObject.get(SERIALIZED_NAME_BASE).getAsString();
+            String base = asJsonObject.get(JsonElementKey.SERIALIZED_NAME_BASE).getAsString();
             currencyNames.add(base);
 
-            Set<Map.Entry<String, JsonElement>> entries = asJsonObject.get(SERIALIZED_NAME_RATES).getAsJsonObject().entrySet();
+            Set<Map.Entry<String, JsonElement>> entries = asJsonObject.get(JsonElementKey.SERIALIZED_NAME_RATES).getAsJsonObject().entrySet();
 
             if (!entries.isEmpty()){
 

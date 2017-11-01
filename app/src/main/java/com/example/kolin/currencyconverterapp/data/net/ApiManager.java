@@ -1,6 +1,6 @@
 package com.example.kolin.currencyconverterapp.data.net;
 
-import com.example.kolin.currencyconverterapp.data.ResponseDeserializer;
+import com.example.kolin.currencyconverterapp.data.RateDeserializer;
 import com.example.kolin.currencyconverterapp.data.SupportCurrenciesDeserializer;
 import com.example.kolin.currencyconverterapp.domain.RatePojo;
 import com.example.kolin.currencyconverterapp.domain.SupportCurrenciesPojo;
@@ -51,7 +51,7 @@ public class ApiManager {
     private static Gson getGson() {
         return new GsonBuilder()
                     .registerTypeAdapter(SupportCurrenciesPojo.class, new SupportCurrenciesDeserializer())
-                    .registerTypeAdapter(RatePojo.class, new ResponseDeserializer())
+                    .registerTypeAdapter(RatePojo.class, new RateDeserializer())
                     .create();
     }
 

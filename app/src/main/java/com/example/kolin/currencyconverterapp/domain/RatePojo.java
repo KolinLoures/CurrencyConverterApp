@@ -1,5 +1,6 @@
 package com.example.kolin.currencyconverterapp.domain;
 
+import com.example.kolin.currencyconverterapp.data.JsonElementKey;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class RatePojo {
 
-    @SerializedName("base")
+    @SerializedName(JsonElementKey.SERIALIZED_NAME_BASE)
     private String currencyFrom;
     private String currencyTo;
     private float rate;
