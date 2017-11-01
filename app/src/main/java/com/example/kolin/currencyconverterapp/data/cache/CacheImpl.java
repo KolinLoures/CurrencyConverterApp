@@ -1,13 +1,17 @@
 package com.example.kolin.currencyconverterapp.data.cache;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
 import com.example.kolin.currencyconverterapp.domain.RatePojo;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+
+import io.reactivex.Observable;
 
 /**
  * Created by kolin on 28.10.2017.
@@ -40,7 +44,7 @@ public class CacheImpl implements FileCache {
     }
 
     @Override
-    public void putRateToCache(RatePojo rate) {
+    public void putRateToCache(@NonNull RatePojo rate) throws IOException {
         if (rate != null) {
 
             if (isCacheExpired())
@@ -57,15 +61,18 @@ public class CacheImpl implements FileCache {
     }
 
     @Override
-    public RatePojo getRateFromCache(String currencyFrom, String currencyTo) {
-        if (currencyFrom != null && currencyTo != null) {
-            File file = createFile(currencyFrom, currencyTo);
-            String fileContent = fileWriterReader.readFromFile(file);
+    public Observable<RatePojo> getRateFromCache(@NonNull String currencyFrom,
+                                                 @NonNull String currencyTo) {
 
-            RatePojo rate = gson.fromJson(fileContent, RatePojo.class);
-            return rate;
-        }
-        return null;
+
+//        File file = createFile(currencyFrom, currencyTo);
+//        String fileContent = fileWriterReader.readFromFile(file);
+//
+//        RatePojo rate = gson.fromJson(fileContent, RatePojo.class);
+
+        return Observable
+                .fromCallable(() -> fileWriterReader.readFromFile(createFile(currencyFrom, currencyTo)))
+                .map(this::deserialize);
     }
 
     private void setLastTimeUpdatedCache() {
@@ -83,5 +90,13 @@ public class CacheImpl implements FileCache {
     private File createFile(String from, String to) {
         String name = cacheDir.getPath() + File.separator + from + "_" + to;
         return new File(name);
+    }
+
+    private String serealize(RatePojo ratePojo){
+        return gson.toJson(ratePojo, RatePojo.class);
+    }
+
+    private RatePojo deserialize(String t){
+        return gson.fromJson(t, RatePojo.class);
     }
 }

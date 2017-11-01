@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -17,33 +18,24 @@ public class FileWriterReader {
 
     private static final String TAG = FileWriterReader.class.getSimpleName();
 
-    public void writeToFile(File file, String text) {
+    public void writeToFile(File file, String text) throws IOException {
         if (!file.exists()) {
-            try {
-                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
+            try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
                 out.write(text.getBytes());
                 out.flush();
                 out.close();
-            } catch (IOException e) {
-                Log.e(TAG, "writeToFile: Failed write to file -" + file.getName(), e);
-                e.printStackTrace();
             }
         }
     }
 
-    public String readFromFile(File file) {
+    public String readFromFile(File file) throws IOException {
         if (file.exists()) {
             int size = (int) file.length();
             byte[] bytes = new byte[size];
 
-            try {
-                BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+            try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
                 in.read(bytes, 0, bytes.length);
                 in.close();
-            } catch (IOException e) {
-                Log.e(TAG, "readFromFile: Failed read from file - " + file.getName(), e);
-                e.printStackTrace();
-                return null;
             }
 
             return new String(bytes);
