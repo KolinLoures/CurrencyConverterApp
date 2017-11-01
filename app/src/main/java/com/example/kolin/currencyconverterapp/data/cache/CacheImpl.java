@@ -2,6 +2,7 @@ package com.example.kolin.currencyconverterapp.data.cache;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
 import com.example.kolin.currencyconverterapp.domain.RatePojo;
@@ -72,6 +73,7 @@ public class CacheImpl implements FileCache {
 
         return Observable
                 .fromCallable(() -> fileWriterReader.readFromFile(createFile(currencyFrom, currencyTo)))
+                .doOnError(throwable -> Log.e(TAG, "getRateFromCache: Error read from cache!"))
                 .map(this::deserialize);
     }
 
