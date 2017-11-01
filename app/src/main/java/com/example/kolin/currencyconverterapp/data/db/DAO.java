@@ -5,6 +5,8 @@ import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+
 /**
  * Created by kolin on 27.10.2017.
  */
@@ -12,9 +14,9 @@ import java.util.List;
 public interface DAO {
 
     interface CurrencyCatalogDAO {
-        List<CurrencyEntity> getAllCurrency();
+        Observable<CurrencyEntity> getAllCurrency();
 
-        List<CurrencyEntity> getAllFavoriteCurrency();
+        Observable<CurrencyEntity> getAllFavoriteCurrency();
 
         void addCurrency(String name);
 
@@ -32,15 +34,15 @@ public interface DAO {
                         int sumTo,
                         float rate);
 
-        List<CurrencyHistoryEntity> getHistory();
+        Observable<CurrencyHistoryEntity> getHistory();
 
-        List<CurrencyHistoryEntity> getHistory(long timeFrom, long timeTo);
+        Observable<CurrencyHistoryEntity> getHistory(long timeFrom, long timeTo);
 
-        List<CurrencyHistoryEntity> getHistory(String currencyName);
+        Observable<CurrencyHistoryEntity> getHistory(String currencyName);
 
-        List<CurrencyHistoryEntity> getHistory(String[] currencyNames);
+        Observable<CurrencyHistoryEntity> getHistory(String[] currencyNames);
 
-        List<CurrencyHistoryEntity> getHistory(String[] currencyNames, long timeFrom, long timeTo);
+        Observable<CurrencyHistoryEntity> getHistory(String[] currencyNames, long timeFrom, long timeTo);
 
         void clearHistory();
     }
