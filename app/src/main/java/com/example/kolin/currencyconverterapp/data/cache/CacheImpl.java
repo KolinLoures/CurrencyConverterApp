@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
 import com.example.kolin.currencyconverterapp.domain.RatePojo;
-import com.example.kolin.currencyconverterapp.domain.ResponsePojo;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -41,17 +40,16 @@ public class CacheImpl implements FileCache {
     }
 
     @Override
-    public void putRateToCache(ResponsePojo responsePojo) {
-        if (responsePojo != null) {
+    public void putRateToCache(RatePojo rate) {
+        if (rate != null) {
 
             if (isCacheExpired())
                 fileWriterReader.clearDirectory(cacheDir);
 
-            File file = createFile(responsePojo.getFromCurrency(),
-                    responsePojo.getToCurrency().getRates().entrySet().iterator().next().getKey());
+            File file = createFile(rate.getCurrencyFrom(), rate.getCurrencyTo());
 
-            if (!file.exists()){
-                fileWriterReader.writeToFile(file, gson.toJson(responsePojo, ResponsePojo.class));
+            if (!file.exists()) {
+                fileWriterReader.writeToFile(file, gson.toJson(rate, RatePojo.class));
             }
 
             setLastTimeUpdatedCache();
@@ -59,13 +57,13 @@ public class CacheImpl implements FileCache {
     }
 
     @Override
-    public ResponsePojo getRateFromCache(String currencyFrom, String currencyTo) {
-        if (currencyFrom != null && currencyTo != null){
+    public RatePojo getRateFromCache(String currencyFrom, String currencyTo) {
+        if (currencyFrom != null && currencyTo != null) {
             File file = createFile(currencyFrom, currencyTo);
             String fileContent = fileWriterReader.readFromFile(file);
 
-            ResponsePojo responsePojo = gson.fromJson(fileContent, ResponsePojo.class);
-            return responsePojo;
+            RatePojo rate = gson.fromJson(fileContent, RatePojo.class);
+            return rate;
         }
         return null;
     }
@@ -82,7 +80,7 @@ public class CacheImpl implements FileCache {
         return currentTime - lastTime > CACHE_TIME;
     }
 
-    private File createFile(String from, String to){
+    private File createFile(String from, String to) {
         String name = cacheDir.getPath() + File.separator + from + "_" + to;
         return new File(name);
     }

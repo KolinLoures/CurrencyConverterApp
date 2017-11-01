@@ -1,6 +1,6 @@
 package com.example.kolin.currencyconverterapp.data.net;
 
-import com.example.kolin.currencyconverterapp.domain.ResponsePojo;
+import com.example.kolin.currencyconverterapp.domain.RatePojo;
 import com.example.kolin.currencyconverterapp.domain.SupportCurrenciesPojo;
 
 import io.reactivex.Observable;
@@ -16,8 +16,8 @@ public interface Api {
     String BASE_URL = "https://api.fixer.io/";
 
     @GET("latest")
-    Observable<ResponsePojo> getLatestRate(@Query("base") String from,
-                                           @Query("symbols") String to);
+    Observable<RatePojo> getLatestRate(@Query("base") String from,
+                                       @Query("symbols") String to);
 
     @GET("latest")
     Observable<SupportCurrenciesPojo> getRates();
