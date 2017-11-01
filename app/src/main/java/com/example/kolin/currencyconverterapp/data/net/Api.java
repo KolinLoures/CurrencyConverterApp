@@ -1,6 +1,7 @@
 package com.example.kolin.currencyconverterapp.data.net;
 
 import com.example.kolin.currencyconverterapp.domain.ResponsePojo;
+import com.example.kolin.currencyconverterapp.domain.SupportCurrencies;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -17,4 +18,7 @@ public interface Api {
     @GET("latest")
     Observable<ResponsePojo> getLatestRate(@Query("base") String from,
                                            @Query("symbols") String to);
+
+    @GET("latest")
+    Observable<SupportCurrencies> getRates();
 }
