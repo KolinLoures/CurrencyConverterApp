@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
-import com.example.kolin.currencyconverterapp.domain.RatePojo;
+import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -46,19 +46,17 @@ public class CacheImpl implements FileCache {
 
     @Override
     public void putRateToCache(@NonNull RatePojo rate) throws IOException {
-        if (rate != null) {
 
-            if (isCacheExpired())
-                fileWriterReader.clearDirectory(cacheDir);
+        if (isCacheExpired())
+            fileWriterReader.clearDirectory(cacheDir);
 
-            File file = createFile(rate.getCurrencyFrom(), rate.getCurrencyTo());
+        File file = createFile(rate.getCurrencyFrom(), rate.getCurrencyTo());
 
-            if (!file.exists()) {
-                fileWriterReader.writeToFile(file, gson.toJson(rate, RatePojo.class));
-            }
-
-            setLastTimeUpdatedCache();
+        if (!file.exists()) {
+            fileWriterReader.writeToFile(file, gson.toJson(rate, RatePojo.class));
         }
+
+        setLastTimeUpdatedCache();
     }
 
     @Override

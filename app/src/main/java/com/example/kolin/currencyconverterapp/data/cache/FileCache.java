@@ -1,6 +1,6 @@
 package com.example.kolin.currencyconverterapp.data.cache;
 
-import com.example.kolin.currencyconverterapp.domain.RatePojo;
+import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
 
 import java.io.IOException;
 

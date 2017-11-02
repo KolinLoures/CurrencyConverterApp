@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.domain;
+package com.example.kolin.currencyconverterapp.domain.model;
 
 import com.example.kolin.currencyconverterapp.data.JsonElementKey;
 import com.google.gson.annotations.SerializedName;
