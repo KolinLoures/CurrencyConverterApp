@@ -1,13 +1,12 @@
 package com.example.kolin.currencyconverterapp.data;
 
-import com.example.kolin.currencyconverterapp.domain.RatePojo;
+import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
