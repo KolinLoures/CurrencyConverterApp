@@ -19,12 +19,22 @@ public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCata
 
     private static final String TAG = DataBaseQueries.class.getSimpleName();
 
+    private static DataBaseQueries instance = null;
+
     private DataBaseHelper db;
 
-    public DataBaseQueries(Context context) {
+    private DataBaseQueries(Context context) {
         this.db = new DataBaseHelper(context);
     }
 
+    public static void initializeInstanceWithContext(Context context){
+        if (instance == null)
+            instance = new DataBaseQueries(context);
+    }
+
+    public static DataBaseQueries getInstance(){
+        return instance;
+    }
 
     @Override
     public Observable<CurrencyEntity> getAllCurrency() {
