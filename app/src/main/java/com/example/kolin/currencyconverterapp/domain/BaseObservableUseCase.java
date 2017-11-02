@@ -18,11 +18,11 @@ public abstract class BaseObservableUseCase<T, P> implements BaseUseCase<Disposa
         this.container = new CompositeDisposable();
     }
 
-    protected abstract Observable<T> createObservable();
+    protected abstract Observable<T> createObservable(P params);
 
     @Override
     public void execute(DisposableObserver<T> observer, P param) {
-        DisposableObserver<T> obs = createObservable()
+        DisposableObserver<T> obs = createObservable(param)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribeWith(observer);
