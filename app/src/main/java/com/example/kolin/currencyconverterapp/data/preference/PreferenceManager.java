@@ -15,7 +15,7 @@ public class PreferenceManager {
     public static final String KEY_PREF_CURR_TO = "key_pref_currency_to";
 
     public static final String KEY_PREF_CACHE_TIME = "key_pref_cache_time";
-    public static final String KEY_PREF_BASE_CURR = "key_pref_base_curr";
+    public static final String KEY_PREF_FIRST_START = "key_pref_first_start";
 
 
 
