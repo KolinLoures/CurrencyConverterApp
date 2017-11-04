@@ -22,9 +22,9 @@ public class CurrencyCatalogTable {
         return "CREATE TABLE "
                 + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY,"
-                + NAME + " TEXT UNIQUE,"
+                + NAME + " TEXT,"
                 + IS_FAVORITE + " INTEGER DEFAULT 0,"
-                + TIME + "LONG);";
+                + TIME + " LONG);";
     }
 
     public static String selectAllCurrencies() {
