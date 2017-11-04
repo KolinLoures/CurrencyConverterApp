@@ -1,3 +1,5 @@
+package com.example.kolin.currencyconverterapp;
+
 import android.app.Application;
 
 import com.example.kolin.currencyconverterapp.data.cache.CacheImpl;
