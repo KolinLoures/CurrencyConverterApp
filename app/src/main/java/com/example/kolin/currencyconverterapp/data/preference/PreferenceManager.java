@@ -17,7 +17,22 @@ public class PreferenceManager {
     public static final String KEY_PREF_CACHE_TIME = "key_pref_cache_time";
     public static final String KEY_PREF_FIRST_START = "key_pref_first_start";
 
+    private Context context;
 
+    public static PreferenceManager instance = null;
+
+    private PreferenceManager(Context context) {
+        this.context = context;
+    }
+
+    public static void initializeWithContext(Context context){
+        if (instance == null)
+            instance = new PreferenceManager(context);
+    }
+
+    public static PreferenceManager getInstance(){
+        return instance;
+    }
 
     public void writeLongToPreference(Context context, String key, long value){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -46,5 +61,20 @@ public class PreferenceManager {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, null);
     }
+
+    public boolean readBoolPreference(String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(key, false);
+    }
+
+    public void writeBoolPreference(String key, boolean value){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
 
 }

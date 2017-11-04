@@ -39,7 +39,7 @@ public class CacheImpl implements FileCache {
     private CacheImpl(Context context) {
         this.context = context;
         cacheDir = this.context.getCacheDir();
-        preferenceManager = new PreferenceManager();
+        preferenceManager = PreferenceManager.getInstance();
         calendar = Calendar.getInstance();
         fileWriterReader = new FileWriterReader();
         gson = new Gson();
