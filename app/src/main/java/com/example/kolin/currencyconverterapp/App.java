@@ -6,6 +6,7 @@ import com.example.kolin.currencyconverterapp.data.cache.CacheImpl;
 import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
+import com.facebook.stetho.Stetho;
 
 /**
  * Created by kolin on 26.10.2017.
@@ -21,5 +22,6 @@ public class App extends Application {
         DataBaseQueries.initializeInstanceWithContext(this);
         CacheImpl.initializeWithContext(this);
         PreferenceManager.initializeWithContext(this);
+        Stetho.initializeWithDefaults(this);
     }
 }
