@@ -64,7 +64,7 @@ public class PreferenceManager {
 
     public boolean readBoolPreference(String key){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(key, false);
+        return sharedPreferences.getBoolean(key, true);
     }
 
     public void writeBoolPreference(String key, boolean value){
