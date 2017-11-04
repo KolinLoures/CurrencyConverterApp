@@ -22,6 +22,7 @@ public class CacheImpl implements FileCache {
 
     private static final String TAG = CacheImpl.class.getSimpleName();
 
+    private static CacheImpl instanse;
 
     private Context context;
     private File cacheDir;
@@ -35,13 +36,23 @@ public class CacheImpl implements FileCache {
 
     private static final long CACHE_TIME = 60 * 6 * 1000;
 
-    public CacheImpl(Context context) {
+    private CacheImpl(Context context) {
         this.context = context;
         cacheDir = this.context.getCacheDir();
         preferenceManager = new PreferenceManager();
         calendar = Calendar.getInstance();
         fileWriterReader = new FileWriterReader();
         gson = new Gson();
+    }
+
+    public static void initializeWithContext(Context context){
+        if (instanse == null)
+            instanse = new CacheImpl(context);
+    }
+
+    public static CacheImpl getInstanse(){
+
+        return instanse;
     }
 
     @Override

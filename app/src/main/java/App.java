@@ -1,5 +1,6 @@
 import android.app.Application;
 
+import com.example.kolin.currencyconverterapp.data.cache.CacheImpl;
 import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
 
@@ -15,5 +16,6 @@ public class App extends Application {
 
         ApiManager.getInstance();
         DataBaseQueries.initializeInstanceWithContext(this);
+        CacheImpl.initializeWithContext(this);
     }
 }
