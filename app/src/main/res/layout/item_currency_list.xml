@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/android_default_top_bottom_padding"
+    android:paddingEnd="@dimen/android_default_left_right_padding"
+    android:paddingStart="@dimen/android_default_left_right_padding"
+    android:paddingTop="@dimen/android_default_top_bottom_padding">
+
+    <TextView
+        android:id="@+id/item_currency_list_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        tools:text="USD" />
+
+    <CheckBox
+        android:id="@+id/item_currency_list_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end" />
+
+</FrameLayout>
