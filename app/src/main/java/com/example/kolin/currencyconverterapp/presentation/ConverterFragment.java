@@ -55,6 +55,8 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         presenter.bindView(ConverterFragment.this);
         presenter.loadCurrencies();
+
+        adapter.setListener((id, check) -> presenter.putRemoveFavoriteCurrency(id, check));
     }
 
     @Override
