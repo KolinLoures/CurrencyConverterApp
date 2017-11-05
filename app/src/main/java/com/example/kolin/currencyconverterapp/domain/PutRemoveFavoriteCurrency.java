@@ -27,7 +27,7 @@ public class PutRemoveFavoriteCurrency extends BaseCompletableUseCase<PutRemoveF
         });
     }
 
-    static class PutRemoveFavoriteParams {
+    public static class PutRemoveFavoriteParams {
         private int id;
         private boolean remove;
 
