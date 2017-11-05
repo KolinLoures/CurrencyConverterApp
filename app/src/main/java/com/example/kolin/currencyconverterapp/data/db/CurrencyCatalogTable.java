@@ -71,6 +71,17 @@ public class CurrencyCatalogTable {
         return contentValues;
     }
 
+    public static ContentValues getContentValues(String name, long time) {
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(NAME, name);
+        contentValues.put(TIME, time);
+
+        return contentValues;
+    }
+
+
+
     public static String[] getAllFields() {
         return new String[]{
                 ID,

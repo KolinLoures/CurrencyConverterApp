@@ -3,6 +3,8 @@ package com.example.kolin.currencyconverterapp.data.db;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 
 /**
@@ -17,6 +19,8 @@ public interface DAO {
         Observable<CurrencyEntity> getAllFavoriteCurrency();
 
         void addCurrency(String name);
+
+        void addCurrency(List<String> names);
 
         void addCurrencyToFavorite(int id);
 
