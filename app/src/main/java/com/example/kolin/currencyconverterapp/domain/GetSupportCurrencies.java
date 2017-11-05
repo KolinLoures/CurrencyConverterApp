@@ -1,12 +1,13 @@
 package com.example.kolin.currencyconverterapp.domain;
 
+import android.util.Log;
+
 import com.example.kolin.currencyconverterapp.data.db.DAO;
 import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
-import com.example.kolin.currencyconverterapp.domain.model.SupportCurrenciesPojo;
 
 import io.reactivex.Observable;
 
@@ -15,6 +16,8 @@ import io.reactivex.Observable;
  */
 
 public class GetSupportCurrencies extends BaseObservableUseCase<CurrencyEntity, String> {
+
+    public static final String TAG = GetSupportCurrencies.class.getSimpleName();
 
     private Api api;
     private DAO.CurrencyCatalogDAO db;
@@ -46,9 +49,9 @@ public class GetSupportCurrencies extends BaseObservableUseCase<CurrencyEntity, 
                     if (aBoolean)
                         return api
                                 .getRates()
-                                .flatMapIterable(SupportCurrenciesPojo::getListCurrencies)
-                                .doOnNext(s -> db.addCurrency(s))
+                                .doOnNext(s -> db.addCurrency(s.getListCurrencies()))
                                 .flatMap(supportCurrenciesPojo -> db.getAllCurrency())
+                                .doOnNext(currencyEntity -> Log.i(TAG, "after db: " + currencyEntity.getName()))
                                 .doOnComplete(() -> preferenceManager.writeBoolPreference(PreferenceManager.KEY_PREF_FIRST_START, false));
                     else
                         return db.getAllCurrency();
