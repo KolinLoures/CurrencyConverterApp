@@ -47,6 +47,28 @@ public class CurrencyEntity {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CurrencyEntity that = (CurrencyEntity) o;
+
+        if (id != that.id) return false;
+        if (isFavorite != that.isFavorite) return false;
+        if (lastUse != that.lastUse) return false;
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (isFavorite ? 1 : 0);
+        result = 31 * result + (int) (lastUse ^ (lastUse >>> 32));
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "CurrencyEntity{" +
                 "id=" + id +
