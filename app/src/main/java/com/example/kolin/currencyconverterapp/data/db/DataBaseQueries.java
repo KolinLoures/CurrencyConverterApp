@@ -68,7 +68,7 @@ public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCata
 
     @Override
     public void addCurrencyToFavorite(int id) {
-        db.executeSQL(CurrencyCatalogTable.updateCurrencyTime(id));
+        db.executeSQL(CurrencyCatalogTable.addCurrencyToFavorite(id));
     }
 
     @Override
