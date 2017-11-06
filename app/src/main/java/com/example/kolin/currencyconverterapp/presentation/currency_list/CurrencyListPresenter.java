@@ -14,16 +14,16 @@ import io.reactivex.observers.DisposableObserver;
  * Created by kolin on 04.11.2017.
  */
 
-public class ConverterPresenter extends BasePresenter<CurrencyListFragment> {
+public class CurrencyListPresenter extends BasePresenter<CurrencyListFragment> {
 
-    public static final String TAG = ConverterPresenter.class.getSimpleName();
+    public static final String TAG = CurrencyListPresenter.class.getSimpleName();
 
     private GetSupportCurrencies getSupportCurrencies;
     private PutRemoveFavoriteCurrency putRemoveFavoriteCurrency;
 
     private CurrencyEntity pickedEntity;
 
-    public ConverterPresenter() {
+    public CurrencyListPresenter() {
         getSupportCurrencies = new GetSupportCurrencies();
         putRemoveFavoriteCurrency = new PutRemoveFavoriteCurrency();
     }

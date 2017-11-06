@@ -20,7 +20,7 @@ import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import java.util.ArrayList;
 
 
-public class CurrencyListFragment extends Fragment implements ConverterView {
+public class CurrencyListFragment extends Fragment implements CurrencyListView {
 
     public static final String TAG = CurrencyListFragment.class.getSimpleName();
 
@@ -28,7 +28,7 @@ public class CurrencyListFragment extends Fragment implements ConverterView {
     private static final String KEY_ADAPTER_DATA = "ADAPTER_DATA";
 
     private CurrencyRecyclerAdapter adapter;
-    private ConverterPresenter presenter;
+    private CurrencyListPresenter presenter;
 
     private RecyclerView recyclerView;
     private FrameLayout pickedContainer;
@@ -48,7 +48,7 @@ public class CurrencyListFragment extends Fragment implements ConverterView {
         super.onCreate(savedInstanceState);
 
         adapter = new CurrencyRecyclerAdapter();
-        presenter = new ConverterPresenter();
+        presenter = new CurrencyListPresenter();
     }
 
     @Override
