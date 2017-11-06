@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.example.kolin.currencyconverterapp.R;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kolin on 04.11.2017.
  */
@@ -26,7 +29,9 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
     }
 
     public interface CurrencyRecyclerListener {
-        void onClickFavorite(int id, boolean check);
+        void onClickFavorite(CurrencyEntity entity, boolean check);
+        void onClick(CurrencyEntity entity);
+        void onLongPressed(CurrencyEntity entity);
     }
 
     @Override
@@ -52,6 +57,20 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
 //        notifyItemInserted(data.size() - 1);
     }
 
+    public void addAllData(List<CurrencyEntity> data){
+        this.data.beginBatchedUpdates();
+        this.data.addAll(data);
+        this.data.endBatchedUpdates();
+    }
+
+    public List<CurrencyEntity> getData(){
+        List<CurrencyEntity> list = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++)
+            list.add(data.get(i));
+
+        return list;
+    }
+
 
     class CurrencyRecyclerViewHolder extends RecyclerView.ViewHolder {
 
@@ -71,9 +90,14 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
                     data.recalculatePositionOfItemAt(getAdapterPosition());
 
                     boolean check = !((CheckBox) v).isChecked();
-                    listener.onClickFavorite(item.getId(), check);
+                    listener.onClickFavorite(item, check);
 //                    data.updateItemAt(getAdapterPosition(), item);
                 }
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                if (listener != null) listener.onLongPressed(data.get(getAdapterPosition()));
+                return true;
             });
         }
     }

@@ -9,4 +9,6 @@ import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 public interface ConverterView {
 
     void showSupportCurrency(CurrencyEntity currency);
+
+    void notifyUser(String message);
 }
