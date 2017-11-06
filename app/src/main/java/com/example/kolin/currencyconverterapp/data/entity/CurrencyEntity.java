@@ -1,10 +1,13 @@
 package com.example.kolin.currencyconverterapp.data.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by kolin on 27.10.2017.
  */
 
-public class CurrencyEntity {
+public class CurrencyEntity implements Parcelable {
 
     private int id;
     private String name;
@@ -13,6 +16,25 @@ public class CurrencyEntity {
 
     public CurrencyEntity() {
     }
+
+    protected CurrencyEntity(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        isFavorite = in.readByte() != 0;
+        lastUse = in.readLong();
+    }
+
+    public static final Creator<CurrencyEntity> CREATOR = new Creator<CurrencyEntity>() {
+        @Override
+        public CurrencyEntity createFromParcel(Parcel in) {
+            return new CurrencyEntity(in);
+        }
+
+        @Override
+        public CurrencyEntity[] newArray(int size) {
+            return new CurrencyEntity[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -76,5 +98,18 @@ public class CurrencyEntity {
                 ", isFavorite=" + isFavorite +
                 ", lastUse=" + lastUse +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
+        dest.writeLong(lastUse);
     }
 }
