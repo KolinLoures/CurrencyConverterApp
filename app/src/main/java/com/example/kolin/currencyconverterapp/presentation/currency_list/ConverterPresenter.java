@@ -1,10 +1,11 @@
-package com.example.kolin.currencyconverterapp.presentation;
+package com.example.kolin.currencyconverterapp.presentation.currency_list;
 
 import android.util.Log;
 
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.domain.GetSupportCurrencies;
 import com.example.kolin.currencyconverterapp.domain.PutRemoveFavoriteCurrency;
+import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;

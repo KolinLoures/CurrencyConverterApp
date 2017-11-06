@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.presentation;
+package com.example.kolin.currencyconverterapp.presentation.currency_list;
 
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 

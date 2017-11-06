@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.presentation;
+package com.example.kolin.currencyconverterapp.presentation.currency_list;
 
 import android.content.Context;
 import android.os.Bundle;
