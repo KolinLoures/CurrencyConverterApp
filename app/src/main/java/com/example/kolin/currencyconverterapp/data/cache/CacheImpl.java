@@ -86,6 +86,11 @@ public class CacheImpl implements FileCache {
                 .map(this::deserialize);
     }
 
+    @Override
+    public boolean isCached(String currencyFrom, String currencyTo) {
+        return !isCacheExpired() && createFile(currencyFrom, currencyTo).exists();
+    }
+
     private void setLastTimeUpdatedCache() {
         long currentTime = calendar.getTimeInMillis();
         preferenceManager.writeLongToPreference(context, PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);

@@ -16,4 +16,5 @@ public interface FileCache {
 
     Observable<RatePojo> getRateFromCache(String currencyFrom, String currencyTo);
 
+    boolean isCached(String currencyFrom, String currencyTo);
 }
