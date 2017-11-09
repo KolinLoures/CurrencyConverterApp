@@ -93,11 +93,11 @@ public class CacheImpl implements FileCache {
 
     private void setLastTimeUpdatedCache() {
         long currentTime = calendar.getTimeInMillis();
-        preferenceManager.writeLongToPreference(context, PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);
+        preferenceManager.writeLongToPreference(PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);
     }
 
     private boolean isCacheExpired() {
-        long lastTime = preferenceManager.readLongPreference(context, PreferenceManager.KEY_PREF_CACHE_TIME);
+        long lastTime = preferenceManager.readLongPreference(PreferenceManager.KEY_PREF_CACHE_TIME);
         long currentTime = calendar.getTimeInMillis();
 
         return currentTime - lastTime > CACHE_TIME;
