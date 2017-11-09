@@ -1,15 +1,11 @@
 package com.example.kolin.currencyconverterapp.domain.model;
 
-import com.example.kolin.currencyconverterapp.data.JsonElementKey;
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by kolin on 28.10.2017.
  */
 
 public class RatePojo {
 
-    @SerializedName(JsonElementKey.SERIALIZED_NAME_BASE)
     private String currencyFrom;
     private String currencyTo;
     private float rate;

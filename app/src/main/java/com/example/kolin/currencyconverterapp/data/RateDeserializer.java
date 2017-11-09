@@ -4,6 +4,7 @@ import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
@@ -22,8 +23,13 @@ public class RateDeserializer implements JsonDeserializer<RatePojo> {
 
         if (json.isJsonObject()) {
 
+            JsonObject asJsonObject = json.getAsJsonObject();
+
+            String base = asJsonObject.get(JsonElementKey.SERIALIZED_NAME_BASE).getAsString();
+            obj.setCurrencyFrom(base);
+
             Set<Map.Entry<String, JsonElement>> entries =
-                    json.getAsJsonObject().get(JsonElementKey.SERIALIZED_NAME_RATES).getAsJsonObject().entrySet();
+                    asJsonObject.get(JsonElementKey.SERIALIZED_NAME_RATES).getAsJsonObject().entrySet();
 
             if (!entries.isEmpty()) {
                 Map.Entry<String, JsonElement> next = entries.iterator().next();
