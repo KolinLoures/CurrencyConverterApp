@@ -28,7 +28,6 @@ public class CacheImpl implements FileCache {
     private File cacheDir;
     private FileWriterReader fileWriterReader;
 
-    private Calendar calendar;
 
     private PreferenceManager preferenceManager;
 
@@ -40,7 +39,6 @@ public class CacheImpl implements FileCache {
         this.context = context;
         cacheDir = this.context.getCacheDir();
         preferenceManager = PreferenceManager.getInstance();
-        calendar = Calendar.getInstance();
         fileWriterReader = new FileWriterReader();
         gson = new Gson();
     }
@@ -92,13 +90,13 @@ public class CacheImpl implements FileCache {
     }
 
     private void setLastTimeUpdatedCache() {
-        long currentTime = calendar.getTimeInMillis();
+        long currentTime = Calendar.getInstance().getTimeInMillis();
         preferenceManager.writeLongToPreference(PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);
     }
 
     private boolean isCacheExpired() {
         long lastTime = preferenceManager.readLongPreference(PreferenceManager.KEY_PREF_CACHE_TIME);
-        long currentTime = calendar.getTimeInMillis();
+        long currentTime = Calendar.getInstance().getTimeInMillis();
 
         return currentTime - lastTime > CACHE_TIME;
     }
