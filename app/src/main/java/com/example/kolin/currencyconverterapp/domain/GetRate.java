@@ -11,13 +11,17 @@ import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
 import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 import io.reactivex.Observable;
 
 /**
  * Created by kolin on 03.11.2017.
  */
 
-public class GetRate extends BaseObservableUseCase<RatePojo, GetRate.GetRateParams>{
+public class GetRate extends BaseObservableUseCase<RatePojo, GetRate.GetRateParams> {
 
     private static final String TAG = GetRate.class.getSimpleName();
 
@@ -35,21 +39,40 @@ public class GetRate extends BaseObservableUseCase<RatePojo, GetRate.GetRatePara
     protected Observable<RatePojo> createObservable(GetRate.GetRateParams params) {
         return api
                 .getLatestRate(params.from, params.to)
-                .doOnNext(ratePojo -> cache.putRateToCache(ratePojo))
-                .doOnError(throwable -> Log.e(TAG, "createObservable: error", throwable))
-                .onErrorResumeNext(throwable -> {return cache.getRateFromCache(params.from, params.to);});
+                .doOnNext(ratePojo -> {
+                    Log.e(TAG, "createObservable: pojo " + ratePojo.toString());
+
+                    if (!cache.isCached(ratePojo.getCurrencyFrom(), ratePojo.getCurrencyTo()))
+                        cache.putRateToCache(ratePojo);
+
+                    ratePojo.setFromCache(false);
+                })
+                .onErrorResumeNext(throwable -> {
+                    Log.e(TAG, "createObservable: on error resume next", throwable);
+
+                    if (throwable instanceof ConnectException || throwable instanceof UnknownHostException
+                            || throwable instanceof SocketTimeoutException) {
+                        return cache
+                                .getRateFromCache(params.from, params.to)
+                                .map(ratePojo -> {
+                                    ratePojo.setFromCache(true);
+                                    return ratePojo;
+                                });
+                    }
+                    return null;
+                });
     }
 
-    static class GetRateParams {
+    public static class GetRateParams {
         private String from;
         private String to;
 
-        private GetRateParams(String from, String to){
+        private GetRateParams(String from, String to) {
             this.from = from;
             this.to = to;
         }
 
-        public static GetRateParams getParamObject(@NonNull String from, @NonNull String to){
+        public static GetRateParams getParamObject(@NonNull String from, @NonNull String to) {
             return new GetRateParams(from, to);
         }
     }
