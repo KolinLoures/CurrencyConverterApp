@@ -1,11 +1,12 @@
 package com.example.kolin.currencyconverterapp;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.example.kolin.currencyconverterapp.presentation.ConverterFragment;
+import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.presentation.converter.ConverterFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +24,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (fragmentByTag == null) {
-            fragmentByTag = ConverterFragment.newInstance();
+            CurrencyEntity from = new CurrencyEntity();
+            CurrencyEntity to = new CurrencyEntity();
+            from.setName("EUR");
+            to.setName("USD");
+            fragmentByTag = ConverterFragment.newInstance(from, to);
 
             supportFragmentManager
                     .beginTransaction()

@@ -27,8 +27,8 @@ public class HistoryTable {
                 + ID + " INTEGER PRIMARY KEY,"
                 + CURRENCY_FROM + " TEXT,"
                 + CURRENCY_TO + " TEXT,"
-                + SUM_FROM + " INTEGER,"
-                + SUM_TO + " INTEGER,"
+                + SUM_FROM + " FLOAT,"
+                + SUM_TO + " FLOAT,"
                 + RATE + " FLOAT,"
                 + TIME + " LONG);";
     }
@@ -78,8 +78,8 @@ public class HistoryTable {
 
     public static ContentValues getContentValues(String currencyFrom,
                                                  String currencyTo,
-                                                 int sumFrom,
-                                                 int sumTo,
+                                                 float sumFrom,
+                                                 float sumTo,
                                                  float rate) {
 
         ContentValues contentValues = new ContentValues();

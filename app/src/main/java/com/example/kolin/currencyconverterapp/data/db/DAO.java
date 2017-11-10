@@ -32,8 +32,8 @@ public interface DAO {
     interface HistoryCurrencyDAO {
         void addHistory(String currencyFrom,
                         String currencyTo,
-                        int sumFrom,
-                        int sumTo,
+                        float sumFrom,
+                        float sumTo,
                         float rate);
 
         Observable<CurrencyHistoryEntity> getHistory();

@@ -82,7 +82,7 @@ public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCata
     }
 
     @Override
-    public void addHistory(String currencyFrom, String currencyTo, int sumFrom, int sumTo, float rate) {
+    public void addHistory(String currencyFrom, String currencyTo, float sumFrom, float sumTo, float rate) {
         db.insert(HistoryTable.TABLE_NAME,
                 HistoryTable.getContentValues(currencyFrom, currencyTo, sumFrom, sumTo, rate));
     }

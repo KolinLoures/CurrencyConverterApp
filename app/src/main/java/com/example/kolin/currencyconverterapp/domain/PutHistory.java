@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.kolin.currencyconverterapp.data.db.DAO;
 import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Completable;
 
 /**
@@ -25,17 +27,18 @@ public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryPara
     protected Completable createCompletable(PutHistoryParams param) {
         return Completable
                 .fromAction(() -> db.addHistory(param.currencyFrom, param.currencyTo, param.sumFrom, param.sumTo, param.rate))
-                .doOnError(throwable -> Log.e(TAG, "Fail to put history to data base", throwable));
+                .doOnError(throwable -> Log.e(TAG, "Fail to put history to data base", throwable))
+                .delay(1, TimeUnit.SECONDS);
     }
 
-    static class PutHistoryParams {
+    public static class PutHistoryParams {
         private String currencyFrom;
         private String currencyTo;
-        private int sumFrom;
-        private int sumTo;
+        private float sumFrom;
+        private float sumTo;
         private float rate;
 
-        private PutHistoryParams(String currencyFrom, String currencyTo, int sumFrom, int sumTo, float rate) {
+        private PutHistoryParams(String currencyFrom, String currencyTo, float sumFrom, float sumTo, float rate) {
             this.currencyFrom = currencyFrom;
             this.currencyTo = currencyTo;
             this.sumFrom = sumFrom;
@@ -43,7 +46,7 @@ public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryPara
             this.rate = rate;
         }
 
-        public static PutHistoryParams getParamObj(String currencyFrom, String currencyTo, int sumFrom, int sumTo, float rate){
+        public static PutHistoryParams getParamObj(String currencyFrom, String currencyTo, float sumFrom, float sumTo, float rate){
             return new PutHistoryParams(currencyFrom, currencyTo, sumFrom, sumTo, rate);
         }
     }
