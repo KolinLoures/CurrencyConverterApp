@@ -10,6 +10,8 @@ public class RatePojo {
     private String currencyTo;
     private float rate;
 
+    private boolean isFromCache;
+
     public RatePojo() {
     }
 
@@ -35,5 +37,22 @@ public class RatePojo {
 
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    public boolean isFromCache() {
+        return isFromCache;
+    }
+
+    public void setFromCache(boolean fromCache) {
+        isFromCache = fromCache;
+    }
+
+    @Override
+    public String toString() {
+        return "RatePojo{" +
+                "currencyFrom='" + currencyFrom + '\'' +
+                ", currencyTo='" + currencyTo + '\'' +
+                ", rate=" + rate +
+                '}';
     }
 }
