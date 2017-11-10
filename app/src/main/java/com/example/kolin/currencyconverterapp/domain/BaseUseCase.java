@@ -11,4 +11,6 @@ public interface BaseUseCase<T extends Disposable, P> {
     void execute(T observer, P param);
 
     void dispose();
+
+    void clear();
 }

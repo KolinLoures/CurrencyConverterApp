@@ -35,4 +35,10 @@ public abstract class BaseObservableUseCase<T, P> implements BaseUseCase<Disposa
         if (container != null && !container.isDisposed())
             container.dispose();
     }
+
+    @Override
+    public void clear() {
+        if (container != null && !container.isDisposed())
+            container.clear();
+    }
 }

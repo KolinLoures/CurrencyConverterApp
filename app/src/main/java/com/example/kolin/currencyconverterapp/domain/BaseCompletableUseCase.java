@@ -36,4 +36,10 @@ public abstract class BaseCompletableUseCase<P> implements BaseUseCase<Disposabl
         if (container != null && !container.isDisposed())
             container.dispose();
     }
+
+    @Override
+    public void clear() {
+        if (container != null && !container.isDisposed())
+            container.clear();
+    }
 }
