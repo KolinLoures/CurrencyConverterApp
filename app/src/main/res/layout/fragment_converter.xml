@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.example.kolin.currencyconverterapp.presentation.converter.ConverterFragment">
+
+    <com.example.customviewlibrary.CustomLoadingToolbar
+        android:id="@+id/my_toolbar"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp" />
+
+    <TextView
+        android:id="@+id/fragment_converter_currency_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/android_default_top_bottom_padding"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        tools:text="1 USD = 68 RUB" />
+
+    <TextView
+        android:id="@+id/fragment_converter_currency_name_from"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/android_default_top_bottom_padding"
+        android:layout_marginEnd="@dimen/android_default_left_right_padding"
+        android:layout_marginStart="@dimen/android_default_left_right_padding"
+        android:layout_marginTop="@dimen/android_default_top_bottom_padding"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        tools:text="USD" />
+
+    <com.example.customviewlibrary.CustomEditText
+        android:id="@+id/fragment_converter_amount_from"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="@drawable/selector_border"
+        android:gravity="start"
+        android:imeOptions="actionGo"
+        android:inputType="numberDecimal"
+        android:padding="@dimen/android_default_left_right_padding"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/fragment_converter_currency_name_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/android_default_top_bottom_padding"
+        android:layout_marginEnd="@dimen/android_default_left_right_padding"
+        android:layout_marginStart="@dimen/android_default_left_right_padding"
+        android:layout_marginTop="@dimen/android_default_top_bottom_padding"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        tools:text="USD" />
+
+    <com.example.customviewlibrary.CustomEditText
+        android:id="@+id/fragment_converter_amount_to"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/android_default_left_right_padding"
+        android:layout_weight="0.5"
+        android:background="@drawable/selector_border"
+        android:gravity="start"
+        android:imeOptions="actionGo"
+        android:inputType="numberDecimal"
+        android:padding="@dimen/android_default_left_right_padding"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        tools:text="10000000" />
+
+</LinearLayout>
