@@ -214,15 +214,6 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
     @Override
     public void showError(boolean show) {
-//        if (show) {
-//            textError.setText(getString(R.string.rate_error));
-//            textError.setTextColor(getResources().getColor(R.color.colorRed));
-//            textError.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cloud_off_black_24dp, 0, 0, 0);
-//            textError.setVisibility(View.VISIBLE);
-//        } else {
-//            textError.setVisibility(View.INVISIBLE);
-//        }
-
         if (show)
             errorSnackBar.show();
         else if (errorSnackBar.isShown())
@@ -231,15 +222,6 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
     @Override
     public void showAttention(boolean show) {
-//        if (show) {
-//            textError.setText(getString(R.string.rate_from_cache));
-//            textError.setTextColor(getResources().getColor(R.color.colorGrey));
-//            textError.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_warning_black_24px, 0, 0, 0);
-//            textError.setVisibility(View.VISIBLE);
-//        } else {
-//            textError.setVisibility(View.INVISIBLE);
-//        }
-
         if (show)
             attentionSnackBar.show();
         else if (attentionSnackBar.isShown())
@@ -256,6 +238,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
     @Override
     public void onDestroyView() {
+        presenter.unbindView();
         editTo.removeTextChangedListener(textWatcherTo);
         editFrom.removeTextChangedListener(textWatcherFrom);
 
