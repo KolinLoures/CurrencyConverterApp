@@ -1,5 +1,7 @@
 package com.example.kolin.currencyconverterapp.domain;
 
+import android.support.annotation.CallSuper;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -30,12 +32,14 @@ public abstract class BaseObservableUseCase<T, P> implements BaseUseCase<Disposa
         container.add(obs);
     }
 
+    @CallSuper
     @Override
     public void dispose(){
         if (container != null && !container.isDisposed())
             container.dispose();
     }
 
+    @CallSuper
     @Override
     public void clear() {
         if (container != null && !container.isDisposed())
