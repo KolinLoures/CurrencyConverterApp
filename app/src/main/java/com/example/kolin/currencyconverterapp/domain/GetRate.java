@@ -14,6 +14,7 @@ import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 
@@ -60,7 +61,8 @@ public class GetRate extends BaseObservableUseCase<RatePojo, GetRate.GetRatePara
                                 });
                     }
                     return null;
-                });
+                })
+                .delaySubscription(500, TimeUnit.MILLISECONDS);
     }
 
     public static class GetRateParams {
