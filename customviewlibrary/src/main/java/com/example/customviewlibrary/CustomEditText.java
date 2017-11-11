@@ -28,7 +28,7 @@ public class CustomEditText extends AppCompatEditText {
     @Override
     public boolean onKeyPreIme(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if (listener != null)
+            if (listener != null )
                 listener.onKeyboardHidden();
         }
 

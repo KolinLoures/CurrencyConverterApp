@@ -34,7 +34,7 @@ public class CustomLoadingToolbar extends ConstraintLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.custom_loading_toolbar, this);
+        inflate(getContext(), R.layout.custom_loading_toolbar,  this);
 
         progressBar = findViewById(R.id.custom_view_progress_view);
         toolbar = findViewById(R.id.custom_view_toolbar);
