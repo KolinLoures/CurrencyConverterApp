@@ -62,7 +62,7 @@ public class GetRate extends BaseObservableUseCase<RatePojo, GetRate.GetRatePara
                     }
                     return null;
                 })
-                .delaySubscription(500, TimeUnit.MILLISECONDS);
+                .delaySubscription(700, TimeUnit.MILLISECONDS);
     }
 
     public static class GetRateParams {

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CurrencyConverterApp.iml" filepath="$PROJECT_DIR$/CurrencyConverterApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/customviewlibrary/customviewlibrary.iml" filepath="$PROJECT_DIR$/customviewlibrary/customviewlibrary.iml" />
     </modules>
   </component>
 </project>
