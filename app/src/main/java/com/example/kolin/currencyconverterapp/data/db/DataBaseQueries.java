@@ -82,9 +82,9 @@ public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCata
     }
 
     @Override
-    public void addHistory(String currencyFrom, String currencyTo, float sumFrom, float sumTo, float rate) {
+    public void addHistory(int idCurrencyFrom, int idCurrencyTo, float sumFrom, float sumTo, float rate) {
         db.insert(HistoryTable.TABLE_NAME,
-                HistoryTable.getContentValues(currencyFrom, currencyTo, sumFrom, sumTo, rate));
+                HistoryTable.getContentValues(idCurrencyFrom, idCurrencyTo, sumFrom, sumTo, rate));
     }
 
     @Override
@@ -105,25 +105,25 @@ public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCata
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(String currencyName) {
+    public Observable<CurrencyHistoryEntity> getHistory(int idCurrency) {
         return Observable
-                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyName)))
+                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(idCurrency)))
                 .map(this::cursorToCurrencyHistoryEntity)
                 .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(String[] currencyNames) {
+    public Observable<CurrencyHistoryEntity> getHistory(int[] currencyIds) {
         return Observable
-                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyNames)))
+                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds)))
                 .map(this::cursorToCurrencyHistoryEntity)
                 .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(String[] currencyNames, long timeFrom, long timeTo) {
+    public Observable<CurrencyHistoryEntity> getHistory(int[] currencyIds, long timeFrom, long timeTo) {
         return Observable
-                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyNames,  timeFrom, timeTo)))
+                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds,  timeFrom, timeTo)))
                 .map(this::cursorToCurrencyHistoryEntity)
                 .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
     }
@@ -176,8 +176,8 @@ public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCata
                 do {
 
                     int id = cursor.getInt(cursor.getColumnIndex(HistoryTable.ID));
-                    String from = cursor.getString(cursor.getColumnIndex(HistoryTable.CURRENCY_FROM));
-                    String to = cursor.getString(cursor.getColumnIndex(HistoryTable.CURRENCY_TO));
+                    String from = cursor.getString(cursor.getColumnIndex(HistoryTable.ID_CURRENCY_FROM));
+                    String to = cursor.getString(cursor.getColumnIndex(HistoryTable.ID_CURRENCY_TO));
                     int sumFrom = cursor.getInt(cursor.getColumnIndex(HistoryTable.SUM_FROM));
                     int sumTo = cursor.getInt(cursor.getColumnIndex(HistoryTable.SUM_TO));
                     float rate = cursor.getInt(cursor.getColumnIndex(HistoryTable.RATE));
