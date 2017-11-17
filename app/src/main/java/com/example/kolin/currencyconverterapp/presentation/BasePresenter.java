@@ -15,10 +15,7 @@ public abstract class BasePresenter<V> {
 
     @CallSuper
     public void bindView(@NonNull V view) {
-        if (reference != null && reference.get() != null)
-            throw new RuntimeException("View is bind!");
-        else
-            reference = new WeakReference<>(view);
+        reference = new WeakReference<>(view);
     }
 
     @CallSuper
