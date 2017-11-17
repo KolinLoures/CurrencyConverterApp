@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
+import com.example.kolin.currencyconverterapp.data.db.tables.CurrencyCatalogTable;
+import com.example.kolin.currencyconverterapp.data.db.tables.HistoryTable;
+
 /**
  * Created by kolin on 26.10.2017.
  */
