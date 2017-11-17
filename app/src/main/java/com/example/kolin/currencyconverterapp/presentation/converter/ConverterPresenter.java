@@ -178,9 +178,7 @@ public class ConverterPresenter extends BasePresenter<ConverterFragment> {
 
 
     private void putToHistory(float valueF, float valueT, float rate) {
-        putHistory.getReceiver().onReceive(
-                PutHistory.PutHistoryParams.getParamObj(from.getName(), to.getName(), valueF, valueT, rate)
-        );
+        putHistory.getReceiver().onReceive(PutHistory.PutHistoryParams.getParamObj(from.getId(), to.getId(), valueF, valueT, rate));
     }
 
 
