@@ -96,18 +96,23 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
             });
 
             itemView.setOnLongClickListener(v -> {
-                if (listener != null) listener.onLongPressed(data.get(getAdapterPosition()));
+                if (listener != null) {
+                    CurrencyEntity entity = data.get(getAdapterPosition());
+                    data.remove(entity);
+                    listener.onLongPressed(entity);
+                }
                 return true;
+            });
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null)
+                    listener.onClick(data.get(getAdapterPosition()));
             });
         }
     }
 
     public void setListener(CurrencyRecyclerListener listener) {
         this.listener = listener;
-    }
-
-    public void removeListener() {
-        listener = null;
     }
 
     class SortedListCallback extends SortedListAdapterCallback<CurrencyEntity> {

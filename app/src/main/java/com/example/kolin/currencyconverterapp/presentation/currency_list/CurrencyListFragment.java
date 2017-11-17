@@ -33,7 +33,8 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     private RecyclerView recyclerView;
     private FrameLayout pickedContainer;
     private TextView pickedCurrencyName;
-    private CurrencyRecyclerAdapter.CurrencyRecyclerListener adapterListener;
+
+    private CurrencyListFragmentListener listener;
 
     public CurrencyListFragment() {
         // Required empty public constructor
@@ -41,6 +42,10 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
 
     public static CurrencyListFragment newInstance() {
         return new CurrencyListFragment();
+    }
+
+    public interface CurrencyListFragmentListener {
+        void onPickCurrenciesPair(CurrencyEntity from, CurrencyEntity to);
     }
 
     @Override
@@ -62,16 +67,22 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        presenter.bindView(CurrencyListFragment.this);
+
         recyclerView = view.findViewById(R.id.fragment_currency_list_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
         pickedContainer = view.findViewById(R.id.fragment_currency_list_pick_container);
         pickedCurrencyName = view.findViewById(R.id.fragment_currency_list_picked_text_view);
+
         ImageButton clearPickedEntity = view.findViewById(R.id.fragment_currency_list_button_convert);
+        clearPickedEntity.setOnClickListener(v -> {
+            adapter.addData(presenter.getPickedEntity());
+            setPickedEntity(null);
+        });
 
-        initRecyclerViewAdapter();
-
-        clearPickedEntity.setOnClickListener(v -> setPickedEntity(null));
-
-        presenter.bindView(CurrencyListFragment.this);
+        initRecyclerViewAdapterListener();
 
         if (savedInstanceState != null) {
             adapter.addAllData(savedInstanceState.getParcelableArrayList(KEY_ADAPTER_DATA));
@@ -81,8 +92,8 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
         }
     }
 
-    private void initRecyclerViewAdapter() {
-        adapterListener = new CurrencyRecyclerAdapter.CurrencyRecyclerListener() {
+    private void initRecyclerViewAdapterListener() {
+        adapter.setListener(new CurrencyRecyclerAdapter.CurrencyRecyclerListener() {
             @Override
             public void onClickFavorite(CurrencyEntity entity, boolean check) {
                 presenter.putRemoveFavoriteCurrency(entity, check);
@@ -90,17 +101,28 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
 
             @Override
             public void onClick(CurrencyEntity entity) {
+
+                CurrencyEntity from = null;
+                CurrencyEntity to = null;
+
+                if (presenter.getPickedEntity() != null) {
+                    from = presenter.getPickedEntity();
+                    to = entity;
+                } else {
+                    //todo set here with one click
+                }
+
+                if (listener != null)
+                    listener.onPickCurrenciesPair(from, to);
             }
 
             @Override
             public void onLongPressed(CurrencyEntity entity) {
+                if (presenter.getPickedEntity() != null)
+                    adapter.addData(presenter.getPickedEntity());
                 setPickedEntity(entity);
             }
-        };
-
-        adapter.setListener(adapterListener);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        });
     }
 
     private void setPickedEntity(CurrencyEntity entity) {
@@ -108,13 +130,12 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
 
         if (entity != null) {
             pickedCurrencyName.setText(entity.getName());
-            setVisibility(pickedContainer, View.VISIBLE);
-        }
-        else
-            setVisibility(pickedContainer, View.GONE);
+            show(pickedContainer, View.VISIBLE);
+        } else
+            show(pickedContainer, View.GONE);
     }
 
-    private void setVisibility(View v, int visibility) {
+    private void show(View v, int visibility) {
         v.setVisibility(visibility);
     }
 
@@ -132,14 +153,16 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof CurrencyListFragmentListener)
+            listener = (CurrencyListFragmentListener) context;
+        else
+            throw new RuntimeException(context.toString() + " must implement CurrencyListFragmentListener");
     }
 
     @Override
     public void onDetach() {
-        adapterListener = null;
-        adapter.removeListener();
         presenter.unbindView();
-
+        listener = null;
         super.onDetach();
     }
 

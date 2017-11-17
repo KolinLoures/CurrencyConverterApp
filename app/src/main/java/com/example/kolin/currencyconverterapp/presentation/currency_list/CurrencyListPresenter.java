@@ -59,6 +59,14 @@ public class CurrencyListPresenter extends BasePresenter<CurrencyListFragment> {
         }, PutRemoveFavoriteCurrency.PutRemoveFavoriteParams.getParamObj(entity.getId(), remove));
     }
 
+    @Override
+    public void unbindView() {
+        super.unbindView();
+
+        getSupportCurrencies.dispose();
+        putRemoveFavoriteCurrency.dispose();
+    }
+
     public CurrencyEntity getPickedEntity() {
         return pickedEntity;
     }
