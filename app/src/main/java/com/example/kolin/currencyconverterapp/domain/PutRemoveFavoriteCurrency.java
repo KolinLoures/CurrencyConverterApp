@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.domain;
 
-import com.example.kolin.currencyconverterapp.data.db.DAO;
-import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
+import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
 
 import io.reactivex.Completable;
 
@@ -11,7 +11,7 @@ import io.reactivex.Completable;
 
 public class PutRemoveFavoriteCurrency extends BaseCompletableUseCase<PutRemoveFavoriteCurrency.PutRemoveFavoriteParams> {
 
-    private DAO.CurrencyCatalogDAO db;
+    private DAO db;
 
     public PutRemoveFavoriteCurrency() {
         db = DataBaseQueries.getInstance();

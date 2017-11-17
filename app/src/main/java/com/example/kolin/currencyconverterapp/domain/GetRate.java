@@ -5,8 +5,8 @@ import android.util.Log;
 
 import com.example.kolin.currencyconverterapp.data.cache.CacheImpl;
 import com.example.kolin.currencyconverterapp.data.cache.FileCache;
-import com.example.kolin.currencyconverterapp.data.db.DAO;
-import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
+import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
 import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
 import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
@@ -27,7 +27,7 @@ public class GetRate extends BaseObservableUseCase<RatePojo, GetRate.GetRatePara
     private static final String TAG = GetRate.class.getSimpleName();
 
     private Api api;
-    private DAO.HistoryCurrencyDAO db;
+    private DAO db;
     private FileCache cache;
 
     public GetRate() {

@@ -2,8 +2,8 @@ package com.example.kolin.currencyconverterapp.domain;
 
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.data.db.DAO;
-import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,10 +20,10 @@ public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryPara
 
     public static final String TAG = PutHistory.class.getSimpleName();
 
-    private DAO.HistoryCurrencyDAO db;
+    private DAO db;
 
     public PutHistory() {
-        this.db = DataBaseQueries.getInstance();
+        this.db = (DAO) DataBaseQueries.getInstance();
     }
 
     private Completable emitter = null;
@@ -65,7 +65,13 @@ public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryPara
                                     e.onError(new Exception(TAG + ": Params is Null"));
                             })
                                     .debounce(1, TimeUnit.SECONDS)
-                                    .doOnNext(params -> db.addHistory(params.currencyFrom, params.currencyTo, params.sumFrom, params.sumTo, params.rate))
+                                    .doOnNext(params ->
+                                            {
+                                                db.addHistory(params.idCurrencyFrom, params.idCurrencyTo, params.sumFrom, params.sumTo, params.rate);
+                                                db.updateCurrencyTime(params.idCurrencyFrom);
+                                                db.updateCurrencyTime(params.idCurrencyTo);
+                                            }
+                                    )
                     ).doOnError(throwable -> Log.e(TAG, "Fail to put history into data base", throwable));
     }
 
@@ -82,22 +88,22 @@ public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryPara
     }
 
     public static class PutHistoryParams {
-        private String currencyFrom;
-        private String currencyTo;
+        private int idCurrencyFrom;
+        private int idCurrencyTo;
         private float sumFrom;
         private float sumTo;
         private float rate;
 
-        private PutHistoryParams(String currencyFrom, String currencyTo, float sumFrom, float sumTo, float rate) {
-            this.currencyFrom = currencyFrom;
-            this.currencyTo = currencyTo;
+        private PutHistoryParams(int idCurrencyFrom, int idCurrencyTo, float sumFrom, float sumTo, float rate) {
+            this.idCurrencyFrom = idCurrencyFrom;
+            this.idCurrencyTo = idCurrencyTo;
             this.sumFrom = sumFrom;
             this.sumTo = sumTo;
             this.rate = rate;
         }
 
-        public static PutHistoryParams getParamObj(String currencyFrom, String currencyTo, float sumFrom, float sumTo, float rate) {
-            return new PutHistoryParams(currencyFrom, currencyTo, sumFrom, sumTo, rate);
+        public static PutHistoryParams getParamObj(int idCurrencyFrom, int idCurrencyTo, float sumFrom, float sumTo, float rate) {
+            return new PutHistoryParams(idCurrencyFrom, idCurrencyTo, sumFrom, sumTo, rate);
         }
     }
 }

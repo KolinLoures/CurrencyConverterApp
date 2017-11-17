@@ -2,8 +2,8 @@ package com.example.kolin.currencyconverterapp.domain;
 
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.data.db.DAO;
-import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
+import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
@@ -20,7 +20,7 @@ public class GetSupportCurrencies extends BaseObservableUseCase<CurrencyEntity, 
     public static final String TAG = GetSupportCurrencies.class.getSimpleName();
 
     private Api api;
-    private DAO.CurrencyCatalogDAO db;
+    private DAO db;
     private PreferenceManager preferenceManager;
 
     public GetSupportCurrencies() {
