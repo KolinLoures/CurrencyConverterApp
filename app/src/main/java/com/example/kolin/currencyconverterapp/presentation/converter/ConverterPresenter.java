@@ -20,20 +20,28 @@ import io.reactivex.observers.DisposableObserver;
 public class ConverterPresenter extends BasePresenter<ConverterFragment> {
 
     public static final String TAG = ConverterPresenter.class.getSimpleName();
+
+    //Expiration time for rate
     private static final long RATE_TIME = 60 * 1000;
+    //Time for rate, when it was updated
     private static long RATE_LAST_TIME = 0;
 
+    //Use case to get rate
     private GetRate getRate;
+    //Use case to insert to DB history
     private PutHistory putHistory;
 
+    //Current entities for exchange
     private CurrencyEntity from;
     private CurrencyEntity to;
 
+    //values for exchange (value from)
     private float valueF = -1;
+    //values for exchange (value to)
     private float valueT = -1;
 
+    //current rate object
     private RatePojo rate;
-
 
     public ConverterPresenter() {
         getRate = new GetRate();
@@ -102,17 +110,23 @@ public class ConverterPresenter extends BasePresenter<ConverterFragment> {
 
         getView().showRate(1, rate.getRate());
 
+        //check is rate from cache then update time of rate
         if (!rate.isFromCache()) {
             RATE_LAST_TIME = Calendar.getInstance().getTimeInMillis();
             getView().showAttention(false);
         }
+        //check is rate from cache and current rate is expired then show attention
         else if (rate.isFromCache() && isRateExpired())
             getView().showAttention(true);
 
+        // if pair -1 and -1 then it is first launch, therefore need show rate
+        // if valueT = -1 then we are looking for valueTO, valueFrom is set by user
+        // if valueF = -1 then we are looking for valueFROM, valueTo is set by user
         if (valueF == -1 && valueT == -1) {
             getView().setRateFrom(1);
             getView().setRateTo(rate.getRate());
-        } else if (valueT == -1) {
+        }
+        else if (valueT == -1) {
             this.valueT = directRate(valueF);
             getView().setRateTo(valueT);
 
@@ -196,5 +210,6 @@ public class ConverterPresenter extends BasePresenter<ConverterFragment> {
         super.unbindView();
 
         getRate.dispose();
+        putHistory.dispose();
     }
 }
