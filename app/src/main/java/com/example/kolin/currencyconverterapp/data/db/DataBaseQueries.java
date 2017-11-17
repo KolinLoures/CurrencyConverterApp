@@ -3,6 +3,10 @@ package com.example.kolin.currencyconverterapp.data.db;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.example.kolin.currencyconverterapp.data.db.dao.CurrencyCatalogDAO;
+import com.example.kolin.currencyconverterapp.data.db.dao.HistoryCurrencyDAO;
+import com.example.kolin.currencyconverterapp.data.db.tables.CurrencyCatalogTable;
+import com.example.kolin.currencyconverterapp.data.db.tables.HistoryTable;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
 
@@ -16,7 +20,7 @@ import io.reactivex.Observable;
  * Created by kolin on 27.10.2017.
  */
 
-public class DataBaseQueries implements DAO.HistoryCurrencyDAO, DAO.CurrencyCatalogDAO {
+public class DataBaseQueries implements HistoryCurrencyDAO, CurrencyCatalogDAO {
 
     private static final String TAG = DataBaseQueries.class.getSimpleName();
 
