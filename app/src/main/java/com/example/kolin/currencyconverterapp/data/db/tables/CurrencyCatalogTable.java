@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.data.db;
+package com.example.kolin.currencyconverterapp.data.db.tables;
 
 import android.content.ContentValues;
 
