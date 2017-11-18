@@ -7,15 +7,13 @@ package com.example.kolin.currencyconverterapp.data.entity;
 public class CurrencyHistoryEntity {
 
     private int id;
-    private CurrencyEntity currencyFrom;
-    private CurrencyEntity currencyTo;
+    private String currencyFrom;
+    private String currencyTo;
     private int sumFrom;
     private int sumTo;
     private float rate;
     private long time;
 
-    public CurrencyHistoryEntity() {
-    }
 
     public int getId() {
         return id;
@@ -25,19 +23,19 @@ public class CurrencyHistoryEntity {
         this.id = id;
     }
 
-    public CurrencyEntity getCurrencyFrom() {
+    public String getCurrencyFrom() {
         return currencyFrom;
     }
 
-    public void setCurrencyFrom(CurrencyEntity currencyFrom) {
+    public void setCurrencyFrom(String currencyFrom) {
         this.currencyFrom = currencyFrom;
     }
 
-    public CurrencyEntity getCurrencyTo() {
+    public String getCurrencyTo() {
         return currencyTo;
     }
 
-    public void setCurrencyTo(CurrencyEntity currencyTo) {
+    public void setCurrencyTo(String currencyTo) {
         this.currencyTo = currencyTo;
     }
 
@@ -65,11 +63,12 @@ public class CurrencyHistoryEntity {
         this.rate = rate;
     }
 
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     public long getTime() {
         return time;
     }
 
-    public void setTime(long time) {
-        this.time = time;
-    }
 }
