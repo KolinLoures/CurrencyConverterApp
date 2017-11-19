@@ -41,24 +41,24 @@ public class HistoryTable {
 
     public static String selectHistory() {
         return "SELECT eht.*,"
-                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog2"
                 + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
                 + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
     public static String selectHistory(long timeFrom, long timeTo) {
         return "SELECT eht.*,"
-                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO + ","
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog2"
                 + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
                 + " WHERE eht." + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo
                 + " ORDER BY eht." + HistoryTable.TIME + " DESC";
@@ -73,12 +73,12 @@ public class HistoryTable {
         String in = createConditionIn(currencyIds);
 
         return "SELECT eht.*,"
-                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO + ","
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog2"
                 + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
                 + " WHERE eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
                 + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in
@@ -90,12 +90,12 @@ public class HistoryTable {
         String in = createConditionIn(currencyIds);
 
         return "SELECT eht.*,"
-                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO + ","
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
-                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog2"
                 + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
                 + " WHERE " + "( eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
                 + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in + " AND "
