@@ -20,6 +20,8 @@ public class HistoryTable {
     public static final String RATE = "rate";
     public static final String TIME = "time_exchange";
 
+    public static final String AS_NAME_CURR_FROM = "name_currency_from";
+    public static final String AS_NAME_CURR_TO = "name_currency_to";
 
     public static String createTable() {
         return "CREATE TABLE "
@@ -38,42 +40,67 @@ public class HistoryTable {
     }
 
     public static String selectHistory() {
-        return "SELECT * FROM " + TABLE_NAME
-                + " ORDER BY " + TIME + " DESC";
+        return "SELECT eht.*,"
+                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " FROM " + HistoryTable.TABLE_NAME + " eht "
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
+                + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
     public static String selectHistory(long timeFrom, long timeTo) {
-        return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo
-                + " ORDER BY " + TIME + " DESC";
+        return "SELECT eht.*,"
+                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " FROM " + HistoryTable.TABLE_NAME + " eht "
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
+                + " WHERE eht." + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo
+                + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
     public static String selectHistory(int currencyId) {
-        return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " = " + currencyId
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " = "+ currencyId
-                + " ORDER BY " + TIME + " DESC";
+        return null;
     }
 
     public static String selectHistory(int[] currencyIds) {
 
         String in = createConditionIn(currencyIds);
 
-        return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + HistoryTable.ID_CURRENCY_FROM + " IN " + in
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " IN " + in
-                + " ORDER BY " + TIME + " DESC";
+        return "SELECT eht.*,"
+                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " FROM " + HistoryTable.TABLE_NAME + " eht "
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
+                + " WHERE eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
+                + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in
+                + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
     public static String selectHistory(int[] currencyIds, long timeFrom, long timeTo) {
 
         String in = createConditionIn(currencyIds);
 
-        return "SELECT * FROM " + TABLE_NAME
-                + " WHERE " + "(" + HistoryTable.ID_CURRENCY_FROM + " IN " + in
-                + " OR " + HistoryTable.ID_CURRENCY_TO + " IN " + in + " AND "
-                + "(" + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo + ")"
-                + " ORDER BY " + TIME + " DESC";
+        return "SELECT eht.*,"
+                + " catalog1." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_FROM + ","
+                + " catalog2." + CurrencyCatalogTable.ID + " AS " + AS_NAME_CURR_TO + ","
+                + " FROM " + HistoryTable.TABLE_NAME + " eht "
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog1"
+                + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
+                + " INNER JOIN " + CurrencyCatalogTable.NAME + " catalog2"
+                + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
+                + " WHERE " + "( eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
+                + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in + " AND "
+                + " ( eht." + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo + ")"
+                + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
     public static String clearHistory(){

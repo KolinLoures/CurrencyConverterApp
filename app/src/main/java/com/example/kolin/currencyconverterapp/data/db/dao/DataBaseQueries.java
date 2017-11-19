@@ -179,8 +179,10 @@ public class DataBaseQueries implements DAO {
                 do {
 
                     int id = cursor.getInt(cursor.getColumnIndex(HistoryTable.ID));
-                    String from = cursor.getString(cursor.getColumnIndex(HistoryTable.ID_CURRENCY_FROM));
-                    String to = cursor.getString(cursor.getColumnIndex(HistoryTable.ID_CURRENCY_TO));
+                    int idCurrencyFrom = cursor.getInt(cursor.getColumnIndex(HistoryTable.ID_CURRENCY_FROM));
+                    int idCurrencyTo = cursor.getInt(cursor.getColumnIndex(HistoryTable.ID_CURRENCY_TO));
+                    String from = cursor.getString(cursor.getColumnIndex(HistoryTable.AS_NAME_CURR_FROM));
+                    String to = cursor.getString(cursor.getColumnIndex(HistoryTable.AS_NAME_CURR_TO));
                     int sumFrom = cursor.getInt(cursor.getColumnIndex(HistoryTable.SUM_FROM));
                     int sumTo = cursor.getInt(cursor.getColumnIndex(HistoryTable.SUM_TO));
                     float rate = cursor.getInt(cursor.getColumnIndex(HistoryTable.RATE));
@@ -189,6 +191,8 @@ public class DataBaseQueries implements DAO {
                     CurrencyHistoryEntity obj = new CurrencyHistoryEntity();
 
                     obj.setId(id);
+                    obj.setIdCurrencyFrom(idCurrencyFrom);
+                    obj.setIdCurrencyTo(idCurrencyTo);
                     obj.setCurrencyFrom(from);
                     obj.setCurrencyTo(to);
                     obj.setSumFrom(sumFrom);
