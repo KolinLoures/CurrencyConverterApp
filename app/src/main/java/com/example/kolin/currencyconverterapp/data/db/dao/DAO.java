@@ -33,15 +33,15 @@ public interface DAO {
                     float sumTo,
                     float rate);
 
-    Observable<CurrencyHistoryEntity> getHistory();
+    Observable<List<CurrencyHistoryEntity>> getHistory();
 
-    Observable<CurrencyHistoryEntity> getHistory(long timeFrom, long timeTo);
+    Observable<List<CurrencyHistoryEntity>> getHistory(long timeFrom, long timeTo);
 
-    Observable<CurrencyHistoryEntity> getHistory(int idCurrency);
+    Observable<List<CurrencyHistoryEntity>> getHistory(int idCurrency);
 
-    Observable<CurrencyHistoryEntity> getHistory(int[] currencyIds);
+    Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds);
 
-    Observable<CurrencyHistoryEntity> getHistory(int[] currencyIds, long timeFrom, long timeTo);
+    Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds, long timeFrom, long timeTo);
 
     void clearHistory();
 }

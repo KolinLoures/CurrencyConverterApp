@@ -91,44 +91,39 @@ public class DataBaseQueries implements DAO {
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory() {
+    public Observable<List<CurrencyHistoryEntity>> getHistory() {
 
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory()))
-                .map(this::cursorToCurrencyHistoryEntity)
-                .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
+                .map(this::cursorToCurrencyHistoryEntity);
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(long timeFrom, long timeTo) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(long timeFrom, long timeTo) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(timeFrom, timeTo)))
-                .map(this::cursorToCurrencyHistoryEntity)
-                .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
+                .map(this::cursorToCurrencyHistoryEntity);
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(int idCurrency) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(int idCurrency) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(idCurrency)))
-                .map(this::cursorToCurrencyHistoryEntity)
-                .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
+                .map(this::cursorToCurrencyHistoryEntity);
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(int[] currencyIds) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds)))
-                .map(this::cursorToCurrencyHistoryEntity)
-                .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
+                .map(this::cursorToCurrencyHistoryEntity);
     }
 
     @Override
-    public Observable<CurrencyHistoryEntity> getHistory(int[] currencyIds, long timeFrom, long timeTo) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds, long timeFrom, long timeTo) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds,  timeFrom, timeTo)))
-                .map(this::cursorToCurrencyHistoryEntity)
-                .flatMapIterable(currencyHistoryEntities -> currencyHistoryEntities);
+                .map(this::cursorToCurrencyHistoryEntity);
     }
 
     @Override
