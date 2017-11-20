@@ -1,0 +1,6 @@
+<Button android:id="@+id/drop_button"
+    android:elevation="0dp"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
