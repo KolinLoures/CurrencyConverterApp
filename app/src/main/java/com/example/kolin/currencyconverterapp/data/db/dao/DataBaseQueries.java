@@ -141,7 +141,7 @@ public class DataBaseQueries implements DAO {
                     int id = cursor.getInt(cursor.getColumnIndex(CurrencyCatalogTable.ID));
                     String name = cursor.getString(cursor.getColumnIndex(CurrencyCatalogTable.NAME));
                     boolean isFavorite = cursor.getInt(cursor.getColumnIndex(CurrencyCatalogTable.IS_FAVORITE)) != 0;
-                    long lastUse = cursor.getInt(cursor.getColumnIndex(CurrencyCatalogTable.TIME));
+                    long lastUse = cursor.getLong(cursor.getColumnIndex(CurrencyCatalogTable.TIME));
 
                     CurrencyEntity obj = new CurrencyEntity();
 
@@ -181,7 +181,7 @@ public class DataBaseQueries implements DAO {
                     int sumFrom = cursor.getInt(cursor.getColumnIndex(HistoryTable.SUM_FROM));
                     int sumTo = cursor.getInt(cursor.getColumnIndex(HistoryTable.SUM_TO));
                     float rate = cursor.getInt(cursor.getColumnIndex(HistoryTable.RATE));
-                    long time = cursor.getInt(cursor.getColumnIndex(HistoryTable.TIME));
+                    long time = cursor.getLong(cursor.getColumnIndex(HistoryTable.TIME));
 
                     CurrencyHistoryEntity obj = new CurrencyHistoryEntity();
 
