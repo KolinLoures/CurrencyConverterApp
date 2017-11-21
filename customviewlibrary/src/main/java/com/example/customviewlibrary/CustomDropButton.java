@@ -8,18 +8,15 @@ import android.support.annotation.Nullable;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.widget.Button;
 
 
 public class CustomDropButton extends android.support.v7.widget.AppCompatButton {
-
-    private Button button;
 
     private boolean isDropDown = true;
 
     private AnimatedVectorDrawableCompat drawableUP = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.animated_ic_drop_up);
     private AnimatedVectorDrawableCompat drawableDOWN = AnimatedVectorDrawableCompat.create(getContext(), R.drawable.animated_ic_drop_down);
-    private Drawable toolsDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_arrow_drop_down_black_24dp);
+    private Drawable toolsDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_keyboard_arrow_down_black_24dp);
 
     public CustomDropButton(@NonNull Context context) {
         super(context);
