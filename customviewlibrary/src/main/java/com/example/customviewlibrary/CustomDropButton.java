@@ -36,22 +36,16 @@ public class CustomDropButton extends android.support.v7.widget.AppCompatButton 
 
     private void init() {
         this.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableUP, null);
-        this.setOnClickListener(v -> setDropDown(!isDropDown));
 
         if (isInEditMode())
             this.setCompoundDrawablesWithIntrinsicBounds(null, null, toolsDrawable, null);
 
-        setDropDown(true);
     }
 
     @Override
-    public void setOnClickListener(@Nullable OnClickListener l) {
-        OnClickListener onClickListener = v -> {
-            setDropDown(!isDropDown);
-            if (l != null)
-                l.onClick(v);
-        };
-        super.setOnClickListener(onClickListener);
+    public boolean performClick() {
+        setDropDown(!isDropDown);
+        return super.performClick();
     }
 
     public boolean isDropDown() {
