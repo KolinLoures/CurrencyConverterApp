@@ -55,7 +55,7 @@ public class HistoryTable {
     public static String selectHistory(long timeFrom, long timeTo) {
         return "SELECT eht.*,"
                 + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
                 + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
@@ -75,36 +75,36 @@ public class HistoryTable {
 
         return "SELECT eht.*,"
                 + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
                 + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
                 + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog2"
                 + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
-                + " WHERE eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
+                + " WHERE (eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
                 + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in
-                + " ORDER BY eht." + HistoryTable.TIME + " DESC";
+                + ") ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
-    public static String selectHistory(List<Integer>  currencyIds, long timeFrom, long timeTo) {
+    public static String selectHistory(List<Integer> currencyIds, long timeFrom, long timeTo) {
 
         String in = createConditionIn(currencyIds);
 
         return "SELECT eht.*,"
                 + " catalog1." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_FROM + ","
-                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO + ","
+                + " catalog2." + CurrencyCatalogTable.NAME + " AS " + AS_NAME_CURR_TO
                 + " FROM " + HistoryTable.TABLE_NAME + " eht "
                 + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog1"
                 + " ON catalog1." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_FROM
                 + " INNER JOIN " + CurrencyCatalogTable.TABLE_NAME + " catalog2"
                 + " ON catalog2." + CurrencyCatalogTable.ID + " = eht." + HistoryTable.ID_CURRENCY_TO
-                + " WHERE " + "( eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
-                + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in + " AND "
-                + " ( eht." + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo + ")"
+                + " WHERE " + "(eht." + HistoryTable.ID_CURRENCY_FROM + " IN " + in
+                + " OR eht." + HistoryTable.ID_CURRENCY_TO + " IN " + in + ") AND "
+                + " (eht." + HistoryTable.TIME + " BETWEEN " + timeFrom + " AND " + timeTo + ")"
                 + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
-    public static String clearHistory(){
+    public static String clearHistory() {
         return "DELETE FROM " + TABLE_NAME;
     }
 
@@ -126,12 +126,13 @@ public class HistoryTable {
         return contentValues;
     }
 
-    private static String createConditionIn(List<Integer> conditions){
+    private static String createConditionIn(List<Integer> conditions) {
         StringBuilder sb = new StringBuilder("(");
 
-        for (int i: conditions){
-            sb.append(i);
-            sb.append(",");
+        for (int i = 0; i < conditions.size(); i++) {
+            sb.append(conditions.get(i));
+            if (i != conditions.size() - 1)
+                sb.append(",");
         }
 
         sb.append(")");
@@ -139,7 +140,7 @@ public class HistoryTable {
         return sb.toString();
     }
 
-    public static String[] getAllFields(){
+    public static String[] getAllFields() {
         return new String[]{
                 ID,
                 ID_CURRENCY_FROM,
