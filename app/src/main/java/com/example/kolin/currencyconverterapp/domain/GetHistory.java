@@ -14,6 +14,8 @@ import io.reactivex.Observable;
 
 public class GetHistory extends BaseObservableUseCase<List<CurrencyHistoryEntity>, GetHistory.GetHistoryParams> {
 
+    public static final String TAG = GetHistory.class.getSimpleName();
+
     private DAO queries;
 
     public GetHistory() {
@@ -29,16 +31,16 @@ public class GetHistory extends BaseObservableUseCase<List<CurrencyHistoryEntity
         if (params == null)
             return queries.getHistory();
 
-        if (params.currencyIds == null && params.timeFrom == -1 && params.timeTo == -1)
+        if (params.currencyIds.isEmpty() && params.timeFrom == -1 && params.timeTo == -1)
             return queries.getHistory();
 
-        if (params.currencyIds == null && params.timeFrom != -1 && params.timeTo != -1)
+        if (params.currencyIds.isEmpty() && params.timeFrom != -1 && params.timeTo != -1)
             return queries.getHistory(params.timeFrom, params.timeTo);
 
-        if (params.currencyIds != null && params.timeFrom != -1 && params.timeTo != -1)
+        if (!params.currencyIds.isEmpty() && params.timeFrom != -1 && params.timeTo != -1)
             return queries.getHistory(params.currencyIds, params.timeFrom, params.timeTo);
 
-        if (params.currencyIds != null && params.timeFrom == -1 && params.timeTo == -1)
+        if (!params.currencyIds.isEmpty() && params.timeFrom == -1 && params.timeTo == -1)
             return queries.getHistory(params.currencyIds);
 
         return null;
