@@ -132,10 +132,10 @@ public class DataBaseQueries implements DAO {
     }
 
     private List<CurrencyEntity> cursorToCurrencyEntityClass(Cursor cursor) {
+        List<CurrencyEntity> temp = new LinkedList<>();
+
         if (cursor != null && cursor.moveToFirst())
             try {
-
-                List<CurrencyEntity> temp = new LinkedList<>();
 
                 do {
                     int id = cursor.getInt(cursor.getColumnIndex(CurrencyCatalogTable.ID));
@@ -162,14 +162,14 @@ public class DataBaseQueries implements DAO {
                 cursor.close();
             }
 
-        return null;
+        return temp;
     }
 
     private List<CurrencyHistoryEntity> cursorToCurrencyHistoryEntity(Cursor cursor) {
+        List<CurrencyHistoryEntity> temp = new LinkedList<>();
+
         if (cursor != null && cursor.moveToNext())
             try {
-
-                List<CurrencyHistoryEntity> temp = new LinkedList<>();
 
                 do {
 
@@ -199,12 +199,11 @@ public class DataBaseQueries implements DAO {
 
                 } while (cursor.moveToNext());
 
-
                 return temp;
 
             } finally {
                 cursor.close();
             }
-        return null;
+        return temp;
     }
 }
