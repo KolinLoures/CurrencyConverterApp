@@ -3,6 +3,7 @@ package com.example.kolin.currencyconverterapp.data.db.tables;
 import android.content.ContentValues;
 
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by kolin on 26.10.2017.
@@ -68,7 +69,7 @@ public class HistoryTable {
         return null;
     }
 
-    public static String selectHistory(int[] currencyIds) {
+    public static String selectHistory(List<Integer> currencyIds) {
 
         String in = createConditionIn(currencyIds);
 
@@ -85,7 +86,7 @@ public class HistoryTable {
                 + " ORDER BY eht." + HistoryTable.TIME + " DESC";
     }
 
-    public static String selectHistory(int[] currencyIds, long timeFrom, long timeTo) {
+    public static String selectHistory(List<Integer>  currencyIds, long timeFrom, long timeTo) {
 
         String in = createConditionIn(currencyIds);
 
@@ -125,7 +126,7 @@ public class HistoryTable {
         return contentValues;
     }
 
-    private static String createConditionIn(int[] conditions){
+    private static String createConditionIn(List<Integer> conditions){
         StringBuilder sb = new StringBuilder("(");
 
         for (int i: conditions){

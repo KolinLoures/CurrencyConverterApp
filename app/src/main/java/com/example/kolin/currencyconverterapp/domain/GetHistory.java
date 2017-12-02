@@ -29,6 +29,9 @@ public class GetHistory extends BaseObservableUseCase<List<CurrencyHistoryEntity
         if (params == null)
             return queries.getHistory();
 
+        if (params.currencyIds == null && params.timeFrom == -1 && params.timeTo == -1)
+            return queries.getHistory();
+
         if (params.currencyIds == null && params.timeFrom != -1 && params.timeTo != -1)
             return queries.getHistory(params.timeFrom, params.timeTo);
 
@@ -41,19 +44,19 @@ public class GetHistory extends BaseObservableUseCase<List<CurrencyHistoryEntity
         return null;
     }
 
-    static class GetHistoryParams {
+    public static class GetHistoryParams {
 
         private long timeFrom;
         private long timeTo;
-        private int[] currencyIds;
+        private List<Integer> currencyIds;
 
-        private GetHistoryParams(long timeFrom, long timeTo, int[] currencyIds) {
+        private GetHistoryParams(long timeFrom, long timeTo, List<Integer> currencyIds) {
             this.timeFrom = timeFrom;
             this.timeTo = timeTo;
             this.currencyIds = currencyIds;
         }
 
-        public static GetHistoryParams getParamsObj(long timeFrom, long timeTo, int[] currencyIds) {
+        public static GetHistoryParams getParamsObj(long timeFrom, long timeTo, List<Integer> currencyIds) {
             return new GetHistoryParams(timeFrom, timeTo, currencyIds);
         }
     }

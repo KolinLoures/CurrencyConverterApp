@@ -113,14 +113,14 @@ public class DataBaseQueries implements DAO {
     }
 
     @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer>  currencyIds) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds)))
                 .map(this::cursorToCurrencyHistoryEntity);
     }
 
     @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds, long timeFrom, long timeTo) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds, long timeFrom, long timeTo) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds,  timeFrom, timeTo)))
                 .map(this::cursorToCurrencyHistoryEntity);

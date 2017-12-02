@@ -39,9 +39,9 @@ public interface DAO {
 
     Observable<List<CurrencyHistoryEntity>> getHistory(int idCurrency);
 
-    Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds);
+    Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds);
 
-    Observable<List<CurrencyHistoryEntity>> getHistory(int[] currencyIds, long timeFrom, long timeTo);
+    Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds, long timeFrom, long timeTo);
 
     void clearHistory();
 }
