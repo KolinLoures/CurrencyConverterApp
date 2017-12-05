@@ -24,7 +24,7 @@ public class GetNames extends BaseObservableUseCase<List<String>, GetNames.GetNa
         return queries.getNames();
     }
 
-    class GetNamesParams {
+    public static class GetNamesParams {
 
     }
 }
