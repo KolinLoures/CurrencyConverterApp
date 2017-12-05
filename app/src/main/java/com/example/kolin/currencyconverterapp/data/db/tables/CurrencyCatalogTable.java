@@ -56,6 +56,11 @@ public class CurrencyCatalogTable {
                 + " WHERE " + NAME + " = '" + name + "'";
     }
 
+    public static String selectNames(){
+        return "SELECT " + NAME
+                + " FROM " + TABLE_NAME;
+    }
+
     public static String updateCurrencyTime(int id) {
         return "UPDATE " + TABLE_NAME
                 + " SET " + TIME + " = " + Calendar.getInstance().getTimeInMillis()

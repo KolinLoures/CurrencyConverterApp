@@ -17,6 +17,8 @@ public interface DAO {
 
     Observable<CurrencyEntity> getAllFavoriteCurrency();
 
+    Observable<List<String>> getNames();
+
     void addCurrency(String name);
 
     void addCurrency(List<String> names);

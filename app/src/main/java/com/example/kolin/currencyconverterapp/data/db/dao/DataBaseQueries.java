@@ -9,8 +9,8 @@ import com.example.kolin.currencyconverterapp.data.db.tables.HistoryTable;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -31,12 +31,12 @@ public class DataBaseQueries implements DAO {
         this.db = new DataBaseHelper(context);
     }
 
-    public static void initializeInstanceWithContext(Context context){
+    public static void initializeInstanceWithContext(Context context) {
         if (instance == null)
             instance = new DataBaseQueries(context);
     }
 
-    public static DataBaseQueries getInstance(){
+    public static DataBaseQueries getInstance() {
         return instance;
     }
 
@@ -46,6 +46,13 @@ public class DataBaseQueries implements DAO {
                 .fromCallable(() -> db.getCursor(CurrencyCatalogTable.selectAllCurrencies()))
                 .map(this::cursorToCurrencyEntityClass)
                 .flatMapIterable(currencyEntities -> currencyEntities);
+    }
+
+    @Override
+    public Observable<List<String>> getNames() {
+        return Observable
+                .fromCallable(() -> db.getCursor(CurrencyCatalogTable.selectNames()))
+                .map(this::cursorToNamesList);
     }
 
     @Override
@@ -92,7 +99,6 @@ public class DataBaseQueries implements DAO {
 
     @Override
     public Observable<List<CurrencyHistoryEntity>> getHistory() {
-
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory()))
                 .map(this::cursorToCurrencyHistoryEntity);
@@ -113,7 +119,7 @@ public class DataBaseQueries implements DAO {
     }
 
     @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer>  currencyIds) {
+    public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds)))
                 .map(this::cursorToCurrencyHistoryEntity);
@@ -122,7 +128,7 @@ public class DataBaseQueries implements DAO {
     @Override
     public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds, long timeFrom, long timeTo) {
         return Observable
-                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds,  timeFrom, timeTo)))
+                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds, timeFrom, timeTo)))
                 .map(this::cursorToCurrencyHistoryEntity);
     }
 
@@ -132,7 +138,7 @@ public class DataBaseQueries implements DAO {
     }
 
     private List<CurrencyEntity> cursorToCurrencyEntityClass(Cursor cursor) {
-        List<CurrencyEntity> temp = new LinkedList<>();
+        List<CurrencyEntity> temp = new ArrayList<>();
 
         if (cursor != null && cursor.moveToFirst())
             try {
@@ -166,9 +172,9 @@ public class DataBaseQueries implements DAO {
     }
 
     private List<CurrencyHistoryEntity> cursorToCurrencyHistoryEntity(Cursor cursor) {
-        List<CurrencyHistoryEntity> temp = new LinkedList<>();
+        List<CurrencyHistoryEntity> temp = new ArrayList<>();
 
-        if (cursor != null && cursor.moveToNext())
+        if (cursor != null && cursor.moveToFirst())
             try {
 
                 do {
@@ -204,6 +210,19 @@ public class DataBaseQueries implements DAO {
             } finally {
                 cursor.close();
             }
+        return temp;
+    }
+
+    private List<String> cursorToNamesList(Cursor cursor) {
+        List<String> temp = new ArrayList<>();
+
+        if (cursor != null && cursor.moveToFirst())
+            try {
+                temp.add(cursor.getString(cursor.getColumnIndex(CurrencyCatalogTable.NAME)));
+            } finally {
+                cursor.close();
+            }
+
         return temp;
     }
 }
