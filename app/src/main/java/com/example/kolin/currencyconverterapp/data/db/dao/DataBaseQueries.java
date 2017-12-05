@@ -218,7 +218,9 @@ public class DataBaseQueries implements DAO {
 
         if (cursor != null && cursor.moveToFirst())
             try {
-                temp.add(cursor.getString(cursor.getColumnIndex(CurrencyCatalogTable.NAME)));
+                do
+                    temp.add(cursor.getString(cursor.getColumnIndex(CurrencyCatalogTable.NAME)));
+                while (cursor.moveToNext());
             } finally {
                 cursor.close();
             }
