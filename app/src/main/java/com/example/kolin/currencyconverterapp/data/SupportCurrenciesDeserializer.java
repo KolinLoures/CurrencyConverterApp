@@ -2,7 +2,7 @@ package com.example.kolin.currencyconverterapp.data;
 
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.domain.model.SupportCurrenciesPojo;
+import com.example.kolin.currencyconverterapp.data.model.SupportCurrenciesPojo;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;

@@ -2,10 +2,10 @@ package com.example.kolin.currencyconverterapp.presentation.converter;
 
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.domain.GetRate;
 import com.example.kolin.currencyconverterapp.domain.PutHistory;
-import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
+import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import java.util.Calendar;

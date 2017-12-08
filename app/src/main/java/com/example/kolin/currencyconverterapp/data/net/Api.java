@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.data.net;
 
-import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
-import com.example.kolin.currencyconverterapp.domain.model.SupportCurrenciesPojo;
+import com.example.kolin.currencyconverterapp.data.model.RatePojo;
+import com.example.kolin.currencyconverterapp.data.model.SupportCurrenciesPojo;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

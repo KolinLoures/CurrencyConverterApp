@@ -2,7 +2,7 @@ package com.example.kolin.currencyconverterapp.domain;
 
 import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
 import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryEntity;
 
 import java.util.List;
 

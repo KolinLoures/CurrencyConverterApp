@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.domain.model;
+package com.example.kolin.currencyconverterapp.data.model;
 
 import java.util.List;
 

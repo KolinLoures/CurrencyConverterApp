@@ -10,7 +10,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.kolin.currencyconverterapp.R;
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 
 import java.util.ArrayList;
 import java.util.List;

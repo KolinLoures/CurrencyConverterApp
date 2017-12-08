@@ -9,7 +9,7 @@ import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
 import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
 import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
-import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
+import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
-import com.example.kolin.currencyconverterapp.domain.model.RatePojo;
+import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 import com.google.gson.Gson;
 
 import java.io.File;

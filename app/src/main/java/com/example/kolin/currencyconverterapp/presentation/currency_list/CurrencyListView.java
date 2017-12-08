@@ -1,6 +1,6 @@
 package com.example.kolin.currencyconverterapp.presentation.currency_list;
 
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 
 /**
  * Created by kolin on 05.11.2017.

@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.data.entity;
+package com.example.kolin.currencyconverterapp.data.model.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;

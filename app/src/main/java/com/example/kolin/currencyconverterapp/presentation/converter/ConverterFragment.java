@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.example.customviewlibrary.CustomEditText;
 import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 
 import java.util.Locale;
 
@@ -138,7 +138,8 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         textWatcherTo = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -153,7 +154,8 @@ public class ConverterFragment extends Fragment implements ConverterView {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         };
 
         editFrom.setListener(() -> editFrom.clearFocus());
@@ -239,6 +241,9 @@ public class ConverterFragment extends Fragment implements ConverterView {
     @Override
     public void onDestroyView() {
         presenter.unbindView();
+
+        errorSnackBar.dismiss();
+        attentionSnackBar.dismiss();
         editTo.removeTextChangedListener(textWatcherTo);
         editFrom.removeTextChangedListener(textWatcherFrom);
 

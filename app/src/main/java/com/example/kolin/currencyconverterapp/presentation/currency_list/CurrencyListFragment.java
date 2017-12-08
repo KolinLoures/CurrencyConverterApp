@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.kolin.currencyconverterapp.R;
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 
 import java.util.ArrayList;
 
@@ -88,7 +88,10 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
             adapter.addAllData(savedInstanceState.getParcelableArrayList(KEY_ADAPTER_DATA));
             setPickedEntity(savedInstanceState.getParcelable(KEY_PICKED));
         } else {
-            presenter.loadCurrencies();
+            if (adapter.getItemCount() == 0)
+                presenter.loadCurrencies();
+
+            setPickedEntity(presenter.getPickedEntity());
         }
     }
 
@@ -151,6 +154,12 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     }
 
     @Override
+    public void onDestroyView() {
+        presenter.unbindView();
+        super.onDestroyView();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof CurrencyListFragmentListener)
@@ -161,7 +170,6 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
 
     @Override
     public void onDetach() {
-        presenter.unbindView();
         listener = null;
         super.onDetach();
     }

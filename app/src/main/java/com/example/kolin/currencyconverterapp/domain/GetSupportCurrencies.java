@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
 import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;

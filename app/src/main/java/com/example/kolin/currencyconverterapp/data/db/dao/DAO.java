@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.data.db.dao;
 
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyEntity;
-import com.example.kolin.currencyconverterapp.data.entity.CurrencyHistoryEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryEntity;
 
 import java.util.List;
 

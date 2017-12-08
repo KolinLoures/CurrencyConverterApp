@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.domain.model;
+package com.example.kolin.currencyconverterapp.data.model;
 
 /**
  * Created by kolin on 28.10.2017.
