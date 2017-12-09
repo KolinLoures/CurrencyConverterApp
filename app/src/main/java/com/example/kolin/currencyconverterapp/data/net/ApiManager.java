@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.data.net;
 
-import com.example.kolin.currencyconverterapp.data.RateDeserializer;
-import com.example.kolin.currencyconverterapp.data.SupportCurrenciesDeserializer;
+import com.example.kolin.currencyconverterapp.data.gson_helper.RateDeserializer;
+import com.example.kolin.currencyconverterapp.data.gson_helper.SupportCurrenciesDeserializer;
 import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 import com.example.kolin.currencyconverterapp.data.model.SupportCurrenciesPojo;
 import com.google.gson.Gson;
