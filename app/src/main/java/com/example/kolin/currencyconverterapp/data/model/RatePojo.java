@@ -10,7 +10,7 @@ public class RatePojo {
     private String currencyTo;
     private float rate;
 
-    private boolean isFromCache;
+    private boolean isFromCache = false;
 
     public RatePojo() {
     }
