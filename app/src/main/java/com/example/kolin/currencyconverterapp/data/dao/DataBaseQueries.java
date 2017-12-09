@@ -27,11 +27,10 @@ public class DataBaseQueries implements DAO {
     }
 
     @Override
-    public Observable<CurrencyEntity> getAllCurrency() {
+    public Observable<List<CurrencyEntity>> getAllCurrency() {
         return Observable
                 .fromCallable(() -> db.getCursor(CurrencyCatalogTable.selectAllCurrencies()))
-                .map(CursorMapper::cursorToCurrencyEntityClass)
-                .flatMapIterable(currencyEntities -> currencyEntities);
+                .map(CursorMapper::cursorToCurrencyEntityClass);
     }
 
     @Override

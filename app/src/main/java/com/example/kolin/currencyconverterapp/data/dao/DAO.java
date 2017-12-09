@@ -13,7 +13,7 @@ import io.reactivex.Observable;
 
 public interface DAO {
 
-    Observable<CurrencyEntity> getAllCurrency();
+    Observable<List<CurrencyEntity>> getAllCurrency();
 
     Observable<CurrencyEntity> getAllFavoriteCurrency();
 
