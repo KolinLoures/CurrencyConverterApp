@@ -4,8 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.kolin.currencyconverterapp.data.preference.PreferenceKeys;
 import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
 import com.example.kolin.currencyconverterapp.data.model.RatePojo;
+import com.example.kolin.currencyconverterapp.data.preference.PreferenceType;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -22,9 +24,8 @@ public class CacheImpl implements FileCache {
 
     private static final String TAG = CacheImpl.class.getSimpleName();
 
-    private static CacheImpl instanse;
+    private static CacheImpl instance;
 
-    private Context context;
     private File cacheDir;
     private FileWriterReader fileWriterReader;
 
@@ -36,21 +37,19 @@ public class CacheImpl implements FileCache {
     private static final long CACHE_TIME = 60 * 6 * 1000;
 
     private CacheImpl(Context context) {
-        this.context = context;
-        cacheDir = this.context.getCacheDir();
-        preferenceManager = PreferenceManager.getInstance();
+        cacheDir = context.getCacheDir();
+        preferenceManager = new PreferenceManager();
         fileWriterReader = new FileWriterReader();
         gson = new Gson();
     }
 
-    public static void initializeWithContext(Context context){
-        if (instanse == null)
-            instanse = new CacheImpl(context);
+    public static void initializeWithContext(Context context) {
+        if (instance == null)
+            instance = new CacheImpl(context);
     }
 
-    public static CacheImpl getInstanse(){
-
-        return instanse;
+    public static CacheImpl getInstance() {
+        return instance;
     }
 
     @Override
@@ -61,9 +60,8 @@ public class CacheImpl implements FileCache {
 
         File file = createFile(rate.getCurrencyFrom(), rate.getCurrencyTo());
 
-        if (!file.exists()) {
-            fileWriterReader.writeToFile(file, gson.toJson(rate, RatePojo.class));
-        }
+        if (!file.exists())
+            fileWriterReader.writeToFile(file, serialize(rate));
 
         setLastTimeUpdatedCache();
     }
@@ -91,11 +89,12 @@ public class CacheImpl implements FileCache {
 
     private void setLastTimeUpdatedCache() {
         long currentTime = Calendar.getInstance().getTimeInMillis();
-        preferenceManager.writeLongToPreference(PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);
+//        preferenceManager.writeLongToPreference(PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);
+        preferenceManager.putToPreference(PreferenceKeys.KEY_CACHE_TIME, PreferenceType.LONG, currentTime);
     }
 
     private boolean isCacheExpired() {
-        long lastTime = preferenceManager.readLongPreference(PreferenceManager.KEY_PREF_CACHE_TIME);
+        long lastTime = (long) preferenceManager.getFromPreference(PreferenceKeys.KEY_CACHE_TIME, PreferenceType.LONG, 0);
         long currentTime = Calendar.getInstance().getTimeInMillis();
 
         return currentTime - lastTime > CACHE_TIME;
@@ -106,11 +105,11 @@ public class CacheImpl implements FileCache {
         return new File(name);
     }
 
-    private String serealize(RatePojo ratePojo){
+    private String serialize(RatePojo ratePojo) {
         return gson.toJson(ratePojo, RatePojo.class);
     }
 
-    private RatePojo deserialize(String t){
+    private RatePojo deserialize(String t) {
         return gson.fromJson(t, RatePojo.class);
     }
 }
