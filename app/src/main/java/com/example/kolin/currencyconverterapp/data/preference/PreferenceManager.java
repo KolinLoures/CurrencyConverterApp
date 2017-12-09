@@ -1,78 +1,118 @@
 package com.example.kolin.currencyconverterapp.data.preference;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+
+import com.example.kolin.currencyconverterapp.data.common.CursorMapper;
+import com.example.kolin.currencyconverterapp.data.db.DataBaseHelper;
+import com.example.kolin.currencyconverterapp.data.db.tables.PreferenceTable;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.BOOLEAN;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.INTEGER;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.INTEGER_ARRAY_LIST;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.LONG;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.STRING;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.STRING_ARRAY_LIST;
 
 /**
  * Created by kolin on 27.10.2017.
  */
 
-public class PreferenceManager {
+public class PreferenceManager implements BasePreference {
 
-    private static final String PREFERENCE_NAME = "com.example.kolin.currencyconverterapp.PREFERENCE";
+    public static final String TAG = PreferenceManager.class.getSimpleName();
 
-    public static final String KEY_PREF_CACHE_TIME = "key_pref_cache_time";
+    private DataBaseHelper db;
+    private Gson gson;
 
-    public static final String KEY_PREF_FIRST_START = "key_pref_first_start";
+    private Type listIntType = new TypeToken<ArrayList<Integer>>() {}.getType();
+    private Type listStringType = new TypeToken<ArrayList<String>>() {}.getType();
 
-    private Context context;
-
-    private static PreferenceManager instance = null;
-
-    private PreferenceManager(Context context) {
-        this.context = context;
-    }
-
-    public static void initializeWithContext(Context context){
-        if (instance == null)
-            instance = new PreferenceManager(context);
-    }
-
-    public static PreferenceManager getInstance(){
-        return instance;
-    }
-
-    public void writeLongToPreference(String key, long value){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putLong(key, value);
-        editor.apply();
-    }
-
-    public void writeStringToPreference(String key, String value){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(key, value);
-        editor.apply();
-    }
-
-    public long readLongPreference(String key){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getLong(key, 0);
-    }
-
-    public String readStringPreference(String key){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(key, null);
-    }
-
-    public boolean readBoolPreference(String key){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(key, true);
-    }
-
-    public void writeBoolPreference(String key, boolean value){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putBoolean(key, value);
-        editor.apply();
+    public PreferenceManager() {
+        db = DataBaseHelper.getInstance();
+        gson = new Gson();
     }
 
 
+    @Override
+    public Object getFromPreference(@PreferenceKeys String key, @PreferenceType int type, Object defValue) {
+        Object temp = null;
+        String s = CursorMapper.cursorToPreference(db.getCursor(PreferenceTable.getPreference(key)));
+
+        switch (type) {
+            case BOOLEAN:
+                temp = s != null ? Boolean.valueOf(s) : (Boolean) defValue;
+                break;
+            case STRING:
+                temp = s != null ? s : (String) defValue;
+                break;
+            case INTEGER:
+                temp = s != null ? Integer.valueOf(s) : (Integer) defValue;
+                break;
+            case INTEGER_ARRAY_LIST:
+                temp = s != null ? gson.fromJson(s, listIntType) : (List) defValue;
+                break;
+            case STRING_ARRAY_LIST:
+                temp = s != null ? gson.fromJson(s, listStringType) : (List) defValue;
+                break;
+            case LONG:
+                temp = s != null ? Long.valueOf(s) : (Long) defValue;
+                break;
+        }
+
+        return temp;
+    }
+
+    @Override
+    public void putToPreference(@PreferenceKeys String key, @PreferenceType int type, Object value) {
+        switch (type) {
+            case BOOLEAN:
+                updateOrInsertPreference(key, value.toString());
+                break;
+            case STRING:
+                updateOrInsertPreference(key, value.toString());
+                break;
+            case INTEGER:
+                updateOrInsertPreference(key, value.toString());
+                break;
+            case INTEGER_ARRAY_LIST:
+                updateOrInsertPreference(key, gson.toJson(value, listIntType));
+                break;
+            case STRING_ARRAY_LIST:
+                updateOrInsertPreference(key, gson.toJson(value, listStringType));
+                break;
+            case LONG:
+                updateOrInsertPreference(key, value.toString());
+                break;
+        }
+    }
+
+    private <T> void checkOrThrowValueType(Class<T> tClass, Object value) {
+        if (!tClass.isInstance(value))
+            throw new RuntimeException(TAG + ". Value " + value + " can not be cast to " + tClass.toString() + "!");
+    }
+
+    private void updateOrInsertPreference(@PreferenceKeys String key, String value) {
+        Cursor cursor = db.getCursor(PreferenceTable.getKey(key));
+
+        String temp = null;
+
+        if (cursor != null && cursor.moveToFirst())
+            try {
+                temp = cursor.getString(cursor.getColumnIndex(PreferenceTable.KEY));
+            } finally {
+                cursor.close();
+            }
+
+        if (temp != null)
+            db.update(PreferenceTable.TABLE_NAME, PreferenceTable.getContentValues(key, value), PreferenceTable.KEY + " = ?", new String[]{key});
+        else
+            db.insert(PreferenceTable.TABLE_NAME, PreferenceTable.getContentValues(key, value));
+
+    }
 }
