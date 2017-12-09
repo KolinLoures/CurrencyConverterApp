@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.example.kolin.currencyconverterapp.data.db.tables.CurrencyCatalogTable;
 import com.example.kolin.currencyconverterapp.data.db.tables.HistoryTable;
+import com.example.kolin.currencyconverterapp.data.db.tables.PreferenceTable;
 
 /**
  * Created by kolin on 26.10.2017.
@@ -19,14 +20,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "com.example.kolin.currencyconverterapp.db_change_history";
     private static final int DB_VERSION = 1;
 
-    public DataBaseHelper(Context context) {
+    private static DataBaseHelper instance = null;
+
+    private DataBaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+    }
+
+    public static DataBaseHelper getInstance() {
+        return instance;
+    }
+
+    public static void initWithContext(Context context) {
+        if (instance == null)
+            instance = new DataBaseHelper(context);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CurrencyCatalogTable.createTable());
         sqLiteDatabase.execSQL(HistoryTable.createTable());
+        sqLiteDatabase.execSQL(PreferenceTable.createTable());
     }
 
     @Override
@@ -34,6 +47,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (i != i1) {
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CurrencyCatalogTable.TABLE_NAME);
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + HistoryTable.TABLE_NAME);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PreferenceTable.TABLE_NAME);
             this.onCreate(sqLiteDatabase);
         }
     }
