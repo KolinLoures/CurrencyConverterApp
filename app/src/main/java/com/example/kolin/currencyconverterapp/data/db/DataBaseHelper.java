@@ -64,15 +64,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         this.getWritableDatabase().insert(tableName, null, contentValues);
     }
 
-    public void update(@NonNull String tableName, @NonNull ContentValues contentValues, int id) {
-        this.getWritableDatabase().update(tableName, contentValues, "ID = ?", new String[]{Integer.toString(id)});
-    }
-
-    public void writeToDB(@NonNull String tableName, @NonNull ContentValues contentValues, int id) {
-        if (id == -1)
-            this.insert(tableName, contentValues);
-        else
-            this.update(tableName, contentValues, id);
+    public void update(@NonNull String tableName, @NonNull ContentValues contentValues, String whereClause, String[] whereArgs) {
+        this.getWritableDatabase().update(tableName, contentValues, whereClause, whereArgs);
     }
 
     public void executeSQL(@NonNull String sql) {

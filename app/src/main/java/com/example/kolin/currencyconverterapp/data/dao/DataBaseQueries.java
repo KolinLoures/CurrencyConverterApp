@@ -1,6 +1,5 @@
-package com.example.kolin.currencyconverterapp.data.db.dao;
+package com.example.kolin.currencyconverterapp.data.dao;
 
-import android.content.Context;
 import android.database.Cursor;
 
 import com.example.kolin.currencyconverterapp.data.db.DataBaseHelper;
@@ -23,21 +22,10 @@ public class DataBaseQueries implements DAO {
 
     private static final String TAG = DataBaseQueries.class.getSimpleName();
 
-    private static DataBaseQueries instance = null;
-
     private DataBaseHelper db;
 
-    private DataBaseQueries(Context context) {
-        this.db = new DataBaseHelper(context);
-    }
-
-    public static void initializeInstanceWithContext(Context context) {
-        if (instance == null)
-            instance = new DataBaseQueries(context);
-    }
-
-    public static DataBaseQueries getInstance() {
-        return instance;
+    public DataBaseQueries() {
+        this.db = DataBaseHelper.getInstance();
     }
 
     @Override

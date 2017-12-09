@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.data.db.dao;
+package com.example.kolin.currencyconverterapp.data.dao;
 
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryEntity;
