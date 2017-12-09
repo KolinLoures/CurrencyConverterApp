@@ -25,6 +25,11 @@ public class PreferenceTable {
                 + " WHERE " + KEY + " = " + key;
     }
 
+    public static String getKey(String key){
+        return " SELECT " + KEY + " FROM " + TABLE_NAME
+                + " WHERE " + KEY + " = " + key;
+    }
+
     public static ContentValues getContentValues(String key, String value){
         ContentValues contentValues = new ContentValues();
 
