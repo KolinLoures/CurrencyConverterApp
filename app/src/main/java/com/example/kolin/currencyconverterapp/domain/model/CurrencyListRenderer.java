@@ -36,8 +36,8 @@ public class CurrencyListRenderer {
         return new CurrencyListRenderer(error);
     }
 
-    public static CurrencyListRenderer getLoadingObject() {
-        return new CurrencyListRenderer(true);
+    public static CurrencyListRenderer getLoadingObject(boolean loading) {
+        return new CurrencyListRenderer(loading);
     }
 
     public static CurrencyListRenderer getDataObject(List<CurrencyEntity> data) {
