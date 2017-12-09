@@ -12,12 +12,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.BOOLEAN;
-import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.INTEGER;
-import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.INTEGER_ARRAY_LIST;
-import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.LONG;
-import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.STRING;
-import static com.example.kolin.currencyconverterapp.data.preference.PreferenceType.STRING_ARRAY_LIST;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.BOOLEAN;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.INTEGER;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.INTEGER_ARRAY_LIST;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.LONG;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.STRING;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.STRING_ARRAY_LIST;
 
 /**
  * Created by kolin on 27.10.2017.

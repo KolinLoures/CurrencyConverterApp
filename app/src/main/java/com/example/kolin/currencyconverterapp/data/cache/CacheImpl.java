@@ -4,10 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.data.preference.PreferenceKeys;
-import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
 import com.example.kolin.currencyconverterapp.data.model.RatePojo;
-import com.example.kolin.currencyconverterapp.data.preference.PreferenceType;
+import com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum;
+import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
+import com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -90,11 +90,11 @@ public class CacheImpl implements FileCache {
     private void setLastTimeUpdatedCache() {
         long currentTime = Calendar.getInstance().getTimeInMillis();
 //        preferenceManager.writeLongToPreference(PreferenceManager.KEY_PREF_CACHE_TIME, currentTime);
-        preferenceManager.putToPreference(PreferenceKeys.KEY_CACHE_TIME, PreferenceType.LONG, currentTime);
+        preferenceManager.putToPreference(PreferenceKeysEnum.KEY_CACHE_TIME, PreferenceTypeEnum.LONG, currentTime);
     }
 
     private boolean isCacheExpired() {
-        long lastTime = (long) preferenceManager.getFromPreference(PreferenceKeys.KEY_CACHE_TIME, PreferenceType.LONG, 0);
+        long lastTime = (long) preferenceManager.getFromPreference(PreferenceKeysEnum.KEY_CACHE_TIME, PreferenceTypeEnum.LONG, 0);
         long currentTime = Calendar.getInstance().getTimeInMillis();
 
         return currentTime - lastTime > CACHE_TIME;
