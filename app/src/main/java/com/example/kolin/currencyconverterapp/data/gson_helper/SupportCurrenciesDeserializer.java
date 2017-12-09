@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.data;
+package com.example.kolin.currencyconverterapp.data.gson_helper;
 
 import android.util.Log;
 

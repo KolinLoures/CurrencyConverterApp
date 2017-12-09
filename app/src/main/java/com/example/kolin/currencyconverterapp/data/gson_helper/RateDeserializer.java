@@ -1,4 +1,4 @@
-package com.example.kolin.currencyconverterapp.data;
+package com.example.kolin.currencyconverterapp.data.gson_helper;
 
 import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 import com.google.gson.JsonDeserializationContext;
