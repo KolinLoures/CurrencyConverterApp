@@ -8,17 +8,18 @@
     android:layout_marginBottom="@dimen/android_default_top_bottom_padding"
     app:contentPaddingBottom="@dimen/android_default_top_bottom_padding"
     app:contentPaddingLeft="@dimen/android_default_left_right_padding"
+    app:cardCornerRadius="0dp"
     app:contentPaddingRight="@dimen/android_default_left_right_padding"
     app:contentPaddingTop="@dimen/android_default_top_bottom_padding">
 
     <TextView
-        android:id="@+id/error_text"
+        android:id="@+id/information_text"
         android:layout_width="wrap_content"
         android:layout_gravity="start|center_vertical"
         android:layout_height="wrap_content" />
 
     <ImageButton
-        android:id="@+id/error_action"
+        android:id="@+id/information_action"
         android:src="@drawable/ic_autorenew_black_24dp"
         android:layout_width="wrap_content"
         android:background="?android:attr/selectableItemBackground"

@@ -98,10 +98,10 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
 
         error = view.findViewById(R.id.fragment_currency_error);
 
-        textError = view.findViewById(R.id.error_text);
+        textError = view.findViewById(R.id.information_text);
         textError.setText(R.string.problems_with_connection);
 
-        imgBtnError = view.findViewById(R.id.error_action);
+        imgBtnError = view.findViewById(R.id.information_action);
         imgBtnError.setOnClickListener(v -> presenter.loadCurrencies());
 
         if (savedInstanceState != null) {
