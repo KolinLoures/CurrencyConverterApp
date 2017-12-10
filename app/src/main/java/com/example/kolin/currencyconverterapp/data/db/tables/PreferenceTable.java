@@ -22,12 +22,12 @@ public class PreferenceTable {
 
     public static String getPreference(String key){
         return " SELECT " + VALUE + " FROM " + TABLE_NAME
-                + " WHERE " + KEY + " = " + key;
+                + " WHERE " + KEY + " = '" + key + "'";
     }
 
     public static String getKey(String key){
         return " SELECT " + KEY + " FROM " + TABLE_NAME
-                + " WHERE " + KEY + " = " + key;
+                + " WHERE " + KEY + " = '" + key + "'";
     }
 
     public static ContentValues getContentValues(String key, String value){
