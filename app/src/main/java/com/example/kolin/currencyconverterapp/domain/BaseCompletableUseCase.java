@@ -1,49 +1,19 @@
 package com.example.kolin.currencyconverterapp.domain;
 
-import android.support.annotation.CallSuper;
-
 import io.reactivex.Completable;
+import io.reactivex.CompletableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by kolin on 03.11.2017.
+ * Created by kolin on 10.12.2017.
  */
 
-public abstract class BaseCompletableUseCase<P> implements BaseUseCase<DisposableCompletableObserver, P> {
+public interface BaseCompletableUseCase {
 
-    private CompositeDisposable container;
+    Completable createCompletable();
 
-    public BaseCompletableUseCase() {
-        container = new CompositeDisposable();
-    }
-
-    protected abstract Completable createCompletable(P param);
-
-    @Override
-    public void execute(DisposableCompletableObserver observer, P param) {
-        DisposableCompletableObserver obs =
-                createCompletable(param)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribeWith(observer);
-
-        container.add(obs);
-    }
-
-    @CallSuper
-    @Override
-    public void dispose() {
-        if (container != null && !container.isDisposed())
-            container.dispose();
-    }
-
-    @CallSuper
-    @Override
-    public void clear() {
-        if (container != null)
-            container.clear();
+    default CompletableTransformer applySchedulers() {
+        return upstream -> upstream.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }
 }
