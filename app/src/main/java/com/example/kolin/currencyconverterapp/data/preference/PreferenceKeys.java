@@ -9,8 +9,10 @@ import static com.example.kolin.currencyconverterapp.data.preference.PreferenceK
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_CHART_PARAM_PERIOD;
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_CHART_PARAM_PICKED_CURR;
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_FIRST_START;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_SEARCH_PARAM_FROM_TIME;
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_SEARCH_PARAM_PERIOD;
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_SEARCH_PARAM_PICKED_CURR;
+import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_SEARCH_PARAM_TO_TIME;
 
 /**
  * Created by kolin on 09.12.2017.
@@ -21,6 +23,8 @@ import static com.example.kolin.currencyconverterapp.data.preference.PreferenceK
         KEY_FIRST_START,
         KEY_SEARCH_PARAM_PERIOD,
         KEY_SEARCH_PARAM_PICKED_CURR,
+        KEY_SEARCH_PARAM_FROM_TIME,
+        KEY_SEARCH_PARAM_TO_TIME,
         KEY_CHART_PARAM_PERIOD,
         KEY_CHART_PARAM_PICKED_CURR
 })
