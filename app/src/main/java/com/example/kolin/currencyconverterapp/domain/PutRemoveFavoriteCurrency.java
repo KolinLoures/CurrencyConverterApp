@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.domain;
 
-import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
-import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.dao.DAO;
+import com.example.kolin.currencyconverterapp.data.dao.DataBaseQueries;
 
 import io.reactivex.Completable;
 
@@ -9,34 +9,45 @@ import io.reactivex.Completable;
  * Created by kolin on 05.11.2017.
  */
 
-public class PutRemoveFavoriteCurrency extends BaseCompletableUseCase<PutRemoveFavoriteCurrency.PutRemoveFavoriteParams> {
+public class PutRemoveFavoriteCurrency implements BaseCompletableUseCase, ParamsUseCase<PutRemoveFavoriteCurrency.PutRemoveFavoriteParams> {
 
-    private DAO db;
+    private DAO queries;
+    private PutRemoveFavoriteParams params;
 
     public PutRemoveFavoriteCurrency() {
-        db = DataBaseQueries.getInstance();
+        queries = new DataBaseQueries();
     }
 
     @Override
-    protected Completable createCompletable(PutRemoveFavoriteParams param) {
+    public Completable createCompletable() {
         return Completable.fromAction(() -> {
-            if (param.remove)
-                db.removeCurrencyFromFavorite(param.id);
+            if (params.check)
+                queries.addCurrencyToFavorite(params.id);
             else
-                db.addCurrencyToFavorite(param.id);
-        });
+                queries.removeCurrencyFromFavorite(params.id);
+        }).compose(applySchedulers());
     }
 
-    public static class PutRemoveFavoriteParams {
-        private int id;
-        private boolean remove;
+    @Override
+    public void setParams(PutRemoveFavoriteParams params) {
+        this.params = params;
+    }
 
-        private PutRemoveFavoriteParams(int id, boolean remove) {
-            this.remove = remove;
+    @Override
+    public PutRemoveFavoriteParams getParams() {
+        return params;
+    }
+
+    public static class PutRemoveFavoriteParams implements Params {
+        private int id;
+        private boolean check;
+
+        private PutRemoveFavoriteParams(int id, boolean check) {
+            this.check = check;
             this.id = id;
         }
 
-        public static PutRemoveFavoriteParams getParamObj(int id, boolean remove){
+        public static PutRemoveFavoriteParams getParamObj(int id, boolean remove) {
             return new PutRemoveFavoriteParams(id, remove);
         }
     }
