@@ -2,11 +2,9 @@ package com.example.kolin.currencyconverterapp.domain;
 
 import com.example.kolin.currencyconverterapp.data.dao.DAO;
 import com.example.kolin.currencyconverterapp.data.dao.DataBaseQueries;
-import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.net.Api;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
-
-import java.util.List;
+import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
 
 import io.reactivex.Observable;
 
@@ -14,7 +12,7 @@ import io.reactivex.Observable;
  * Created by kolin on 09.12.2017.
  */
 
-public class GetCurrencyList implements BaseUseCase<List<CurrencyEntity>> {
+public class GetCurrencyList implements BaseObservableUseCase<CurrencyListRenderer> {
 
     public static final String TAG = GetCurrencyList.class.getSimpleName();
 
@@ -27,12 +25,16 @@ public class GetCurrencyList implements BaseUseCase<List<CurrencyEntity>> {
     }
 
     @Override
-    public Observable<List<CurrencyEntity>> createUseCase() {
+    public Observable<CurrencyListRenderer> createUseCase() {
         return queries
                 .getAllCurrency()
+                .filter(currencyEntities -> !currencyEntities.isEmpty())
                 .switchIfEmpty(api.getRates()
-                .doOnNext(s -> queries.addCurrency(s.getListCurrencies()))
-                .flatMap(supportCurrenciesPojo -> queries.getAllCurrency()))
+                        .doOnNext(s -> queries.addCurrency(s.getListCurrencies()))
+                        .flatMap(supportCurrenciesPojo -> queries.getAllCurrency()))
+                .flatMap(currencyEntities -> Observable.just(CurrencyListRenderer.getDataObject(currencyEntities)))
+                .startWith(CurrencyListRenderer.getLoadingObject(true))
+                .onErrorReturn(CurrencyListRenderer::getErrorObject)
                 .compose(applySchedulers());
     }
 }
