@@ -1,22 +1,13 @@
 package com.example.kolin.currencyconverterapp.presentation.converter;
 
+import com.example.kolin.currencyconverterapp.domain.model.ConverterRateRender;
+
 /**
  * Created by kolin on 07.11.2017.
  */
 
 public interface ConverterView {
 
-    void showRate(float from, float to);
+    void renderRateView(ConverterRateRender render);
 
-    void setRateFrom(float from);
-
-    void setRateTo(float to);
-
-    void blockInput(boolean b);
-
-    void showError(boolean show);
-
-    void showAttention(boolean show);
-
-    void showLoading(boolean show);
 }

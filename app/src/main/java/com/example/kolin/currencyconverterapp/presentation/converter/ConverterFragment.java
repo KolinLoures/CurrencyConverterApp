@@ -1,10 +1,9 @@
 package com.example.kolin.currencyconverterapp.presentation.converter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,39 +12,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.customviewlibrary.CustomEditText;
 import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
+import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
-
-import java.util.Locale;
+import com.example.kolin.currencyconverterapp.domain.model.ConverterRateRender;
+import com.example.kolin.currencyconverterapp.presentation.util.AppFormatter;
 
 
 public class ConverterFragment extends Fragment implements ConverterView {
 
     public static final String TAG = ConverterFragment.class.getSimpleName();
 
-    private static final String ARG_FROM = "param_from";
-    private static final String ARG_TO = "param_to";
+    private static final String ARG_FROM = "param_currency_from";
+    private static final String ARG_TO = "param_currency_to";
 
     private ConverterPresenter presenter;
 
-    private TextView textRate;
     private TextView textFrom;
     private TextView textTo;
     private CustomEditText editFrom;
     private CustomEditText editTo;
-    private Snackbar errorSnackBar;
-    private Snackbar attentionSnackBar;
-
+    private CustomLoadingToolbar toolbar;
+    private TextView textInformation;
+    private ImageButton imgBtnInformationAction;
 
     private TextWatcher textWatcherFrom;
     private TextWatcher textWatcherTo;
 
-    private boolean blockTextWatcher = false;
-    private CustomLoadingToolbar customLoadingToolbar;
+    private boolean blockTextFromWatcher = false;
+    private boolean blockTextToWatcher = false;
 
     public ConverterFragment() {
     }
@@ -74,6 +74,8 @@ public class ConverterFragment extends Fragment implements ConverterView {
             presenter = new ConverterPresenter();
             presenter.setCurrencies(from, to);
         }
+
+        presenter.bindView(ConverterFragment.this);
     }
 
     @Override
@@ -82,34 +84,35 @@ public class ConverterFragment extends Fragment implements ConverterView {
         return inflater.inflate(R.layout.fragment_converter, container, false);
     }
 
+    @SuppressLint("CutPasteId")
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        customLoadingToolbar = view.findViewById(R.id.my_toolbar);
-        customLoadingToolbar.getToolbar().setTitle(R.string.converter);
-        customLoadingToolbar.showProgressBar();
+        toolbar = view.findViewById(R.id.fragment_converter_toolbar);
+        toolbar.getToolbar().setTitle(R.string.converter);
+        toolbar.showProgressBar();
 
-        textRate = view.findViewById(R.id.fragment_converter_currency_rate);
-        textFrom = view.findViewById(R.id.fragment_converter_currency_name_from);
-        textTo = view.findViewById(R.id.fragment_converter_currency_name_to);
-        editFrom = view.findViewById(R.id.fragment_converter_amount_from);
-        editTo = view.findViewById(R.id.fragment_converter_amount_to);
-        errorSnackBar = Snackbar
-                .make(view, R.string.rate_error, BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction(R.string.retry, v -> presenter.loadRate());
+        textFrom = view.findViewById(R.id.fragment_converter_input_view_from).findViewById(R.id.input_currency_text_name);
+        textTo = view.findViewById(R.id.fragment_converter_input_view_to).findViewById(R.id.input_currency_text_name);
 
-        attentionSnackBar = Snackbar
-                .make(view, R.string.rate_from_cache, BaseTransientBottomBar.LENGTH_INDEFINITE);
+        editFrom = view.findViewById(R.id.fragment_converter_input_view_from).findViewById(R.id.input_currency_edit_amount);
+        editFrom.setText("1");
+
+        editTo = view.findViewById(R.id.fragment_converter_input_view_to).findViewById(R.id.input_currency_edit_amount);
+
+        textInformation = view.findViewById(R.id.information_text);
+        imgBtnInformationAction = view.findViewById(R.id.information_action);
+        imgBtnInformationAction.setOnClickListener(this::onErrorRepeat);
 
 
         textFrom.setText(presenter.getFrom().getName());
         textTo.setText(presenter.getTo().getName());
 
-        presenter.bindView(ConverterFragment.this);
-        presenter.loadRate();
+        presenter.loadRate(1, false);
 
         initEditText();
     }
+
 
     private void initEditText() {
         textWatcherFrom = new TextWatcher() {
@@ -120,13 +123,13 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!blockTextWatcher & !s.toString().isEmpty())
-                    presenter.direct(validateFloat(s.toString()));
+                if (!blockTextFromWatcher & !s.toString().isEmpty())
+                    presenter.loadRate(validateFloat(s.toString()), false);
 
                 if (s.toString().isEmpty()) {
-                    blockTextWatcher = true;
+                    blockTextToWatcher = true;
                     editTo.setText("0");
-                    blockTextWatcher = false;
+                    blockTextToWatcher = false;
                 }
             }
 
@@ -143,13 +146,13 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!blockTextWatcher & !s.toString().isEmpty())
-                    presenter.indirect(validateFloat(s.toString()));
+                if (!blockTextToWatcher & !s.toString().isEmpty())
+                    presenter.loadRate(validateFloat(s.toString()), true);
 
                 if (s.toString().isEmpty()) {
-                    blockTextWatcher = true;
+                    blockTextFromWatcher = true;
                     editFrom.setText("0");
-                    blockTextWatcher = false;
+                    blockTextFromWatcher = false;
                 }
             }
 
@@ -166,8 +169,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                editFrom.clearFocus();
-                editTo.clearFocus();
+                v.clearFocus();
             }
             return false;
         };
@@ -179,75 +181,113 @@ public class ConverterFragment extends Fragment implements ConverterView {
         editTo.addTextChangedListener(textWatcherTo);
     }
 
-    @Override
-    public void showRate(float from, float to) {
-        textRate.setText(
-                String.format("%s %s = %s %s",
-                        formatFloat(from),
-                        presenter.getFrom().getName(),
-                        formatFloat(to),
-                        presenter.getTo().getName()
-                )
-        );
+    public void blockInputFrom(boolean b) {
+        blockTextFromWatcher = b;
     }
 
-    @Override
-    public void setRateFrom(float from) {
-        editFrom.setText(formatFloat(from));
-    }
-
-    @Override
-    public void setRateTo(float to) {
-        editTo.setText(formatFloat(to));
-    }
-
-    @Override
-    public void blockInput(boolean b) {
-        blockTextWatcher = b;
-    }
-
-    @Override
-    public void showLoading(boolean show) {
-        if (show)
-            customLoadingToolbar.showProgressBar();
-        else
-            customLoadingToolbar.hideProgressBar();
-    }
-
-    @Override
-    public void showError(boolean show) {
-        if (show)
-            errorSnackBar.show();
-        else if (errorSnackBar.isShown())
-            errorSnackBar.dismiss();
-    }
-
-    @Override
-    public void showAttention(boolean show) {
-        if (show)
-            attentionSnackBar.show();
-        else if (attentionSnackBar.isShown())
-            attentionSnackBar.dismiss();
-    }
-
-    private String formatFloat(float f) {
-        return String.format(Locale.getDefault(), "%.2f", f);
+    public void blockInputTo(boolean b) {
+        blockTextToWatcher = b;
     }
 
     private float validateFloat(String s) {
         return Float.parseFloat(s);
     }
 
+    private void onErrorRepeat(View v) {
+        String s = editFrom.getText().toString();
+        if (!s.isEmpty())
+            presenter.loadRate(validateFloat(s), false);
+        else {
+            blockInputFrom(true);
+            editFrom.setText("1");
+            blockInputFrom(false);
+
+            presenter.loadRate(1, false);
+        }
+    }
+
+    @Override
+    public void renderRateView(ConverterRateRender render) {
+        if (render.isLoading()) {
+            toolbar.showProgressBar();
+//            initEmptyRateView();
+        }
+
+        if (render.getError() != null) {
+            toolbar.hideProgressBar();
+            initErrorRateView();
+        }
+
+        RatePojo data = null;
+        if ((data = render.getData()) != null) {
+            toolbar.hideProgressBar();
+
+            if (data.isFromCache() && render.isRateExpired()) {
+                initAttentitionRateView(1, data.getRate());
+            } else
+                initNormalRateView(1, data.getRate());
+
+            if (!render.isReverse()) {
+                blockInputTo(true);
+                editTo.setText(AppFormatter.formatRate(render.getResult()));
+                blockInputTo(false);
+            } else {
+                blockInputFrom(true);
+                editFrom.setText(AppFormatter.formatRate(render.getResult()));
+                blockInputFrom(false);
+            }
+
+        }
+    }
+
+    private void initErrorRateView() {
+        textInformation.setText(R.string.problems_with_connection);
+        imgBtnInformationAction.setVisibility(View.VISIBLE);
+    }
+
+    private void initEmptyRateView() {
+        textInformation.setText("");
+        imgBtnInformationAction.setVisibility(View.INVISIBLE);
+    }
+
+    private void initAttentitionRateView(float from, float to) {
+        String text = String.format("%s %s",
+                AppFormatter.formatRate(from, to, presenter.getFrom().getName(), presenter.getTo().getName(), " = "),
+                getString(R.string.rate_from_cache));
+
+        textInformation.setText(text);
+        imgBtnInformationAction.setVisibility(View.INVISIBLE);
+    }
+
+    private void initNormalRateView(float from, float to) {
+        imgBtnInformationAction.setVisibility(View.INVISIBLE);
+        textInformation.setText(AppFormatter.formatRate(from, to, presenter.getFrom().getName(), presenter.getTo().getName(), " = "));
+    }
+
+
     @Override
     public void onDestroyView() {
-        presenter.unbindView();
+        //help gc
 
-        errorSnackBar.dismiss();
-        attentionSnackBar.dismiss();
         editTo.removeTextChangedListener(textWatcherTo);
         editFrom.removeTextChangedListener(textWatcherFrom);
 
+        textInformation = null;
+        imgBtnInformationAction = null;
+        editTo = null;
+        editFrom = null;
+        textFrom = null;
+        textTo = null;
+        toolbar = null;
+
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.unbindView();
+
+        super.onDestroy();
     }
 
     @Override
