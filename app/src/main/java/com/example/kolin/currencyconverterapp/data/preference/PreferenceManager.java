@@ -113,7 +113,7 @@ public class PreferenceManager implements BasePreference {
         Log.i(TAG, "updateOrInsertPreference: " + temp);
 
         if (temp != null)
-            db.update(PreferenceTable.TABLE_NAME, PreferenceTable.getContentValues(key, value), PreferenceTable.KEY + " = '?'", new String[]{key});
+            db.update(PreferenceTable.TABLE_NAME, PreferenceTable.getContentValues(key, value), PreferenceTable.KEY + " = ?", new String[]{key});
         else
             db.insert(PreferenceTable.TABLE_NAME, PreferenceTable.getContentValues(key, value));
 
