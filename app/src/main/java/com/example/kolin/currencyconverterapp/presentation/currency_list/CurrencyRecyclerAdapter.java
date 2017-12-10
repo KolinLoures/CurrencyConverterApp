@@ -23,11 +23,11 @@ import java.util.List;
 
 public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecyclerAdapter.CurrencyRecyclerViewHolder> {
 
-    public static final String DEF_LANG_1 = "EUR";
-    public static final String DEF_LANG_2 = "USD";
+    private static final String DEF_LANG_1 = "EUR";
+    private static final String DEF_LANG_2 = "USD";
 
-    public CurrencyEntity DEF_CURR_1 = null;
-    public CurrencyEntity DEF_CURR_2 = null;
+    private CurrencyEntity DEF_CURR_1 = null;
+    private CurrencyEntity DEF_CURR_2 = null;
 
 
     private SortedList<CurrencyEntity> data;
