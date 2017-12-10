@@ -53,6 +53,7 @@ public class RatePojo {
                 "currencyFrom='" + currencyFrom + '\'' +
                 ", currencyTo='" + currencyTo + '\'' +
                 ", rate=" + rate +
+                ", isFromCache=" + isFromCache +
                 '}';
     }
 }
