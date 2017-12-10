@@ -1,5 +1,6 @@
 package com.example.kolin.currencyconverterapp.data.dao;
 
+import com.example.kolin.currencyconverterapp.data.model.SearchParam;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryEntity;
 
@@ -35,15 +36,7 @@ public interface DAO {
                     float sumTo,
                     float rate);
 
-    Observable<List<CurrencyHistoryEntity>> getHistory();
-
-    Observable<List<CurrencyHistoryEntity>> getHistory(long timeFrom, long timeTo);
-
-    Observable<List<CurrencyHistoryEntity>> getHistory(int idCurrency);
-
-    Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds);
-
-    Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds, long timeFrom, long timeTo);
+    Observable<List<CurrencyHistoryEntity>> getHistory(SearchParam param);
 
     void clearHistory();
 }

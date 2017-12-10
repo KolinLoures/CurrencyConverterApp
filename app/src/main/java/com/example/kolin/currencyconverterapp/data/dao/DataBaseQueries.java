@@ -4,6 +4,7 @@ import com.example.kolin.currencyconverterapp.data.common.CursorMapper;
 import com.example.kolin.currencyconverterapp.data.db.DataBaseHelper;
 import com.example.kolin.currencyconverterapp.data.db.tables.CurrencyCatalogTable;
 import com.example.kolin.currencyconverterapp.data.db.tables.HistoryTable;
+import com.example.kolin.currencyconverterapp.data.model.SearchParam;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryEntity;
 
@@ -82,39 +83,43 @@ public class DataBaseQueries implements DAO {
                 HistoryTable.getContentValues(idCurrencyFrom, idCurrencyTo, sumFrom, sumTo, rate));
     }
 
-    @Override
     public Observable<List<CurrencyHistoryEntity>> getHistory() {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory()))
                 .map(CursorMapper::cursorToCurrencyHistoryEntity);
     }
 
-    @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(long timeFrom, long timeTo) {
+    private Observable<List<CurrencyHistoryEntity>> getHistory(long timeFrom, long timeTo) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(timeFrom, timeTo)))
                 .map(CursorMapper::cursorToCurrencyHistoryEntity);
     }
 
-    @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(int idCurrency) {
-        return Observable
-                .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(idCurrency)))
-                .map(CursorMapper::cursorToCurrencyHistoryEntity);
-    }
-
-    @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds) {
+    private Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds)))
                 .map(CursorMapper::cursorToCurrencyHistoryEntity);
     }
 
-    @Override
-    public Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds, long timeFrom, long timeTo) {
+
+    private Observable<List<CurrencyHistoryEntity>> getHistory(List<Integer> currencyIds, long timeFrom, long timeTo) {
         return Observable
                 .fromCallable(() -> db.getCursor(HistoryTable.selectHistory(currencyIds, timeFrom, timeTo)))
                 .map(CursorMapper::cursorToCurrencyHistoryEntity);
+    }
+
+    @Override
+    public Observable<List<CurrencyHistoryEntity>> getHistory(SearchParam param) {
+        if (param.getTimeFrom() == -1 && param.getTimeTo() == -1 && param.getCheckedCurrencies().isEmpty())
+            return getHistory();
+        if (param.getTimeFrom() == -1 && param.getTimeTo() == -1 && !param.getCheckedCurrencies().isEmpty())
+            return getHistory(param.getCheckedCurrencies());
+        if (param.getTimeFrom() != -1 && param.getTimeTo() != -1 && param.getCheckedCurrencies().isEmpty())
+            return getHistory(param.getTimeFrom(), param.getTimeTo());
+        if (param.getTimeFrom() != -1 && param.getTimeTo() != -1 && !param.getCheckedCurrencies().isEmpty())
+            return getHistory(param.getCheckedCurrencies(), param.getTimeFrom(), param.getTimeTo());
+
+        return null;
     }
 
     @Override
