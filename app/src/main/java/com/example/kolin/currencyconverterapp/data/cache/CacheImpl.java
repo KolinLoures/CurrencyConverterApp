@@ -34,7 +34,7 @@ public class CacheImpl implements FileCache {
 
     private Gson gson;
 
-    private static final long CACHE_TIME = 60 * 6 * 1000;
+    private static final long CACHE_TIME = 12 * 60 * 60 * 1000;
 
     private CacheImpl(Context context) {
         cacheDir = context.getCacheDir();
@@ -78,7 +78,7 @@ public class CacheImpl implements FileCache {
 
         return Observable
                 .fromCallable(() -> fileWriterReader.readFromFile(createFile(currencyFrom, currencyTo)))
-                .doOnError(throwable -> Log.e(TAG, "getRateFromCache: Error read from cache!"))
+                .doOnError(throwable -> Log.e(TAG, "getRateFromCache: Error read from cache!", throwable))
                 .map(this::deserialize);
     }
 
@@ -94,7 +94,7 @@ public class CacheImpl implements FileCache {
     }
 
     private boolean isCacheExpired() {
-        long lastTime = (long) preferenceManager.getFromPreference(PreferenceKeysEnum.KEY_CACHE_TIME, PreferenceTypeEnum.LONG, 0);
+        long lastTime = (long) preferenceManager.getFromPreference(PreferenceKeysEnum.KEY_CACHE_TIME, PreferenceTypeEnum.LONG, 0L);
         long currentTime = Calendar.getInstance().getTimeInMillis();
 
         return currentTime - lastTime > CACHE_TIME;
