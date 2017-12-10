@@ -2,49 +2,40 @@ package com.example.kolin.currencyconverterapp.domain;
 
 import android.util.Log;
 
-import com.example.kolin.currencyconverterapp.data.db.dao.DataBaseQueries;
-import com.example.kolin.currencyconverterapp.data.db.dao.DAO;
+import com.example.kolin.currencyconverterapp.data.dao.DAO;
+import com.example.kolin.currencyconverterapp.data.dao.DataBaseQueries;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.observers.DisposableCompletableObserver;
 
 /**
  * Created by kolin on 03.11.2017.
  */
 
-public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryParams> {
+public class PutHistory implements BaseCompletableUseCase {
 
     public static final String TAG = PutHistory.class.getSimpleName();
 
     private DAO db;
 
     public PutHistory() {
-        this.db = (DAO) DataBaseQueries.getInstance();
+        this.db = new DataBaseQueries();
     }
 
     private Completable emitter = null;
 
-    public PutHistoryReceiver receiver;
-
-    public interface PutHistoryReceiver {
-        void onReceive(PutHistoryParams params);
-    }
+    private PutHistoryReceiver receiver;
 
     @Override
-    protected Completable createCompletable(PutHistoryParams param) {
-//        return Completable
-//                .fromAction(() -> db.addHistory(param.currencyFrom, param.currencyTo, param.sumFrom, param.sumTo, param.rate))
-//                .doOnError(throwable -> Log.e(TAG, "Fail to put history into data base", throwable));
-
+    public Completable createCompletable() {
         return getEmitter();
     }
 
-    public void executeWith(DisposableCompletableObserver observer) {
-        super.execute(observer, null);
+    public interface PutHistoryReceiver {
+        void onReceive(PutHistoryParams params);
     }
 
     /**
@@ -79,15 +70,7 @@ public class PutHistory extends BaseCompletableUseCase<PutHistory.PutHistoryPara
         return receiver;
     }
 
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        emitter = null;
-        receiver = null;
-    }
-
-    public static class PutHistoryParams {
+    public static class PutHistoryParams implements Params {
         private int idCurrencyFrom;
         private int idCurrencyTo;
         private float sumFrom;
