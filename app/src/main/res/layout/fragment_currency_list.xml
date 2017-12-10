@@ -1,40 +1,47 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.kolin.currencyconverterapp.presentation.currency_list.CurrencyListFragment">
+    tools:context="com.example.kolin.currencyconverterapp.presentation.currency_list.CurrencyListFragment"
+    tools:layout_editor_absoluteY="25dp">
 
-    <android.support.v7.widget.Toolbar
+    <com.example.customviewlibrary.CustomLoadingToolbar
+        android:id="@+id/fragment_currency_list_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="@android:color/white"
         android:elevation="4dp"
-        app:title="@string/app_name"
-        app:titleTextColor="@android:color/white" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/fragment_currency_list_pick_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
         android:paddingBottom="@dimen/android_default_top_bottom_padding"
         android:paddingEnd="@dimen/android_default_left_right_padding"
         android:paddingStart="@dimen/android_default_left_right_padding"
         android:paddingTop="@dimen/android_default_top_bottom_padding"
         android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_currency_list_toolbar"
         tools:visibility="visible">
 
         <TextView
             android:id="@+id/fragment_currency_list_picked_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_oval"
             android:paddingEnd="@dimen/android_default_left_right_padding"
             android:paddingStart="@dimen/android_default_left_right_padding"
             android:textAppearance="@android:style/TextAppearance.Medium"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
             tools:text="USD" />
 
         <ImageButton
@@ -49,7 +56,24 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_currency_list_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_currency_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_currency_list_pick_container">
 
-</LinearLayout>
+    </android.support.v7.widget.RecyclerView>
+
+    <include
+        android:id="@+id/fragment_currency_error"
+        layout="@layout/error"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

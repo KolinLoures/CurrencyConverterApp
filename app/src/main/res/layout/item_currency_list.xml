@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:paddingBottom="@dimen/android_default_top_bottom_padding"
-    android:paddingEnd="@dimen/android_default_left_right_padding"
-    android:paddingStart="@dimen/android_default_left_right_padding"
-    android:paddingTop="@dimen/android_default_top_bottom_padding">
+    app:contentPaddingTop="@dimen/android_default_top_bottom_padding"
+    app:contentPaddingBottom="@dimen/android_default_top_bottom_padding"
+    app:contentPaddingLeft="@dimen/android_default_left_right_padding"
+    app:contentPaddingRight="@dimen/android_default_left_right_padding"
+    app:cardElevation="2dp">
 
     <TextView
         android:id="@+id/item_currency_list_name"
@@ -23,6 +25,8 @@
         android:id="@+id/item_currency_list_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:button="@drawable/selector_favorite"
+        android:buttonTint="@color/color_favorite_check"
         android:layout_gravity="end" />
 
-</FrameLayout>
+</android.support.v7.widget.CardView>

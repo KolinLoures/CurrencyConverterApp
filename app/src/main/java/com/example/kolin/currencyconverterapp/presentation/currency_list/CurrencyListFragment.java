@@ -3,7 +3,6 @@ package com.example.kolin.currencyconverterapp.presentation.currency_list;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
+import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
+import com.example.kolin.currencyconverterapp.presentation.common.SpaceRecyclerDividerItem;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,11 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     private RecyclerView recyclerView;
     private FrameLayout pickedContainer;
     private TextView pickedCurrencyName;
+    private CustomLoadingToolbar toolbar;
+    private ImageButton imgBtnClear;
+    private View error;
+    private TextView textError;
+    private ImageButton imgBtnError;
 
     private CurrencyListFragmentListener listener;
 
@@ -52,8 +59,14 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new CurrencyRecyclerAdapter();
         presenter = new CurrencyListPresenter();
+        presenter.bindView(CurrencyListFragment.this);
+
+        adapter = new CurrencyRecyclerAdapter();
+        adapter.setClickItemListener(this::clickAdapterItem);
+        adapter.setLongPressItemListener(this::longPressAdapterItem);
+        adapter.setCheckFavoriteListener(this::checkAdapterItem);
+
     }
 
     @Override
@@ -67,22 +80,29 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter.bindView(CurrencyListFragment.this);
+        toolbar = view.findViewById(R.id.fragment_currency_list_toolbar);
+        toolbar.getToolbar().setTitle(R.string.currencies);
+        toolbar.getToolbar().setTitleTextColor(getResources().getColor(R.color.colorBlack));
+        toolbar.hideProgressBar();
 
         recyclerView = view.findViewById(R.id.fragment_currency_list_recycler_view);
+        recyclerView.addItemDecoration(new SpaceRecyclerDividerItem(12));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         pickedContainer = view.findViewById(R.id.fragment_currency_list_pick_container);
         pickedCurrencyName = view.findViewById(R.id.fragment_currency_list_picked_text_view);
 
-        ImageButton clearPickedEntity = view.findViewById(R.id.fragment_currency_list_button_convert);
-        clearPickedEntity.setOnClickListener(v -> {
-            adapter.addData(presenter.getPickedEntity());
-            setPickedEntity(null);
-        });
+        imgBtnClear = view.findViewById(R.id.fragment_currency_list_button_convert);
+        imgBtnClear.setOnClickListener(this::clickClearPicked);
 
-        initRecyclerViewAdapterListener();
+        error = view.findViewById(R.id.fragment_currency_error);
+
+        textError = view.findViewById(R.id.error_text);
+        textError.setText(R.string.problems_with_connection);
+
+        imgBtnError = view.findViewById(R.id.error_action);
+        imgBtnError.setOnClickListener(v -> presenter.loadCurrencies());
 
         if (savedInstanceState != null) {
             adapter.addAllData(savedInstanceState.getParcelableArrayList(KEY_ADAPTER_DATA));
@@ -95,47 +115,58 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
         }
     }
 
-    private void initRecyclerViewAdapterListener() {
-        adapter.setListener(new CurrencyRecyclerAdapter.CurrencyRecyclerListener() {
-            @Override
-            public void onClickFavorite(CurrencyEntity entity, boolean check) {
-                presenter.putRemoveFavoriteCurrency(entity, check);
-            }
+    @Override
+    public void renderListView(CurrencyListRenderer currencyListRenderer) {
+        if (currencyListRenderer.isLoading()) {
+            toolbar.showProgressBar();
+            show(error, View.GONE);
+        }
 
-            @Override
-            public void onClick(CurrencyEntity entity) {
+        if (currencyListRenderer.getError() != null) {
+            toolbar.hideProgressBar();
+            show(error, View.VISIBLE);
+        }
 
-                CurrencyEntity from = null;
-                CurrencyEntity to = null;
+        if (currencyListRenderer.getData() != null) {
+            show(error, View.GONE);
+            toolbar.hideProgressBar();
+            adapter.addAllData(currencyListRenderer.getData());
+        }
 
-                if (presenter.getPickedEntity() != null) {
-                    from = presenter.getPickedEntity();
-                    to = entity;
-                } else {
-                    //todo set here with one click
-                }
+    }
 
-                if (listener != null)
-                    listener.onPickCurrenciesPair(from, to);
-            }
-
-            @Override
-            public void onLongPressed(CurrencyEntity entity) {
-                if (presenter.getPickedEntity() != null)
-                    adapter.addData(presenter.getPickedEntity());
-                setPickedEntity(entity);
-            }
-        });
+    private void clickClearPicked(View v){
+        setPickedEntity(null);
     }
 
     private void setPickedEntity(CurrencyEntity entity) {
-        presenter.setPickedEntity(entity);
+        if (presenter.getPickedEntity() != null)
+            adapter.addData(presenter.getPickedEntity());
 
         if (entity != null) {
             pickedCurrencyName.setText(entity.getName());
             show(pickedContainer, View.VISIBLE);
         } else
             show(pickedContainer, View.GONE);
+
+        presenter.setPickedEntity(entity);
+    }
+
+    private void clickAdapterItem(CurrencyEntity entity) {
+
+        CurrencyEntity from = presenter.getPickedEntity() != null ? presenter.getPickedEntity() : entity;
+        CurrencyEntity to = presenter.getPickedEntity() != null ? entity : adapter.getFavoriteAfter(entity);
+
+        if (listener != null)
+            listener.onPickCurrenciesPair(from, to);
+    }
+
+    private void longPressAdapterItem(CurrencyEntity entity){
+        setPickedEntity(entity);
+    }
+
+    private void checkAdapterItem(CurrencyEntity entity, boolean check){
+        presenter.putRemoveFavoriteCurrency(entity, check);
     }
 
     private void show(View v, int visibility) {
@@ -143,20 +174,21 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
     }
 
     @Override
-    public void showSupportCurrency(CurrencyEntity currency) {
-        adapter.addData(currency);
-    }
-
-    @Override
-    @SuppressWarnings("ConstantConditions")
-    public void notifyUser(String message) {
-        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onDestroyView() {
-        presenter.unbindView();
+        //help gc
+        recyclerView = null;
+        imgBtnClear = null;
+        pickedCurrencyName = null;
+        toolbar = null;
+        pickedContainer = null;
+
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.unbindView();
+        super.onDestroy();
     }
 
     @Override
