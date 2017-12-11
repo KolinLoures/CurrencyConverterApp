@@ -82,6 +82,12 @@ public class CurrencyRecyclerAdapter extends RecyclerView.Adapter<CurrencyRecycl
         this.data.endBatchedUpdates();
     }
 
+    public void clearData(){
+        this.data.beginBatchedUpdates();
+        this.data.clear();
+        this.data.endBatchedUpdates();
+    }
+
     public CurrencyEntity getFavoriteAfter(CurrencyEntity entity) {
         for (int i = 0; i < data.size(); i++) {
             CurrencyEntity currencyEntity = data.get(i);
