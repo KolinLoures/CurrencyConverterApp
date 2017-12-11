@@ -8,16 +8,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.borax12.materialdaterangepicker.date.DatePickerDialog;
+import com.example.customviewlibrary.CustomSpinner;
 import com.example.kolin.currencyconverterapp.R;
 import com.example.kolin.currencyconverterapp.domain.model.SearchParamsRenderer;
+import com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam;
 import com.example.kolin.currencyconverterapp.presentation.util.AppFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_ALL;
@@ -32,8 +38,9 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
 
     //Views
     private RecyclerView rvCurrencies;
-    private Spinner spinnerPeriod;
+    private CustomSpinner spinnerPeriod;
     private ProgressBar progressBar;
+    private TextView textPeriod;
 
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private SearchParamsRecyclerAdapter adapter;
@@ -41,12 +48,21 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
     private int lastPickedSpinnerItem = 0;
 
     private SearchParamsPresenter presenter;
+    private DatePickerDialog datePickerDialog;
+    private DatePickerDialog.OnDateSetListener callBack;
+
+    private boolean disableSpinnner = false;
+
+    private long timePickedDialogTo;
+    private long timePickedDialogFrom;
 
     public SearchParamsFragment() {
     }
 
     public interface SearchParamsFragmentListener {
-        void onPickSearchParams(long timeFrom, long timeTo, List<Integer> pickedIds);
+        void onPickSearchParams(@TypeSearchPeriodParam int period, List<Integer> pickedIds);
+
+        void onPickCustonPeriodSearchPams(long timeFrom, long timeTo, List<Integer> pickedIds);
     }
 
     public static SearchParamsFragment newInstance() {
@@ -64,7 +80,14 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
         spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.search_period_params, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
+        callBack = (view, year, monthOfYear, dayOfMonth, yearEnd, monthOfYearEnd, dayOfMonthEnd) -> onDatePick(year, monthOfYear, dayOfMonth, yearEnd, monthOfYearEnd, dayOfMonthEnd);
+        Calendar now = Calendar.getInstance();
+        datePickerDialog = DatePickerDialog.newInstance(callBack, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setOnCancelListener(dialog -> onCancelDialog());
+        datePickerDialog.setOnDismissListener(dialog -> onCancelDialog());
+
         presenter = new SearchParamsPresenter();
+        presenter.bindView(this);
     }
 
 
@@ -80,13 +103,25 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
         super.onViewCreated(view, savedInstanceState);
 
         spinnerPeriod = view.findViewById(R.id.fragment_params_spinner_period);
-//        spinnerPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                clickSpinnerItem(position);
-//            }
-//            public void onNothingSelected(AdapterView<?> parent) {}
-//        });
         spinnerPeriod.setAdapter(spinnerAdapter);
+        spinnerPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!disableSpinnner)
+                    clickSpinnerItem(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        disableSpinnner = true;
+        spinnerPeriod.setSelection(lastPickedSpinnerItem);
+        disableSpinnner = false;
+
+        textPeriod = view.findViewById(R.id.fragment_params_text_period);
+        setTextPeriod(spinnerPeriod.getSelectedItemPosition());
 
         rvCurrencies = view.findViewById(R.id.fragment_params_rv_currencies);
         rvCurrencies.setLayoutManager(new GridLayoutManager(getContext(), 4, GridLayoutManager.HORIZONTAL, false));
@@ -95,64 +130,160 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
         progressBar = view.findViewById(R.id.fragment_params_progress);
         progressBar.setVisibility(View.GONE);
 
-        presenter.bindView(this);
         if (adapter.getItemCount() == 0)
             presenter.loadRateParams();
     }
 
     private void clickSpinnerItem(int position) {
-        if (lastPickedSpinnerItem == position)
+        if (position != 3 && lastPickedSpinnerItem == position)
             return;
 
         performActionWithSpinnerPosition(position);
-        lastPickedSpinnerItem = position;
+
+        if (position != 3)
+            lastPickedSpinnerItem = position;
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void clickRecyclerAdapter() {
-        performActionWithSpinnerPosition(spinnerPeriod.getSelectedItemPosition());
+        int selectedItemPosition = spinnerPeriod.getSelectedItemPosition();
+        if (selectedItemPosition != PERIOD_CUSTOM)
+            performActionWithSpinnerPosition(selectedItemPosition);
+        else
+            getParentFragmentListener().onPickCustonPeriodSearchPams(timePickedDialogFrom, timePickedDialogTo, new ArrayList<>(adapter.getCheckedIds()));
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void performActionWithSpinnerPosition(int position) {
-        long timeInMillis = Calendar.getInstance().getTimeInMillis();
-
         switch (position) {
             case PERIOD_ALL:
-                getParentFragmentListener().onPickSearchParams(-1, -1, new ArrayList<>(adapter.getCheckedIds()));
+                setTextPeriod(PERIOD_ALL);
+                getParentFragmentListener().onPickSearchParams(PERIOD_ALL, new ArrayList<>(adapter.getCheckedIds()));
                 break;
             case PERIOD_WEEK:
+                setTextPeriod(PERIOD_WEEK);
                 getParentFragmentListener().onPickSearchParams(
-                        AppFormatter.fromateWeekCloseDatePeriod(getContext(), timeInMillis),
-                        timeInMillis,
+                        PERIOD_WEEK,
                         new ArrayList<>(adapter.getCheckedIds()));
                 break;
             case PERIOD_MONTH:
+                setTextPeriod(PERIOD_MONTH);
                 getParentFragmentListener().onPickSearchParams(
-                        AppFormatter.fromateMonthCloseDatePeriod(getContext(), timeInMillis),
-                        timeInMillis,
+                        PERIOD_MONTH,
                         new ArrayList<>(adapter.getCheckedIds()));
                 break;
             case PERIOD_CUSTOM:
-
+                openDatePickedDialog();
                 break;
         }
+    }
+
+    private void setTextPeriod(int period) {
+        switch (period) {
+            case PERIOD_ALL:
+                textPeriod.setText(spinnerAdapter.getItem(PERIOD_ALL));
+                break;
+            case PERIOD_WEEK:
+                textPeriod.setText(spinnerAdapter.getItem(PERIOD_WEEK));
+
+                break;
+            case PERIOD_MONTH:
+                textPeriod.setText(spinnerAdapter.getItem(PERIOD_MONTH));
+
+                break;
+            case PERIOD_CUSTOM:
+                textPeriod.setText(AppFormatter.formateDateRange(SimpleDateFormat.getDateInstance(), timePickedDialogFrom, timePickedDialogTo, " - "));
+                break;
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void onDatePick(int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYear1, int dayOfMonth1) {
+        lastPickedSpinnerItem = spinnerPeriod.getSelectedItemPosition();
+
+        Date first = AppFormatter.getDate(year, monthOfYear, dayOfMonth);
+        Date second = AppFormatter.getDate(yearEnd, monthOfYear1, dayOfMonth1);
+
+        Date temp;
+
+        if (first.after(second)) {
+            temp = first;
+            first = second;
+            second = temp;
+        }
+
+//        else {
+//            temp = second;
+//            second = first;
+//            first = temp;
+//        }
+
+        timePickedDialogFrom = first.getTime();
+        timePickedDialogTo = second.getTime();
+
+
+        setTextPeriod(PERIOD_CUSTOM);
+
+        getParentFragmentListener().onPickCustonPeriodSearchPams(timePickedDialogFrom, timePickedDialogTo, new ArrayList<>(adapter.getCheckedIds()));
+    }
+
+    private void onCancelDialog() {
+        disableSpinnner = true;
+        spinnerPeriod.setSelection(lastPickedSpinnerItem);
+        disableSpinnner = false;
+    }
+
+    private void openDatePickedDialog() {
+        if (datePickerDialog != null)
+            datePickerDialog.show(getActivity().getFragmentManager(), "asd");
     }
 
     @Override
     public void renderSearchPramsView(SearchParamsRenderer renderer) {
-        if (renderer.isLoading()){
+        if (renderer.isLoading()) {
             progressBar.setVisibility(View.VISIBLE);
         }
 
-        if (renderer.getError() != null){
+        if (renderer.getError() != null) {
             progressBar.setVisibility(View.GONE);
         }
 
-        if (renderer.getData() != null && renderer.getSearchParam() != null){
+        if (renderer.getData() != null && renderer.getSearchParam() != null) {
             progressBar.setVisibility(View.GONE);
             adapter.setCheckedIds(renderer.getSearchParam().getCheckedCurrencies());
             adapter.addAll(renderer.getData());
-            spinnerPeriod.setSelection(renderer.getSearchParam().getType());
+            lastPickedSpinnerItem = renderer.getSearchParam().getType();
+
+            if (lastPickedSpinnerItem != PERIOD_CUSTOM)
+                setTextPeriod(lastPickedSpinnerItem);
+            else {
+                timePickedDialogFrom = renderer.getSearchParam().getTimeFrom();
+                timePickedDialogTo = renderer.getSearchParam().getTimeTo();
+                setTextPeriod(PERIOD_CUSTOM);
+            }
+
+            disableSpinnner = true;
+            spinnerPeriod.setSelection(lastPickedSpinnerItem);
+            disableSpinnner = false;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        //help gc
+
+        spinnerPeriod = null;
+        rvCurrencies = null;
+        progressBar = null;
+
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.unbindView();
+        datePickerDialog = null;
+        super.onDestroy();
     }
 
     private SearchParamsFragmentListener getParentFragmentListener() {

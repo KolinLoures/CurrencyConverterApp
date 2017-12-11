@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.kolin.currencyconverterapp.presentation.history.HistoryFragment">
+
+    <com.example.customviewlibrary.CustomLoadingToolbar
+        android:id="@+id/fragment_history_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.example.customviewlibrary.CustomDropButton
+        android:id="@+id/fragment_history_search_params_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGrey200"
+        android:paddingEnd="@dimen/android_default_left_right_padding"
+        android:paddingStart="@dimen/android_default_left_right_padding"
+        android:text="@string/search_parameters"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/fragment_history_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_emoticon_sad"
+            android:text="@string/there_is_nothing"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_history_recycler_view"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/fragment_history_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone" />
+
+
+
+
+    </FrameLayout>
+
+</LinearLayout>
