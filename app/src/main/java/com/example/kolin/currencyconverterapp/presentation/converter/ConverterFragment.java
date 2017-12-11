@@ -52,7 +52,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
     public ConverterFragment() {
     }
 
-    public interface ConverterFragmentListener{
+    public interface ConverterFragmentListener {
         void onClickBack();
     }
 
@@ -97,7 +97,10 @@ public class ConverterFragment extends Fragment implements ConverterView {
         toolbar = view.findViewById(R.id.fragment_converter_toolbar);
         toolbar.getToolbar().setTitle(R.string.converter);
         toolbar.getToolbar().setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.getToolbar().setNavigationOnClickListener(this::performClick);
+        toolbar.getToolbar().setNavigationOnClickListener(v -> {
+            if (listener != null)
+                listener.onClickBack();
+        });
         toolbar.hideProgressBar();
 
         textFrom = view.findViewById(R.id.fragment_converter_input_view_from).findViewById(R.id.input_currency_text_name);
@@ -110,7 +113,8 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         textInformation = view.findViewById(R.id.information_text);
         imgBtnInformationAction = view.findViewById(R.id.information_action);
-        imgBtnInformationAction.setOnClickListener(this::performClick);
+        imgBtnInformationAction.setOnClickListener(v -> onErrorRepeat());
+        imgBtnInformationAction.setVisibility(View.GONE);
 
 
         textFrom.setText(presenter.getFrom().getName());
@@ -186,18 +190,6 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         editFrom.addTextChangedListener(textWatcherFrom);
         editTo.addTextChangedListener(textWatcherTo);
-    }
-
-    private void performClick(View v) {
-        switch (v.getId()){
-            case R.id.fragment_converter_toolbar:
-                if (listener != null)
-                    listener.onClickBack();
-                break;
-            case R.id.information_action:
-                onErrorRepeat();
-                break;
-        }
     }
 
     public void blockInputFrom(boolean b) {

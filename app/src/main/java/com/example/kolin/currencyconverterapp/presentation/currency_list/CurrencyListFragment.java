@@ -18,11 +18,12 @@ import com.example.kolin.currencyconverterapp.R;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
 import com.example.kolin.currencyconverterapp.presentation.common.SpaceRecyclerDividerItem;
+import com.example.kolin.currencyconverterapp.presentation.common.Updatable;
 
 import java.util.ArrayList;
 
 
-public class CurrencyListFragment extends Fragment implements CurrencyListView {
+public class CurrencyListFragment extends Fragment implements CurrencyListView, Updatable {
 
     public static final String TAG = CurrencyListFragment.class.getSimpleName();
 
@@ -130,6 +131,8 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
         if (currencyListRenderer.getData() != null) {
             show(error, View.GONE);
             toolbar.hideProgressBar();
+            setPickedEntity(null);
+            adapter.clearData();
             adapter.addAllData(currencyListRenderer.getData());
         }
 
@@ -212,5 +215,11 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView {
         outState.putParcelable(KEY_PICKED, presenter.getPickedEntity());
 
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void update() {
+//        setPickedEntity(null);
+        presenter.loadCurrencies();
     }
 }
