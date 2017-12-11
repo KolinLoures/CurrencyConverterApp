@@ -8,6 +8,7 @@ public class RatePojo {
 
     private String currencyFrom;
     private String currencyTo;
+    private String date;
     private float rate;
 
     private boolean isFromCache = false;
@@ -45,6 +46,14 @@ public class RatePojo {
 
     public void setFromCache(boolean fromCache) {
         isFromCache = fromCache;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override

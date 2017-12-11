@@ -28,6 +28,9 @@ public class RateDeserializer implements JsonDeserializer<RatePojo> {
             String base = asJsonObject.get(JsonElementKey.SERIALIZED_NAME_BASE).getAsString();
             obj.setCurrencyFrom(base);
 
+            String date = asJsonObject.get(JsonElementKey.SERIALIZED_NAME_DATE).getAsString();
+            obj.setDate(date);
+
             Set<Map.Entry<String, JsonElement>> entries =
                     asJsonObject.get(JsonElementKey.SERIALIZED_NAME_RATES).getAsJsonObject().entrySet();
 

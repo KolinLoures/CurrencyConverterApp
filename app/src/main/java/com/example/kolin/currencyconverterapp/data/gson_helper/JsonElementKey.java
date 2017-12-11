@@ -7,6 +7,7 @@ package com.example.kolin.currencyconverterapp.data.gson_helper;
 public class JsonElementKey {
 
     public static final String SERIALIZED_NAME_BASE = "base";
+    public static final String SERIALIZED_NAME_DATE = "date";
     public static final String SERIALIZED_NAME_RATES = "rates";
 
 }
