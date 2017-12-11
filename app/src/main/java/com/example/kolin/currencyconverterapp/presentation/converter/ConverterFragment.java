@@ -47,7 +47,13 @@ public class ConverterFragment extends Fragment implements ConverterView {
     private boolean blockTextFromWatcher = false;
     private boolean blockTextToWatcher = false;
 
+    private ConverterFragmentListener listener;
+
     public ConverterFragment() {
+    }
+
+    public interface ConverterFragmentListener{
+        void onClickBack();
     }
 
     /**
@@ -90,7 +96,9 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         toolbar = view.findViewById(R.id.fragment_converter_toolbar);
         toolbar.getToolbar().setTitle(R.string.converter);
-        toolbar.showProgressBar();
+        toolbar.getToolbar().setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.getToolbar().setNavigationOnClickListener(this::performClick);
+        toolbar.hideProgressBar();
 
         textFrom = view.findViewById(R.id.fragment_converter_input_view_from).findViewById(R.id.input_currency_text_name);
         textTo = view.findViewById(R.id.fragment_converter_input_view_to).findViewById(R.id.input_currency_text_name);
@@ -102,7 +110,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         textInformation = view.findViewById(R.id.information_text);
         imgBtnInformationAction = view.findViewById(R.id.information_action);
-        imgBtnInformationAction.setOnClickListener(this::onErrorRepeat);
+        imgBtnInformationAction.setOnClickListener(this::performClick);
 
 
         textFrom.setText(presenter.getFrom().getName());
@@ -112,7 +120,6 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
         initEditText();
     }
-
 
     private void initEditText() {
         textWatcherFrom = new TextWatcher() {
@@ -181,6 +188,18 @@ public class ConverterFragment extends Fragment implements ConverterView {
         editTo.addTextChangedListener(textWatcherTo);
     }
 
+    private void performClick(View v) {
+        switch (v.getId()){
+            case R.id.fragment_converter_toolbar:
+                if (listener != null)
+                    listener.onClickBack();
+                break;
+            case R.id.information_action:
+                onErrorRepeat();
+                break;
+        }
+    }
+
     public void blockInputFrom(boolean b) {
         blockTextFromWatcher = b;
     }
@@ -193,7 +212,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
         return Float.parseFloat(s);
     }
 
-    private void onErrorRepeat(View v) {
+    private void onErrorRepeat() {
         String s = editFrom.getText().toString();
         if (!s.isEmpty())
             presenter.loadRate(validateFloat(s), false);
@@ -293,10 +312,15 @@ public class ConverterFragment extends Fragment implements ConverterView {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof ConverterFragmentListener)
+            listener = (ConverterFragmentListener) context;
+        else
+            throw new RuntimeException(context.toString() + " must implement ConverterFragmentListener!");
     }
 
     @Override
     public void onDetach() {
+        listener = null;
         super.onDetach();
     }
 }
