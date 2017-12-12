@@ -25,9 +25,6 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
 
     public static final String TAG = CurrencyListFragment.class.getSimpleName();
 
-    private static final String KEY_PICKED = "PICKED";
-    private static final String KEY_ADAPTER_DATA = "ADAPTER_DATA";
-
     private CurrencyRecyclerAdapter adapter;
     private CurrencyListPresenter presenter;
 
