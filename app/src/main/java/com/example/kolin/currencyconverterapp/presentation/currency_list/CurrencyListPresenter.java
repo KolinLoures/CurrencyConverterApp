@@ -7,6 +7,9 @@ import com.example.kolin.currencyconverterapp.domain.GetCurrencyList;
 import com.example.kolin.currencyconverterapp.domain.PutRemoveFavoriteCurrency;
 import com.example.kolin.currencyconverterapp.presentation.BaseCompositPresenter;
 
+import java.util.Collections;
+import java.util.List;
+
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -30,7 +33,10 @@ public class CurrencyListPresenter extends BaseCompositPresenter<CurrencyListFra
     public void loadCurrencies() {
         Disposable di = getCurrencyList
                 .createUseCase()
-                .subscribe(currencyListRenderer -> getView().renderListView(currencyListRenderer));
+                .subscribe(currencyListRenderer -> {
+                    removePickedCurrencyFromList(currencyListRenderer.getData());
+                    getView().renderListView(currencyListRenderer);
+                });
 
         super.addDisposable(di);
     }
@@ -44,6 +50,13 @@ public class CurrencyListPresenter extends BaseCompositPresenter<CurrencyListFra
                         throwable -> Log.e(TAG, "Error - putRemoveFavoriteCurrency", throwable));
 
         super.addDisposable(di);
+    }
+
+    private void removePickedCurrencyFromList(List<CurrencyEntity> currencyEntities){
+        if (pickedEntity != null && currencyEntities != null){
+            int i = Collections.binarySearch(currencyEntities, pickedEntity, (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
+            currencyEntities.remove(i);
+        }
     }
 
     @Override

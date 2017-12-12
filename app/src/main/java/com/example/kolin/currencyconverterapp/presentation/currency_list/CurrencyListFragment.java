@@ -20,8 +20,6 @@ import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
 import com.example.kolin.currencyconverterapp.presentation.common.SpaceRecyclerDividerItem;
 import com.example.kolin.currencyconverterapp.presentation.common.Updatable;
 
-import java.util.ArrayList;
-
 
 public class CurrencyListFragment extends Fragment implements CurrencyListView, Updatable {
 
@@ -105,15 +103,11 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
         imgBtnError = view.findViewById(R.id.information_action);
         imgBtnError.setOnClickListener(v -> presenter.loadCurrencies());
 
-        if (savedInstanceState != null) {
-            adapter.addAllData(savedInstanceState.getParcelableArrayList(KEY_ADAPTER_DATA));
-            setPickedEntity(savedInstanceState.getParcelable(KEY_PICKED));
-        } else {
-            if (adapter.getItemCount() == 0)
-                presenter.loadCurrencies();
 
-            setPickedEntity(presenter.getPickedEntity());
-        }
+        if (adapter.getItemCount() == 0)
+            presenter.loadCurrencies();
+
+        setPickedEntity(presenter.getPickedEntity());
     }
 
     @Override
@@ -131,14 +125,13 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
         if (currencyListRenderer.getData() != null) {
             show(error, View.GONE);
             toolbar.hideProgressBar();
-            setPickedEntity(null);
             adapter.clearData();
             adapter.addAllData(currencyListRenderer.getData());
         }
 
     }
 
-    private void clickClearPicked(View v){
+    private void clickClearPicked(View v) {
         setPickedEntity(null);
     }
 
@@ -164,11 +157,11 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
             listener.onPickCurrenciesPair(from, to);
     }
 
-    private void longPressAdapterItem(CurrencyEntity entity){
+    private void longPressAdapterItem(CurrencyEntity entity) {
         setPickedEntity(entity);
     }
 
-    private void checkAdapterItem(CurrencyEntity entity, boolean check){
+    private void checkAdapterItem(CurrencyEntity entity, boolean check) {
         presenter.putRemoveFavoriteCurrency(entity, check);
     }
 
@@ -210,16 +203,7 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(KEY_ADAPTER_DATA, new ArrayList<>(adapter.getData()));
-        outState.putParcelable(KEY_PICKED, presenter.getPickedEntity());
-
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void update() {
-//        setPickedEntity(null);
         presenter.loadCurrencies();
     }
 }
