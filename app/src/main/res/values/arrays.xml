@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="search_period_params">
+        <item>All time</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Period</item>
+    </string-array>
+
+    <string-array name="chart_period">
+        <item>Week</item>
+        <item>Two week</item>
+        <item>Month</item>
+    </string-array>
+
+</resources>

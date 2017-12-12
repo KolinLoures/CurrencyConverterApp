@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">CurrencyConverterApp</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="converter">Converter</string>
+    <string name="rate_from_cache">is from cache!</string>
+    <string name="error">Oops…! Check your connection!</string>
+    <string name="retry">Retry</string>
+    <string name="rate">Rate:</string>
+    <string name="search_parameters">Search parameters</string>
+    <string name="there_is_nothing">There is nothing…</string>
+    <string name="apply">apply</string>
+    <string name="exchange">Exchange</string>
+    <string name="history">History</string>
+    <string name="analytics">Analytics</string>
+    <string name="choose_currency">Choose currency</string>
+    <string name="problems_with_connection">Problems with connection!</string>
+    <string name="by_time">By time:</string>
+    <string name="currencies">Currencies</string>
+    <string name="period">Period:</string>
+    <string name="picked_currencies">Picked Currencies:</string>
+    <string name="loading">Loading…</string>
 </resources>

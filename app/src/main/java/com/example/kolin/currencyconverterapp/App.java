@@ -3,9 +3,8 @@ package com.example.kolin.currencyconverterapp;
 import android.app.Application;
 
 import com.example.kolin.currencyconverterapp.data.cache.CacheImpl;
-import com.example.kolin.currencyconverterapp.data.db.DataBaseQueries;
+import com.example.kolin.currencyconverterapp.data.db.DataBaseHelper;
 import com.example.kolin.currencyconverterapp.data.net.ApiManager;
-import com.example.kolin.currencyconverterapp.data.preference.PreferenceManager;
 import com.facebook.stetho.Stetho;
 
 /**
@@ -18,10 +17,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        DataBaseHelper.initWithContext(this);
         ApiManager.getInstance();
-        DataBaseQueries.initializeInstanceWithContext(this);
         CacheImpl.initializeWithContext(this);
-        PreferenceManager.initializeWithContext(this);
         Stetho.initializeWithDefaults(this);
     }
 }
