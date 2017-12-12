@@ -23,6 +23,9 @@ import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.domain.model.ConverterRateRender;
 import com.example.kolin.currencyconverterapp.presentation.util.AppFormatter;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 
 public class ConverterFragment extends Fragment implements ConverterView {
 
@@ -201,7 +204,14 @@ public class ConverterFragment extends Fragment implements ConverterView {
     }
 
     private float validateFloat(String s) {
-        return Float.parseFloat(s);
+        NumberFormat nf = NumberFormat.getInstance();
+        float v = 0f;
+        try{
+            v = nf.parse(s).floatValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return v;
     }
 
     private void onErrorRepeat() {
