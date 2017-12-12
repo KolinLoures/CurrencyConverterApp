@@ -44,11 +44,10 @@ public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
         super.addDisposable(di);
     }
 
-    private void loadDefaultChartData() {
+    public void loadDefaultChartData() {
         Disposable di = getChartData
                 .createUseCase()
-                .subscribe(chartRenderer ->
-                        getView().renderChart(chartRenderer));
+                .subscribe(chartRenderer -> getView().renderChart(chartRenderer));
 
         super.addDisposable(di);
     }
@@ -59,7 +58,6 @@ public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
             this.currTo = currTo;
             this.period = period;
 
-            super.clearDisposables();
             getChartData.setParams(GetChartData.GetChartDataParams.getChartDataParams(currFrom, currTo, period));
             loadDefaultChartData();
         }
@@ -67,7 +65,10 @@ public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
 
     private boolean isNewParams(String currFrom, String currTo, int period) {
         return !this.currFrom.equals(currFrom) || !this.currTo.equals(currTo) || this.period != period;
+    }
 
+    public boolean checkCurrentParams(){
+        return !currFrom.isEmpty() && !currTo.isEmpty() && period != -1;
     }
 
     public List<String> getCurrNames() {
@@ -80,5 +81,9 @@ public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
 
     public String getCurrTo() {
         return currTo;
+    }
+
+    public int getPeriod() {
+        return period;
     }
 }

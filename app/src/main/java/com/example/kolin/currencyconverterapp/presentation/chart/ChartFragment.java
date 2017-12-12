@@ -45,6 +45,8 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
     private ChartPresenter presenter;
     private CustomLoadingToolbar toolbar;
 
+    private boolean blockSpinner = false;
+
     public ChartFragment() {
         // Required empty public constructor
     }
@@ -78,7 +80,6 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
 
         toolbar = view.findViewById(R.id.fragment_chart_toolbar);
         toolbar.getToolbar().setTitle(R.string.analytics);
-        toolbar.hideProgressBar();
 
         btnCurrFrom = view.findViewById(R.id.fragment_chart_button_from);
         btnCurrFrom.setEnabled(false);
@@ -92,16 +93,24 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
         spinnerPeriod.setAdapter(spinnerChartPeriodAdapter);
         spinnerPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                presenter.loadChartDataWithParams(presenter.getCurrFrom(), presenter.getCurrTo(), position);
+                if (!blockSpinner)
+                    presenter.loadChartDataWithParams(presenter.getCurrFrom(), presenter.getCurrTo(), position);
             }
-            public void onNothingSelected(AdapterView<?> parent) {}
+
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
         chart = view.findViewById(R.id.fragment_chart_line_chart);
         chart.getDescription().setEnabled(false);
 
+        if (!presenter.checkCurrentParams())
+            presenter.loadChartParams();
+        else {
+            renderChartParamLoadedView(presenter.getCurrFrom(), presenter.getCurrTo(), presenter.getPeriod());
+        }
 
-        presenter.loadChartParams();
+        presenter.loadDefaultChartData();
     }
 
     private void performClick(View v) {
@@ -119,21 +128,38 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
     public void renderChartParamsView(ChartParamRenderer renderer) {
         if (renderer.isLoading()) {
             toolbar.showProgressBar();
+            btnCurrFrom.setEnabled(false);
+            btnCurrTo.setEnabled(false);
+            spinnerPeriod.setEnabled(false);
         }
 
         if (renderer.getError() != null) {
             toolbar.hideProgressBar();
+
         }
 
         if (renderer.getData() != null) {
             toolbar.hideProgressBar();
-            btnCurrFrom.setEnabled(true);
-            btnCurrTo.setEnabled(true);
-            btnCurrFrom.setText(renderer.getChartParam().getCurrFrom());
-            btnCurrTo.setText(renderer.getChartParam().getCurrTo());
-            spinnerPeriod.setSelection(renderer.getChartParam().getPeriod());
+
+            String currFrom = renderer.getChartParam().getCurrFrom();
+            String currTo = renderer.getChartParam().getCurrTo();
+            int period = renderer.getChartParam().getPeriod();
+
+            renderChartParamLoadedView(currFrom, currTo, period);
         }
     }
+
+    private void renderChartParamLoadedView(String textBtnFrom, String textBtnTo, int spinnerPeriod) {
+        btnCurrFrom.setEnabled(true);
+        btnCurrTo.setEnabled(true);
+        this.spinnerPeriod.setEnabled(true);
+        btnCurrFrom.setText(textBtnFrom);
+        btnCurrTo.setText(textBtnTo);
+        blockSpinner = true;
+        this.spinnerPeriod.setSelection(spinnerPeriod);
+        blockSpinner = false;
+    }
+
 
     @Override
     public void renderChart(ChartRenderer renderer) {
@@ -193,8 +219,7 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
         if (!reverse) {
             btnCurrFrom.setText(pickedCurrency);
             presenter.loadChartDataWithParams(pickedCurrency, presenter.getCurrTo(), spinnerPeriod.getSelectedItemPosition());
-        }
-        else {
+        } else {
             btnCurrTo.setText(pickedCurrency);
             presenter.loadChartDataWithParams(presenter.getCurrFrom(), pickedCurrency, spinnerPeriod.getSelectedItemPosition());
         }
@@ -202,6 +227,7 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
 
     @Override
     public void onDestroyView() {
+        presenter.clearDisposables();
         super.onDestroyView();
     }
 
