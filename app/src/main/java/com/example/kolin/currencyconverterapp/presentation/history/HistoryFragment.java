@@ -119,7 +119,7 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
 
         presenter.loadHistory();
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             boolean aBoolean = savedInstanceState.getBoolean(ARG_STATE_BUTTON_DROP_DOWN);
             searchParamsButton.setDropDown(aBoolean);
             clickSearchParamsBtn();
@@ -139,16 +139,16 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
 
     private void clickSearchParamsBtn() {
         Fragment frg = getFragmentInManager(SearchParamsFragment.TAG) != null
-                        ? getFragmentInManager(SearchParamsFragment.TAG)
-                        : SearchParamsFragment.newInstance();
+                ? getFragmentInManager(SearchParamsFragment.TAG)
+                : SearchParamsFragment.newInstance();
 
 
         FragmentManager childFragmentManager = getChildFragmentManager();
         childFragmentManager.popBackStack();
 
         FragmentTransaction fragmentTransaction = childFragmentManager
-                        .beginTransaction()
-                        .setCustomAnimations(R.animator.fragment_slide_down, R.animator.fragment_slide_top, R.animator.fragment_slide_down, R.animator.fragment_slide_top);
+                .beginTransaction()
+                .setCustomAnimations(R.animator.fragment_slide_down, R.animator.fragment_slide_top, R.animator.fragment_slide_down, R.animator.fragment_slide_top);
 
         if (!searchParamsButton.isDropDown()) {
             fragmentTransaction = fragmentTransaction.replace(R.id.fragment_history_container, frg, SearchParamsFragment.TAG);
@@ -163,17 +163,17 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
 
     @Override
     public void renderHistoryView(HistoryRenderer renderer) {
-        if (renderer.isLoading()){
+        if (renderer.isLoading()) {
             toolbar.showProgressBar();
             emptyText.setVisibility(View.GONE);
         }
 
-        if (renderer.getError() != null){
+        if (renderer.getError() != null) {
             toolbar.hideProgressBar();
             emptyText.setVisibility(View.VISIBLE);
         }
 
-        if (renderer.getData() != null){
+        if (renderer.getData() != null) {
             toolbar.hideProgressBar();
             emptyText.setVisibility(View.GONE);
 
@@ -218,7 +218,8 @@ public class HistoryFragment extends MvpAppCompatFragment implements HistoryView
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(ARG_STATE_BUTTON_DROP_DOWN, searchParamsButton.isDropDown());
+        if (searchParamsButton != null)
+            outState.putBoolean(ARG_STATE_BUTTON_DROP_DOWN, searchParamsButton.isDropDown());
         super.onSaveInstanceState(outState);
     }
 
