@@ -3,7 +3,6 @@ package com.example.kolin.currencyconverterapp.presentation.currency_list;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
@@ -21,12 +22,15 @@ import com.example.kolin.currencyconverterapp.presentation.common.SpaceRecyclerD
 import com.example.kolin.currencyconverterapp.presentation.common.Updatable;
 
 
-public class CurrencyListFragment extends Fragment implements CurrencyListView, Updatable {
+public class CurrencyListFragment extends MvpAppCompatFragment implements CurrencyListView, Updatable {
 
     public static final String TAG = CurrencyListFragment.class.getSimpleName();
 
+    @InjectPresenter
+    CurrencyListPresenter presenter;
+
+
     private CurrencyRecyclerAdapter adapter;
-    private CurrencyListPresenter presenter;
 
     private RecyclerView recyclerView;
     private FrameLayout pickedContainer;
@@ -55,8 +59,8 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new CurrencyListPresenter();
-        presenter.bindView(CurrencyListFragment.this);
+//        presenter = new CurrencyListPresenter();
+//        presenter.bindView(CurrencyListFragment.this);
 
         adapter = new CurrencyRecyclerAdapter();
         adapter.setClickItemListener(this::clickAdapterItem);
@@ -101,8 +105,8 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
         imgBtnError.setOnClickListener(v -> presenter.loadCurrencies());
 
 
-        if (adapter.getItemCount() == 0)
-            presenter.loadCurrencies();
+//        if (adapter.getItemCount() == 0)
+//            presenter.loadCurrencies();
 
         setPickedEntity(presenter.getPickedEntity());
     }
@@ -181,8 +185,13 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onDestroy() {
-        presenter.unbindView();
+//        presenter.unbindView();
         super.onDestroy();
     }
 

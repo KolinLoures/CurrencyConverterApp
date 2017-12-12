@@ -48,7 +48,9 @@ dependencies {
 
     implementation 'com.android.support:cardview-v7:26.1.0'
 
-
+    implementation 'com.arello-mobile:moxy:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
 
     implementation project(':customviewlibrary')
 }

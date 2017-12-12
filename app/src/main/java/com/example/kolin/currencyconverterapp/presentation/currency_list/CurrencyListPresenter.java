@@ -2,10 +2,11 @@ package com.example.kolin.currencyconverterapp.presentation.currency_list;
 
 import android.util.Log;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.domain.GetCurrencyList;
 import com.example.kolin.currencyconverterapp.domain.PutRemoveFavoriteCurrency;
-import com.example.kolin.currencyconverterapp.presentation.BaseCompositPresenter;
+import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +16,8 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by kolin on 04.11.2017.
  */
-
-public class CurrencyListPresenter extends BaseCompositPresenter<CurrencyListFragment> {
+@InjectViewState
+public class CurrencyListPresenter extends BasePresenter<CurrencyListView> {
 
     public static final String TAG = CurrencyListPresenter.class.getSimpleName();
 
@@ -30,12 +31,18 @@ public class CurrencyListPresenter extends BaseCompositPresenter<CurrencyListFra
         putRemoveFavoriteCurrency = new PutRemoveFavoriteCurrency();
     }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        loadCurrencies();
+    }
+
     public void loadCurrencies() {
         Disposable di = getCurrencyList
                 .createUseCase()
                 .subscribe(currencyListRenderer -> {
                     removePickedCurrencyFromList(currencyListRenderer.getData());
-                    getView().renderListView(currencyListRenderer);
+                    getViewState().renderListView(currencyListRenderer);
                 });
 
         super.addDisposable(di);
@@ -57,12 +64,6 @@ public class CurrencyListPresenter extends BaseCompositPresenter<CurrencyListFra
             int i = Collections.binarySearch(currencyEntities, pickedEntity, (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
             currencyEntities.remove(i);
         }
-    }
-
-    @Override
-    public void unbindView() {
-        super.clearDisposables();
-        super.unbindView();
     }
 
     public CurrencyEntity getPickedEntity() {

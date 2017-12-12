@@ -1,8 +1,9 @@
 package com.example.kolin.currencyconverterapp.presentation.chart;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.example.kolin.currencyconverterapp.domain.GetChartData;
 import com.example.kolin.currencyconverterapp.domain.GetChartParams;
-import com.example.kolin.currencyconverterapp.presentation.BaseCompositPresenter;
+import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import java.util.List;
 
@@ -11,8 +12,8 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by kolin on 04.12.2017.
  */
-
-public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
+@InjectViewState
+public class ChartPresenter extends BasePresenter<ChartView> {
 
     public static final String TAG = ChartPresenter.class.getSimpleName();
 
@@ -29,6 +30,14 @@ public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
         getChartData = new GetChartData();
     }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+
+        loadDefaultChartData();
+        loadChartParams();
+    }
+
     public void loadChartParams() {
         Disposable di = getChartParams
                 .createUseCase()
@@ -38,16 +47,16 @@ public class ChartPresenter extends BaseCompositPresenter<ChartFragment> {
                         this.currFrom = renderer.getChartParam().getCurrFrom();
                         this.currTo = renderer.getChartParam().getCurrTo();
                     }
-                    getView().renderChartParamsView(renderer);
+                    getViewState().renderChartParamsView(renderer);
                 });
 
         super.addDisposable(di);
     }
 
-    public void loadDefaultChartData() {
+    private void loadDefaultChartData() {
         Disposable di = getChartData
                 .createUseCase()
-                .subscribe(chartRenderer -> getView().renderChart(chartRenderer));
+                .subscribe(chartRenderer -> getViewState().renderChart(chartRenderer));
 
         super.addDisposable(di);
     }

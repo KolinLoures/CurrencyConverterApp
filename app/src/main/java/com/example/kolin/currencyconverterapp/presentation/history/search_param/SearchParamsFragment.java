@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.example.customviewlibrary.CustomSpinner;
 import com.example.kolin.currencyconverterapp.R;
@@ -26,15 +28,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_ALL;
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_CUSTOM;
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_MONTH;
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_WEEK;
 
 
-public class SearchParamsFragment extends Fragment implements SearchParamsView {
+public class SearchParamsFragment extends MvpAppCompatFragment implements SearchParamsView {
 
     public static final String TAG = SearchParamsFragment.class.getSimpleName();
+
+    @InjectPresenter
+    SearchParamsPresenter presenter;
 
     //Views
     private RecyclerView rvCurrencies;
@@ -47,7 +53,6 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
 
     private int lastPickedSpinnerItem = 0;
 
-    private SearchParamsPresenter presenter;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener callBack;
 
@@ -86,8 +91,7 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
         datePickerDialog.setOnCancelListener(dialog -> onCancelDialog());
         datePickerDialog.setOnDismissListener(dialog -> onCancelDialog());
 
-        presenter = new SearchParamsPresenter();
-        presenter.bindView(this);
+        presenter.loadParams();
     }
 
 
@@ -124,14 +128,13 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
         setTextPeriod(spinnerPeriod.getSelectedItemPosition());
 
         rvCurrencies = view.findViewById(R.id.fragment_params_rv_currencies);
-        rvCurrencies.setLayoutManager(new GridLayoutManager(getContext(), 4, GridLayoutManager.HORIZONTAL, false));
+
+        int spanCount = getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE ? 2 : 4;
+        rvCurrencies.setLayoutManager(new GridLayoutManager(getContext(), spanCount, GridLayoutManager.HORIZONTAL, false));
         rvCurrencies.setAdapter(adapter);
 
         progressBar = view.findViewById(R.id.fragment_params_progress);
         progressBar.setVisibility(View.GONE);
-
-        if (adapter.getItemCount() == 0)
-            presenter.loadRateParams();
     }
 
     private void clickSpinnerItem(int position) {
@@ -281,7 +284,6 @@ public class SearchParamsFragment extends Fragment implements SearchParamsView {
 
     @Override
     public void onDestroy() {
-        presenter.unbindView();
         datePickerDialog = null;
         super.onDestroy();
     }

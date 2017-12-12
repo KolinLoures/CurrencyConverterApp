@@ -2,18 +2,19 @@ package com.example.kolin.currencyconverterapp.presentation.converter;
 
 import android.util.Log;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import com.example.kolin.currencyconverterapp.domain.GetRate;
 import com.example.kolin.currencyconverterapp.domain.PutHistory;
-import com.example.kolin.currencyconverterapp.presentation.BaseCompositPresenter;
+import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import io.reactivex.disposables.Disposable;
 
 /**
  * Created by kolin on 07.11.2017.
  */
-
-public class ConverterPresenter extends BaseCompositPresenter<ConverterFragment> {
+@InjectViewState
+public class ConverterPresenter extends BasePresenter<ConverterView> {
 
     public static final String TAG = ConverterPresenter.class.getSimpleName();
 
@@ -29,8 +30,13 @@ public class ConverterPresenter extends BaseCompositPresenter<ConverterFragment>
     public ConverterPresenter() {
         getRate = new GetRate();
         putHistory = new PutHistory();
+    }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
         initPutHistoryObserver();
+        loadRate(1, false);
     }
 
     private void initPutHistoryObserver() {
@@ -46,10 +52,9 @@ public class ConverterPresenter extends BaseCompositPresenter<ConverterFragment>
 
     public void loadRate(float value, boolean reverse) {
         if (from != null && to != null) {
-            super.clearDisposables();
             getRate.setParams(GetRate.GetRateParams.getParamObject(from.getName(), to.getName(), value, reverse));
             Disposable di = getRate.createUseCase().subscribe(converterRateRender -> {
-                getView().renderRateView(converterRateRender);
+                getViewState().renderRateView(converterRateRender);
                 if (converterRateRender.getData() != null)
                     putHistory.getReceiver().onReceive(PutHistory.PutHistoryParams.getParamObj(from.getId(), to.getId(), value, converterRateRender.getResult(), converterRateRender.getData().getRate()));
             });
@@ -65,8 +70,4 @@ public class ConverterPresenter extends BaseCompositPresenter<ConverterFragment>
         return to;
     }
 
-    @Override
-    public void unbindView() {
-        super.unbindView();
-    }
 }

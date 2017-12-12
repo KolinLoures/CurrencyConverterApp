@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,6 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.customviewlibrary.CustomEditText;
 import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
@@ -27,14 +28,15 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 
-public class ConverterFragment extends Fragment implements ConverterView {
+public class ConverterFragment extends MvpAppCompatFragment implements ConverterView {
 
     public static final String TAG = ConverterFragment.class.getSimpleName();
 
     private static final String ARG_FROM = "param_currency_from";
     private static final String ARG_TO = "param_currency_to";
 
-    private ConverterPresenter presenter;
+    @InjectPresenter
+    ConverterPresenter presenter;
 
     private TextView textFrom;
     private TextView textTo;
@@ -80,11 +82,11 @@ public class ConverterFragment extends Fragment implements ConverterView {
             CurrencyEntity from = getArguments().getParcelable(ARG_FROM);
             CurrencyEntity to = getArguments().getParcelable(ARG_TO);
 
-            presenter = new ConverterPresenter();
+//            presenter = new ConverterPresenter();
             presenter.setCurrencies(from, to);
         }
 
-        presenter.bindView(ConverterFragment.this);
+//        presenter.bindView(ConverterFragment.this);
     }
 
     @Override
@@ -123,7 +125,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
         textFrom.setText(presenter.getFrom().getName());
         textTo.setText(presenter.getTo().getName());
 
-        presenter.loadRate(1, false);
+//        presenter.loadRate(1, false);
 
         initEditText();
     }
@@ -306,7 +308,7 @@ public class ConverterFragment extends Fragment implements ConverterView {
 
     @Override
     public void onDestroy() {
-        presenter.unbindView();
+//        presenter.unbindView();
 
         super.onDestroy();
     }

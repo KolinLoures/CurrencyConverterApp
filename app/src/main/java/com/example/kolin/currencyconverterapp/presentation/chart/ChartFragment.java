@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
 import com.example.kolin.currencyconverterapp.data.model.ChartParam;
@@ -31,10 +33,16 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChartFragment extends Fragment implements ChartView, PickDialogFragment.PickDialogFragmentListener {
+public class ChartFragment extends MvpAppCompatFragment implements ChartView, PickDialogFragment.PickDialogFragmentListener {
 
     public static final String TAG = ChartFragment.class.getSimpleName();
 
+    private static final String KEY_LOADING_STATE = "LOADING_STATE";
+
+    @InjectPresenter
+    ChartPresenter presenter;
+
+    //Views
     private Button btnCurrFrom;
     private Button btnCurrTo;
     private Spinner spinnerPeriod;
@@ -42,7 +50,6 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
 
     private ArrayAdapter spinnerChartPeriodAdapter;
 
-    private ChartPresenter presenter;
     private CustomLoadingToolbar toolbar;
 
     private boolean blockSpinner = false;
@@ -58,9 +65,6 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        presenter = new ChartPresenter();
-        presenter.bindView(this);
 
         spinnerChartPeriodAdapter = ArrayAdapter.createFromResource(getContext(), R.array.chart_period, R.layout.spinner_item);
         spinnerChartPeriodAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -104,13 +108,9 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
         chart = view.findViewById(R.id.fragment_chart_line_chart);
         chart.getDescription().setEnabled(false);
 
-        if (!presenter.checkCurrentParams())
-            presenter.loadChartParams();
-        else {
+        if (presenter.checkCurrentParams()){
             renderChartParamLoadedView(presenter.getCurrFrom(), presenter.getCurrTo(), presenter.getPeriod());
         }
-
-        presenter.loadDefaultChartData();
     }
 
     private void performClick(View v) {
@@ -135,7 +135,6 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
 
         if (renderer.getError() != null) {
             toolbar.hideProgressBar();
-
         }
 
         if (renderer.getData() != null) {
@@ -171,6 +170,7 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
 
         if (renderer.getError() != null) {
             toolbar.hideProgressBar();
+            renderer.getError().printStackTrace();
             chart.clear();
             chart.setNoDataText(getString(R.string.error));
         }
@@ -224,18 +224,4 @@ public class ChartFragment extends Fragment implements ChartView, PickDialogFrag
             presenter.loadChartDataWithParams(presenter.getCurrFrom(), pickedCurrency, spinnerPeriod.getSelectedItemPosition());
         }
     }
-
-    @Override
-    public void onDestroyView() {
-        presenter.clearDisposables();
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        presenter.unbindView();
-        super.onDestroy();
-    }
-
-
 }

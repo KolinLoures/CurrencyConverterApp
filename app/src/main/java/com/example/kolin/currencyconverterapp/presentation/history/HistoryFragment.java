@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.example.customviewlibrary.CustomDropButton;
 import com.example.customviewlibrary.CustomLoadingToolbar;
 import com.example.kolin.currencyconverterapp.R;
@@ -28,9 +30,15 @@ import com.example.kolin.currencyconverterapp.presentation.history.search_param.
 
 import java.util.List;
 
-public class HistoryFragment extends Fragment implements HistoryView, SearchParamsFragment.SearchParamsFragmentListener {
+public class HistoryFragment extends MvpAppCompatFragment implements HistoryView, SearchParamsFragment.SearchParamsFragmentListener {
 
     public static final String TAG = HistoryFragment.class.getCanonicalName();
+
+    private static final String ARG_STATE_BUTTON_DROP_DOWN = "STATE_BUTTON_DROP_DOWN";
+
+    @InjectPresenter
+    HistoryPresenter presenter;
+
 
     private RecyclerView recyclerView;
     private CustomDropButton searchParamsButton;
@@ -39,8 +47,6 @@ public class HistoryFragment extends Fragment implements HistoryView, SearchPara
     private TextView emptyText;
 
     private HistoryRecyclerAdapter adapter;
-
-    private HistoryPresenter presenter;
 
     private AnimatorSet backgroundFadeIn;
     private AnimatorSet backgroundFadeOut;
@@ -59,10 +65,6 @@ public class HistoryFragment extends Fragment implements HistoryView, SearchPara
         super.onCreate(savedInstanceState);
 
         adapter = new HistoryRecyclerAdapter(getResources().getStringArray(R.array.search_period_params));
-        presenter = new HistoryPresenter();
-        presenter.bindView(this);
-
-        Log.i(TAG, "onCreate: ");
     }
 
     @Override
@@ -116,6 +118,12 @@ public class HistoryFragment extends Fragment implements HistoryView, SearchPara
         recyclerView.setAdapter(adapter);
 
         presenter.loadHistory();
+
+        if (savedInstanceState != null){
+            boolean aBoolean = savedInstanceState.getBoolean(ARG_STATE_BUTTON_DROP_DOWN);
+            searchParamsButton.setDropDown(aBoolean);
+            clickSearchParamsBtn();
+        }
     }
 
     private void clickPerform(View v) {
@@ -209,11 +217,22 @@ public class HistoryFragment extends Fragment implements HistoryView, SearchPara
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(ARG_STATE_BUTTON_DROP_DOWN, searchParamsButton.isDropDown());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onDestroyView() {
+        //help gc;
         backgroundFadeIn.removeAllListeners();
         backgroundFadeOut.removeAllListeners();
 
-        Log.i(TAG, "onDestroyView: ");
+        recyclerView = null;
+        searchParamsButton = null;
+        childContainer = null;
+        toolbar = null;
+        emptyText = null;
 
         super.onDestroyView();
     }

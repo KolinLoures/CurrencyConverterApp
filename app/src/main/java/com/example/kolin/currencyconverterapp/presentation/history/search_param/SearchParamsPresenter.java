@@ -1,15 +1,16 @@
 package com.example.kolin.currencyconverterapp.presentation.history.search_param;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.example.kolin.currencyconverterapp.domain.GetSearchParams;
-import com.example.kolin.currencyconverterapp.presentation.BaseCompositPresenter;
+import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import io.reactivex.disposables.Disposable;
 
 /**
  * Created by kolin on 02.12.2017.
  */
-
-public class SearchParamsPresenter extends BaseCompositPresenter<SearchParamsFragment> {
+@InjectViewState
+public class SearchParamsPresenter extends BasePresenter<SearchParamsView> {
 
     public static final String TAG = SearchParamsPresenter.class.getSimpleName();
 
@@ -19,16 +20,12 @@ public class SearchParamsPresenter extends BaseCompositPresenter<SearchParamsFra
         getSearchParams = new GetSearchParams();
     }
 
-    public void loadRateParams(){
+    public void  loadParams(){
+        super.onFirstViewAttach();
         Disposable di = getSearchParams
                 .createUseCase()
-                .subscribe(renderer -> getView().renderSearchPramsView(renderer));
+                .subscribe(renderer -> getViewState().renderSearchPramsView(renderer));
 
         super.addDisposable(di);
-    }
-
-    @Override
-    public void unbindView() {
-        super.unbindView();
     }
 }

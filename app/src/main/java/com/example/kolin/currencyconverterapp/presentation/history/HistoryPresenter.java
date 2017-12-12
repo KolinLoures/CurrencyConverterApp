@@ -1,7 +1,8 @@
 package com.example.kolin.currencyconverterapp.presentation.history;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.example.kolin.currencyconverterapp.domain.GetHistory;
-import com.example.kolin.currencyconverterapp.presentation.BaseCompositPresenter;
+import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 
 import java.util.List;
 
@@ -10,8 +11,8 @@ import io.reactivex.disposables.Disposable;
 /**
  * Created by kolin on 19.11.2017.
  */
-
-public class HistoryPresenter extends BaseCompositPresenter<HistoryFragment> {
+@InjectViewState
+public class HistoryPresenter extends BasePresenter<HistoryView> {
 
     public static final String TAG = HistoryPresenter.class.getSimpleName();
 
@@ -23,7 +24,7 @@ public class HistoryPresenter extends BaseCompositPresenter<HistoryFragment> {
 
     public void loadHistory() {
         Disposable di = getHistory.createUseCase()
-                .subscribe(renderer -> getView().renderHistoryView(renderer));
+                .subscribe(renderer -> getViewState().renderHistoryView(renderer));
 
         super.addDisposable(di);
     }
@@ -38,9 +39,4 @@ public class HistoryPresenter extends BaseCompositPresenter<HistoryFragment> {
         loadHistory();
     }
 
-    @Override
-    public void unbindView() {
-//        getHistory.dispose();
-        super.unbindView();
-    }
 }

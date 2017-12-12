@@ -1,38 +1,26 @@
 package com.example.kolin.currencyconverterapp.presentation;
 
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
+import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.MvpView;
 
-import java.lang.ref.WeakReference;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 05.11.2017.
+ * Created by kolin on 12.12.2017.
  */
 
-public abstract class BasePresenter<V> {
+public class BasePresenter<V extends MvpView> extends MvpPresenter<V> {
 
-    private WeakReference<V> reference;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    @CallSuper
-    public void bindView(@NonNull V view) {
-        reference = new WeakReference<>(view);
+    protected void addDisposable(Disposable disposable){
+        compositeDisposable.add(disposable);
     }
 
-    @CallSuper
-    public void unbindView() {
-        if (reference != null) {
-            reference.clear();
-            reference = null;
-        }
+    @Override
+    public void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
     }
-
-    public boolean isViewBind() {
-        return reference != null && reference.get() != null;
-    }
-
-    public V getView() {
-        return reference != null ? reference.get() : null;
-    }
-
-
 }
