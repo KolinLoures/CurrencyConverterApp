@@ -27,7 +27,9 @@ import com.example.kolin.currencyconverterapp.presentation.util.AppFormatter;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-
+/**
+ * Fragment that render {@link ConverterRateRender}
+ */
 public class ConverterFragment extends MvpAppCompatFragment implements ConverterView {
 
     public static final String TAG = ConverterFragment.class.getSimpleName();

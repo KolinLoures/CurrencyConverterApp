@@ -11,7 +11,7 @@ import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeri
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_WEEK;
 
 /**
- * Created by kolin on 26.11.2017.
+ * Posible period for search params
  */
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({PERIOD_ALL, PERIOD_WEEK, PERIOD_MONTH, PERIOD_CUSTOM})

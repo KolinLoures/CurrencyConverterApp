@@ -12,11 +12,17 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by kolin on 11.12.2017.
+ * Class to get from and put {@link ChartParam} object
  */
 
 public class ChartParamsPreference {
 
+    /**
+     * Get {@link ChartParam} from {@link BasePreference}
+     *
+     * @param preference {@link BasePreference} object
+     * @return {@link ChartParam} object
+     */
     @SuppressWarnings("unchecked")
     public ChartParam getChartParamsFromPreference(BasePreference preference) {
         ChartParam chartParam = new ChartParam();
@@ -35,6 +41,12 @@ public class ChartParamsPreference {
         return chartParam;
     }
 
+    /**
+     * Put {@link ChartParam} to {@link BasePreference}
+     *
+     * @param preference {@link BasePreference} object
+     * @param param {@link ChartParam} object
+     */
     public void putChartParamsFromPreference(BasePreference preference, @NonNull ChartParam param) {
         preference.putToPreference(PreferenceKeysEnum.KEY_CHART_PARAM_PERIOD, PreferenceTypeEnum.INTEGER, param.getPeriod());
         ArrayList<String> valuePicked = new ArrayList<>();

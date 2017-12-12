@@ -10,7 +10,7 @@ import com.example.kolin.currencyconverterapp.domain.model.ChartParamRenderer;
 import io.reactivex.Observable;
 
 /**
- * Created by kolin on 11.12.2017.
+ * Class Use Case to get chart parameter
  */
 
 public class GetChartParams implements BaseObservableUseCase<ChartParamRenderer> {

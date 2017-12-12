@@ -4,11 +4,16 @@ import com.arellomobile.mvp.MvpView;
 import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
 
 /**
- * Created by kolin on 05.11.2017.
+ * View for {@link CurrencyListFragment}
  */
 
 public interface CurrencyListView extends MvpView {
 
+    /**
+     * Render view of {@link CurrencyListFragment}
+     *
+     * @param currencyListRenderer {@link CurrencyListFragment} object
+     */
     void renderListView(CurrencyListRenderer currencyListRenderer);
 
 }

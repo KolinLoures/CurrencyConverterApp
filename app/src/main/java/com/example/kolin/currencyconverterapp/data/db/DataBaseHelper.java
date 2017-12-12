@@ -12,7 +12,7 @@ import com.example.kolin.currencyconverterapp.data.db.tables.HistoryTable;
 import com.example.kolin.currencyconverterapp.data.db.tables.PreferenceTable;
 
 /**
- * Created by kolin on 26.10.2017.
+ * Data base helper for SQLITE
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper {

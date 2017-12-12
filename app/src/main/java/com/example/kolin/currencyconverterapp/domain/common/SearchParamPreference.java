@@ -16,12 +16,18 @@ import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeri
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_WEEK;
 
 /**
- * Created by kolin on 11.12.2017.
+ * Class to get from and put {@link SearchParam} object
  */
 
 public class SearchParamPreference {
 
 
+    /**
+     * Get {@link SearchParam} from {@link BasePreference}
+     *
+     * @param preference {@link BasePreference} object
+     * @return {@link SearchParam} object
+     */
     @SuppressWarnings("unchecked")
     public SearchParam getSearchParamsFromPreference(BasePreference preference) {
         int period = (int) preference.getFromPreference(PreferenceKeysEnum.KEY_SEARCH_PARAM_PERIOD, PreferenceTypeEnum.INTEGER, 0);
@@ -47,6 +53,12 @@ public class SearchParamPreference {
         return new SearchParam(period, timeFrom, timeTo, checkedIds);
     }
 
+    /**
+     * Put {@link SearchParam} to {@link BasePreference}
+     *
+     * @param preference {@link BasePreference} object
+     * @param param {@link SearchParam} object
+     */
     public void putSearchParamsToPreference(BasePreference preference, @NonNull SearchParam param) {
         preference.putToPreference(PreferenceKeysEnum.KEY_SEARCH_PARAM_PERIOD, PreferenceTypeEnum.INTEGER, param.getType());
 //        if (!param.getCheckedCurrencies().isEmpty())

@@ -3,7 +3,14 @@ package com.example.kolin.currencyconverterapp.data.db.tables;
 import android.content.ContentValues;
 
 /**
- * Created by kolin on 08.12.2017.
+ * Data base table for work with preference
+ *
+ * View of table:
+ *
+ *  __________________________________
+ * | key_preference| value_preference |
+ * |_______________|__________________|
+ * |               |                  |
  */
 
 public class PreferenceTable {

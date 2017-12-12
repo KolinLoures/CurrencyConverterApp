@@ -11,7 +11,7 @@ import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 07.11.2017.
+ * Presenter for {@link ConverterFragment}
  */
 @InjectViewState
 public class ConverterPresenter extends BasePresenter<ConverterView> {

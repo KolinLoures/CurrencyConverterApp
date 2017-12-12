@@ -1,13 +1,16 @@
 package com.example.kolin.currencyconverterapp.data.model;
 
 /**
- * Created by kolin on 11.12.2017.
+ * Data class that represents chart parameters
  */
 
 public class ChartParam {
 
+    // currency name from
     private String currFrom;
+    //currency name to
     private String currTo;
+    //period of chart
     private int period;
 
     public ChartParam(String currFrom, String currTo, int period) {

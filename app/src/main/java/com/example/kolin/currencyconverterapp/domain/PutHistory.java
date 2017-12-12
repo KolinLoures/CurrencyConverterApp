@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 
 /**
- * Created by kolin on 03.11.2017.
+ * Class Use Case to get history
  */
 
 public class PutHistory implements BaseCompletableUseCase {

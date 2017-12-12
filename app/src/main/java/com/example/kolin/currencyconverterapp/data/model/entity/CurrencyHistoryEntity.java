@@ -1,19 +1,28 @@
 package com.example.kolin.currencyconverterapp.data.model.entity;
 
 /**
- * Created by kolin on 27.10.2017.
+ * Data class of history
  */
 
 public class CurrencyHistoryEntity {
 
+    //id of history cahnge
     private int id;
+    //id of currency from
     private int idCurrencyFrom;
+    //id of currency to
     private int idCurrencyTo;
+    //name of currency from
     private String currencyFrom;
+    //name of currency to
     private String currencyTo;
+    //sum from
     private int sumFrom;
+    //sum to
     private int sumTo;
+    //rate of change
     private float rate;
+    // timw of change
     private long time;
 
     public CurrencyHistoryEntity() {

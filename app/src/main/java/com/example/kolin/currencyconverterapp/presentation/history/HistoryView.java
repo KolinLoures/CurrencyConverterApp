@@ -4,10 +4,15 @@ import com.arellomobile.mvp.MvpView;
 import com.example.kolin.currencyconverterapp.domain.model.HistoryRenderer;
 
 /**
- * Created by kolin on 19.11.2017.
+ * View for {@link HistoryFragment}
  */
 
 public interface HistoryView extends MvpView {
 
+    /**
+     * Render view of {@link HistoryRenderer}
+     *
+     * @param renderer {@link HistoryRenderer} object
+     */
     void  renderHistoryView(HistoryRenderer renderer);
 }

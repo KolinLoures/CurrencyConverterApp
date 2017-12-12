@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.domain;
 
 /**
- * Created by kolin on 09.12.2017.
+ * Interface indecates that class work with params
  */
 
 public interface ParamsUseCase<P extends Params> {

@@ -7,7 +7,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 12.12.2017.
+ * Base presenter
  */
 
 public class BasePresenter<V extends MvpView> extends MvpPresenter<V> {

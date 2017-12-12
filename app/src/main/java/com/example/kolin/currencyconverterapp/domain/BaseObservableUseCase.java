@@ -6,13 +6,23 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by kolin on 02.11.2017.
+ * Base use case for {@link Observable}
  */
 
 public interface BaseObservableUseCase<T> {
 
+    /**
+     * Create {@link Observable} source
+     *
+     * @return {@link Observable} object
+     */
     Observable<T> createUseCase();
 
+    /**
+     * Apply default schedulers for {@link Observable}
+     *
+     * @return {@link Observable} object
+     */
     default ObservableTransformer<T, T> applySchedulers(){
         return upstream -> upstream.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io());
     }

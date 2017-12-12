@@ -1,7 +1,9 @@
 package com.example.kolin.currencyconverterapp.data.gson_helper;
 
 /**
- * Created by kolin on 01.11.2017.
+ * Class with key values for json
+ *
+ * Used to json deserialization
  */
 
 public class JsonElementKey {

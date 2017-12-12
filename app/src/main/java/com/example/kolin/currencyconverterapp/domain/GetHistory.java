@@ -17,7 +17,7 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 /**
- *
+ * Class Use Case to get History
  */
 
 public class GetHistory implements BaseObservableUseCase<HistoryRenderer>, ParamsUseCase<GetHistory.GetHistoryParams> {

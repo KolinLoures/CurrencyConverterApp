@@ -3,13 +3,17 @@ package com.example.kolin.currencyconverterapp.data.model;
 import java.util.List;
 
 /**
- * Created by kolin on 10.12.2017.
+ * Data class that represents search parameters
  */
 
 public class SearchParam {
+    // perod of search
     private int type;
+    // time from what to search
     private long timeFrom;
+    // time to
     private long timeTo;
+    //particular currencies for history
     private List<Integer> checkedCurrencies;
 
     public SearchParam() {

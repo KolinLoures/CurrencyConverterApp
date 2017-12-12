@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 
 /**
- * Created by kolin on 03.11.2017.
+ * Class Use Case to get Rate
  */
 
 public class GetRate implements BaseObservableUseCase<ConverterRateRender>, ParamsUseCase<GetRate.GetRateParams> {

@@ -21,7 +21,9 @@ import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
 import com.example.kolin.currencyconverterapp.presentation.common.SpaceRecyclerDividerItem;
 import com.example.kolin.currencyconverterapp.presentation.common.Updatable;
 
-
+/**
+ * Fragment that render {@link CurrencyListRenderer}
+ */
 public class CurrencyListFragment extends MvpAppCompatFragment implements CurrencyListView, Updatable {
 
     public static final String TAG = CurrencyListFragment.class.getSimpleName();

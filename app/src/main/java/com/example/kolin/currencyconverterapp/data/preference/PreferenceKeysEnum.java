@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.data.preference;
 
 /**
- * Created by kolin on 09.12.2017.
+ * Class with constants for preference keys
  */
 
 public class PreferenceKeysEnum {

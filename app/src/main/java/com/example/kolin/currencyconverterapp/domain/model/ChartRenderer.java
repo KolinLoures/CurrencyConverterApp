@@ -6,7 +6,7 @@ import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 import java.util.List;
 
 /**
- * Created by kolin on 11.12.2017.
+ * View model for chart data
  */
 
 public class ChartRenderer {

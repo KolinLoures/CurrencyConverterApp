@@ -30,6 +30,9 @@ import com.example.kolin.currencyconverterapp.presentation.history.search_param.
 
 import java.util.List;
 
+/**
+ * Fragment that render {@link HistoryRenderer}
+ */
 public class HistoryFragment extends MvpAppCompatFragment implements HistoryView, SearchParamsFragment.SearchParamsFragmentListener {
 
     public static final String TAG = HistoryFragment.class.getCanonicalName();

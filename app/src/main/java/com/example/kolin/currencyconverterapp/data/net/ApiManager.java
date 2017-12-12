@@ -16,9 +16,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by kolin on 28.10.2017.
+ * Api manager class to create api
  */
-
 public class ApiManager {
 
     private static Api instance = null;

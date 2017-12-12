@@ -17,7 +17,7 @@ import java.util.Calendar;
 import io.reactivex.Observable;
 
 /**
- * Created by kolin on 28.10.2017.
+ * Class implementation od {@link FileCache}
  */
 
 public class CacheImpl implements FileCache {
@@ -29,11 +29,11 @@ public class CacheImpl implements FileCache {
     private File cacheDir;
     private FileWriterReader fileWriterReader;
 
-
     private PreferenceManager preferenceManager;
 
     private Gson gson;
 
+    //Expiration period for cache files
     private static final long CACHE_TIME = 12 * 60 * 60 * 1000;
 
     private CacheImpl(Context context) {

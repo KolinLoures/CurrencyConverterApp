@@ -3,7 +3,6 @@ package com.example.kolin.currencyconverterapp.presentation.chart;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment that render {@link ChartRenderer} and {@link ChartParamRenderer}
  */
 public class ChartFragment extends MvpAppCompatFragment implements ChartView, PickDialogFragment.PickDialogFragmentListener {
 
     public static final String TAG = ChartFragment.class.getSimpleName();
-
-    private static final String KEY_LOADING_STATE = "LOADING_STATE";
 
     @InjectPresenter
     ChartPresenter presenter;

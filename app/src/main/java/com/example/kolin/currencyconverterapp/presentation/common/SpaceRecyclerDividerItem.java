@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Created by kolin on 10.12.2017.
+ * Space divider for recycler view
  */
 
 public class SpaceRecyclerDividerItem extends RecyclerView.ItemDecoration {

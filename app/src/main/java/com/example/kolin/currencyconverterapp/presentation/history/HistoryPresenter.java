@@ -9,7 +9,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 19.11.2017.
+ * Presenter for {@link HistoryFragment}
  */
 @InjectViewState
 public class HistoryPresenter extends BasePresenter<HistoryView> {

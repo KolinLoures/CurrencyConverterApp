@@ -12,9 +12,6 @@ import static com.example.kolin.currencyconverterapp.data.preference.PreferenceT
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.STRING;
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.STRING_ARRAY_LIST;
 
-/**
- * Created by kolin on 08.12.2017.
- */
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({BOOLEAN, STRING, INTEGER, INTEGER_ARRAY_LIST, STRING_ARRAY_LIST, LONG})
 public @interface PreferenceType {}

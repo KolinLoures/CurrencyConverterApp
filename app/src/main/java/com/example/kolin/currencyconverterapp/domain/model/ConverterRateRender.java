@@ -3,7 +3,7 @@ package com.example.kolin.currencyconverterapp.domain.model;
 import com.example.kolin.currencyconverterapp.data.model.RatePojo;
 
 /**
- * Created by kolin on 09.12.2017.
+ * View model for converter
  */
 
 public class ConverterRateRender {

@@ -14,7 +14,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 04.11.2017.
+ * Presenter for {@link CurrencyListFragment}
  */
 @InjectViewState
 public class CurrencyListPresenter extends BasePresenter<CurrencyListView> {

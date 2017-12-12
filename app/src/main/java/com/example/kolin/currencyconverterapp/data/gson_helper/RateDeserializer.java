@@ -12,9 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by kolin on 28.10.2017.
+ * Json deserializer for {@link RatePojo}
  */
-
 public class RateDeserializer implements JsonDeserializer<RatePojo> {
 
     @Override

@@ -12,12 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kolin on 09.12.2017.
+ * Class Helper for cursors
  */
 
 public class CursorMapper {
 
-
+    /**
+     * Map cursor to preference value
+     *
+     * @param cursor with preference values
+     * @return value of preference
+     */
     public static String cursorToPreference(Cursor cursor){
         String s = null;
 
@@ -27,6 +32,12 @@ public class CursorMapper {
         return s;
     }
 
+    /**
+     * Map cursor to {@link List<CurrencyEntity>} object
+     *
+     * @param cursor to map
+     * @return {@link List<CurrencyEntity>} object
+     */
     public static List<CurrencyEntity> cursorToCurrencyEntityClass(Cursor cursor) {
         List<CurrencyEntity> temp = new ArrayList<>();
 
@@ -61,6 +72,12 @@ public class CursorMapper {
         return temp;
     }
 
+    /**
+     * Map cursor to {@link List<CurrencyHistoryEntity>} object
+     *
+     * @param cursor to map
+     * @return {@link List<CurrencyHistoryEntity>} object
+     */
     public static List<CurrencyHistoryEntity> cursorToCurrencyHistoryEntity(Cursor cursor) {
         List<CurrencyHistoryEntity> temp = new ArrayList<>();
 
@@ -104,6 +121,12 @@ public class CursorMapper {
     }
 
 
+    /**
+     * Map cursor of currency names to {@link List<String>} object
+     *
+     * @param cursor to map
+     * @return {@link List<String>} object
+     */
     public static List<String> cursorToNamesList(Cursor cursor) {
         List<String> temp = new ArrayList<>();
 

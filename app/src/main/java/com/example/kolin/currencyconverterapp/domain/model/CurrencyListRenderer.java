@@ -5,7 +5,7 @@ import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity;
 import java.util.List;
 
 /**
- * Created by kolin on 09.12.2017.
+ * View model for currency list
  */
 
 public class CurrencyListRenderer {

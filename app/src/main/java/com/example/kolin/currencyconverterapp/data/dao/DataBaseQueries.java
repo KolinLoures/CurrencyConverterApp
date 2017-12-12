@@ -14,7 +14,7 @@ import java.util.List;
 import io.reactivex.Observable;
 
 /**
- * Created by kolin on 27.10.2017.
+ * Class implementation of {@link DAO}
  */
 
 public class DataBaseQueries implements DAO {

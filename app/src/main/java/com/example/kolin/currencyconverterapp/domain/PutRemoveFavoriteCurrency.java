@@ -6,7 +6,7 @@ import com.example.kolin.currencyconverterapp.data.dao.DataBaseQueries;
 import io.reactivex.Completable;
 
 /**
- * Created by kolin on 05.11.2017.
+ * Class Use Case to Out or Remove favorite currencies
  */
 
 public class PutRemoveFavoriteCurrency implements BaseCompletableUseCase, ParamsUseCase<PutRemoveFavoriteCurrency.PutRemoveFavoriteParams> {

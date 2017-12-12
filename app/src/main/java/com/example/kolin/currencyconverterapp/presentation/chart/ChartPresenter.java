@@ -10,7 +10,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 04.12.2017.
+ * Presenter for {@link ChartFragment}
  */
 @InjectViewState
 public class ChartPresenter extends BasePresenter<ChartView> {

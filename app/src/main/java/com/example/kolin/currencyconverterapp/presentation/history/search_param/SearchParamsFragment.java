@@ -34,7 +34,9 @@ import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeri
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_MONTH;
 import static com.example.kolin.currencyconverterapp.domain.model.TypeSearchPeriodParam.PERIOD_WEEK;
 
-
+/**
+ * Fragment that render {@link SearchParamsRenderer}
+ */
 public class SearchParamsFragment extends MvpAppCompatFragment implements SearchParamsView {
 
     public static final String TAG = SearchParamsFragment.class.getSimpleName();

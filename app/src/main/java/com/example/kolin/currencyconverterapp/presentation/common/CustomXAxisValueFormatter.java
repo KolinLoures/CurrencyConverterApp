@@ -6,7 +6,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import java.util.List;
 
 /**
- * Created by kolin on 12.12.2017.
+ * Custom label for x axis (Line Chart)
  */
 
 public class CustomXAxisValueFormatter implements IAxisValueFormatter {

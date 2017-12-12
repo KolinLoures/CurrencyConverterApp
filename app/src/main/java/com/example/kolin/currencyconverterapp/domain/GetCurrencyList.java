@@ -9,7 +9,7 @@ import com.example.kolin.currencyconverterapp.domain.model.CurrencyListRenderer;
 import io.reactivex.Observable;
 
 /**
- * Created by kolin on 09.12.2017.
+ * Class Use Case to get currencies
  */
 
 public class GetCurrencyList implements BaseObservableUseCase<CurrencyListRenderer> {

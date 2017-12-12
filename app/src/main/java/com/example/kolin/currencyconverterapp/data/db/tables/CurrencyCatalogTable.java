@@ -5,19 +5,29 @@ import android.content.ContentValues;
 import java.util.Calendar;
 
 /**
- * Created by kolin on 26.10.2017.
+ * Data base table class for {@link com.example.kolin.currencyconverterapp.data.model.entity.CurrencyEntity}
+ *
+ * View of table:
+ *
+ * ________________________________________________________
+ * | id_currency | name_currency | is_favorite | last_use |
+ * |_____________|_______________|_____________|__________|
+ * |             |               |             |          |
  */
 
 public class CurrencyCatalogTable {
 
+    //Table name
     public static final String TABLE_NAME = "currency_catalog_table";
-
     public static final String ID = "id_currency";
     public static final String NAME = "name_currency";
     public static final String IS_FAVORITE = "is_favorite";
     public static final String TIME = "last_use";
 
 
+    /**
+     * @return SQL String to create table
+     */
     public static String createTable() {
         return "CREATE TABLE "
                 + TABLE_NAME + " ("

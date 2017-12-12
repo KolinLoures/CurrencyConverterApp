@@ -4,10 +4,15 @@ import com.arellomobile.mvp.MvpView;
 import com.example.kolin.currencyconverterapp.domain.model.SearchParamsRenderer;
 
 /**
- * Created by kolin on 02.12.2017.
+ * View for {@link SearchParamsFragment}
  */
 
 public interface SearchParamsView extends MvpView {
 
+    /**
+     * Render view {@link SearchParamsFragment}
+     *
+     * @param renderer {@link SearchParamsFragment}
+     */
     void renderSearchPramsView(SearchParamsRenderer renderer);
 }

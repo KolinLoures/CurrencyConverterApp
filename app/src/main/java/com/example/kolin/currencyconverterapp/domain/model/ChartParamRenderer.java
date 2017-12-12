@@ -5,9 +5,8 @@ import com.example.kolin.currencyconverterapp.data.model.ChartParam;
 import java.util.List;
 
 /**
- * Created by kolin on 11.12.2017.
+ * View model for chart params
  */
-
 public class ChartParamRenderer {
 
     private boolean loading;

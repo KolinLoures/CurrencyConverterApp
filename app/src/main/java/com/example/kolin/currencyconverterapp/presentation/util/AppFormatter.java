@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by kolin on 19.11.2017.
+ * Util class to format values
  */
 
 public class AppFormatter {

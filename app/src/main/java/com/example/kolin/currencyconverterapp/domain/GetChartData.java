@@ -25,7 +25,7 @@ import static com.example.kolin.currencyconverterapp.domain.model.TypePeriodChar
 import static com.example.kolin.currencyconverterapp.domain.model.TypePeriodChart.PERIOD_WEEK;
 
 /**
- * Created by kolin on 05.12.2017.
+ * Use case to get data for chart
  */
 
 public class GetChartData implements BaseObservableUseCase<ChartRenderer>, ParamsUseCase<GetChartData.GetChartDataParams> {
@@ -81,6 +81,9 @@ public class GetChartData implements BaseObservableUseCase<ChartRenderer>, Param
         return params;
     }
 
+    /**
+     * Class with parameter for chart
+     */
     public static class GetChartDataParams implements Params {
         String currFrom;
         String currTo;

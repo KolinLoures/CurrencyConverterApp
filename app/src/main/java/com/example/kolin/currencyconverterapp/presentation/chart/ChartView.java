@@ -7,13 +7,23 @@ import com.example.kolin.currencyconverterapp.domain.model.ChartParamRenderer;
 import com.example.kolin.currencyconverterapp.domain.model.ChartRenderer;
 
 /**
- * Created by kolin on 04.12.2017.
+ * View interface for {@link ChartFragment}
  */
 
 public interface ChartView extends MvpView {
 
+    /**
+     * Render view of {@link ChartParamRenderer}
+     *
+     * @param renderer {@link ChartParamRenderer} object
+     */
     void renderChartParamsView(ChartParamRenderer renderer);
 
+    /**
+     * Reabder view of chart
+     *
+     * @param chartRenderer {@link ChartRenderer} object
+     */
     @StateStrategyType(SingleStateStrategy.class)
     void renderChart(ChartRenderer chartRenderer);
 

@@ -14,9 +14,7 @@ import static com.example.kolin.currencyconverterapp.data.preference.PreferenceK
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_SEARCH_PARAM_PICKED_CURR;
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceKeysEnum.KEY_SEARCH_PARAM_TO_TIME;
 
-/**
- * Created by kolin on 09.12.2017.
- */
+
 @Retention(RetentionPolicy.SOURCE)
 @StringDef({
         KEY_CACHE_TIME,

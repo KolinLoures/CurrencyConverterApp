@@ -6,7 +6,14 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by kolin on 26.10.2017.
+ * Data base table class for {@link com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryEntity}
+ *
+ * View of table:
+ *
+ *  ___________________________________________________________________________________________
+ * | id_exchange | id_currency_from | id_currency_to | sum_from | sum_to | rate | time_exchage |
+ * |_____________|__________________|________________|__________|________|______|______________|
+ * |             |                  |                |          |        |      |              |
  */
 
 public class HistoryTable {

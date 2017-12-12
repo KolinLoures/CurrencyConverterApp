@@ -21,7 +21,7 @@ import static com.example.kolin.currencyconverterapp.data.preference.PreferenceT
 import static com.example.kolin.currencyconverterapp.data.preference.PreferenceTypeEnum.STRING_ARRAY_LIST;
 
 /**
- * Created by kolin on 27.10.2017.
+ * Class implementation of {@link BasePreference}
  */
 
 public class PreferenceManager implements BasePreference {
@@ -98,6 +98,12 @@ public class PreferenceManager implements BasePreference {
             throw new RuntimeException(TAG + ". Value " + value + " can not be cast to " + tClass.toString() + "!");
     }
 
+    /**
+     * Update of insert preference
+     *
+     * @param key key of preference
+     * @param value value of preference
+     */
     private void updateOrInsertPreference(@PreferenceKeys String key, String value) {
         Cursor cursor = db.getCursor(PreferenceTable.getKey(key));
 

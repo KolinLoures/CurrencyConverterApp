@@ -1,7 +1,7 @@
 package com.example.kolin.currencyconverterapp.data.model;
 
 /**
- * Created by kolin on 28.10.2017.
+ * POJO class for rate
  */
 
 public class RatePojo {

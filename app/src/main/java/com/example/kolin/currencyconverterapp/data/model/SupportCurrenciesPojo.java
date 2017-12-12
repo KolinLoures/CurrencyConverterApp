@@ -3,7 +3,7 @@ package com.example.kolin.currencyconverterapp.data.model;
 import java.util.List;
 
 /**
- * Created by kolin on 01.11.2017.
+ * Pojo class to get currencies name from cloud
  */
 
 public class SupportCurrenciesPojo {

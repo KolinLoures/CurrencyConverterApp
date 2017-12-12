@@ -4,14 +4,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by kolin on 27.10.2017.
+ *  Data class of currency
  */
-
 public class CurrencyEntity implements Parcelable {
 
+    //id of Currency
     private int id;
+    //name of currency
     private String name;
+    //flag for favorite
     private boolean isFavorite;
+    // time of last use
     private long lastUse;
 
     public CurrencyEntity() {

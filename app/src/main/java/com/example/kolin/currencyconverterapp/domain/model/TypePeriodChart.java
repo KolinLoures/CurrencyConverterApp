@@ -10,7 +10,7 @@ import static com.example.kolin.currencyconverterapp.domain.model.TypePeriodChar
 import static com.example.kolin.currencyconverterapp.domain.model.TypePeriodChart.PERIOD_WEEK;
 
 /**
- * Created by kolin on 05.12.2017.
+ * Possible periods for chart
  */
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({PERIOD_WEEK, PERIOD_TWO_WEEK, PERIOD_MONTH})

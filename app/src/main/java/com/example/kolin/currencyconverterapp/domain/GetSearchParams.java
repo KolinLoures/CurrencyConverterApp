@@ -10,7 +10,7 @@ import com.example.kolin.currencyconverterapp.domain.model.SearchParamsRenderer;
 import io.reactivex.Observable;
 
 /**
- * Created by kolin on 10.12.2017.
+ * Class Use Case to ger serch Params
  */
 
 public class GetSearchParams implements BaseObservableUseCase<SearchParamsRenderer> {

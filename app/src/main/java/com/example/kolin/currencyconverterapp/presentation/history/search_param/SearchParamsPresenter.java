@@ -7,7 +7,7 @@ import com.example.kolin.currencyconverterapp.presentation.BasePresenter;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by kolin on 02.12.2017.
+ * Presenter for {@link SearchParamsFragment}
  */
 @InjectViewState
 public class SearchParamsPresenter extends BasePresenter<SearchParamsView> {

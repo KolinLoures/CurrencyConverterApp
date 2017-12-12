@@ -16,9 +16,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by kolin on 01.11.2017.
+ * Json deserializer for {@link SupportCurrenciesPojo}
  */
-
 public class SupportCurrenciesDeserializer implements JsonDeserializer<SupportCurrenciesPojo> {
 
     private static final String TAG = SupportCurrenciesDeserializer.class.getSimpleName();

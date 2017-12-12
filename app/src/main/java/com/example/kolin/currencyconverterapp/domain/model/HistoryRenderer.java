@@ -6,7 +6,7 @@ import com.example.kolin.currencyconverterapp.data.model.entity.CurrencyHistoryE
 import java.util.List;
 
 /**
- * Created by kolin on 10.12.2017.
+ * View model for history
  */
 
 public class HistoryRenderer {
