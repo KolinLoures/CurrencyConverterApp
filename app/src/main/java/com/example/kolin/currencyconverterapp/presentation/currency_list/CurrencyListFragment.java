@@ -174,6 +174,8 @@ public class CurrencyListFragment extends Fragment implements CurrencyListView, 
         pickedCurrencyName = null;
         toolbar = null;
         pickedContainer = null;
+        textError = null;
+        imgBtnError = null;
 
         super.onDestroyView();
     }
