@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.example.kolin.currencyconverterapp.presentation.converter.ConverterFragment">
+
+    <com.example.customviewlibrary.CustomLoadingToolbar
+        android:id="@+id/fragment_converter_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:elevation="4dp" />
+
+    <include
+        android:id="@+id/fragment_converter_error"
+        layout="@layout/information_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/android_default_top_bottom_padding"
+        android:layout_marginBottom="@dimen/android_default_top_bottom_padding"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/fragment_converter_input_view_from"
+            layout="@layout/input_currency_amount"
+            android:layout_marginStart="@dimen/android_default_left_right_padding"
+            android:layout_marginEnd="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" />
+
+        <include
+            android:id="@+id/fragment_converter_input_view_to"
+            layout="@layout/input_currency_amount"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="@dimen/android_default_left_right_padding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
