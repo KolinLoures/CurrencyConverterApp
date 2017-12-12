@@ -5,10 +5,10 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp"
     app:cardElevation="2dp"
-    app:contentPaddingBottom="@dimen/android_default_top_bottom_padding"
-    app:contentPaddingLeft="@dimen/android_default_left_right_padding"
-    app:contentPaddingRight="@dimen/android_default_left_right_padding"
-    app:contentPaddingTop="@dimen/android_default_top_bottom_padding">
+    app:contentPaddingBottom="8dp"
+    app:contentPaddingLeft="16dp"
+    app:contentPaddingRight="16dp"
+    app:contentPaddingTop="8dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

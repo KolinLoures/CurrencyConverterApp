@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorGrey200"
-        android:paddingEnd="@dimen/android_default_left_right_padding"
-        android:paddingStart="@dimen/android_default_left_right_padding"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
         android:text="@string/search_parameters"
         android:textAlignment="viewStart"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />

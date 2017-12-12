@@ -6,7 +6,7 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical"
-    android:padding="@dimen/android_default_left_right_padding"
+    android:padding="16dp"
     tools:context="com.example.kolin.currencyconverterapp.presentation.history.search_param.SearchParamsFragment">
 
     <LinearLayout
@@ -21,8 +21,8 @@
 
         <TextView
             android:id="@+id/fragment_params_text_period"
-            android:paddingStart="@dimen/android_default_top_bottom_padding"
-            android:paddingEnd="@dimen/android_default_top_bottom_padding"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_weight="1"
             android:layout_width="0dp"
             tools:text="All period"
@@ -39,8 +39,8 @@
     <com.example.customviewlibrary.CustomSpinner
         android:id="@+id/fragment_params_spinner_period"
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/android_default_top_bottom_padding"
-        android:paddingTop="@dimen/android_default_top_bottom_padding"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -50,7 +50,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_params_rv_currencies"
-        android:padding="@dimen/android_default_top_bottom_padding"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

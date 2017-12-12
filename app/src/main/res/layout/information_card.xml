@@ -6,11 +6,11 @@
     app:cardElevation="2dp"
     android:layout_gravity="bottom"
     android:layout_marginBottom="@dimen/android_default_top_bottom_padding"
-    app:contentPaddingBottom="@dimen/android_default_top_bottom_padding"
-    app:contentPaddingLeft="@dimen/android_default_left_right_padding"
+    app:contentPaddingBottom="8dp"
+    app:contentPaddingLeft="16dp"
     app:cardCornerRadius="0dp"
-    app:contentPaddingRight="@dimen/android_default_left_right_padding"
-    app:contentPaddingTop="@dimen/android_default_top_bottom_padding">
+    app:contentPaddingRight="16dp"
+    app:contentPaddingTop="8dp">
 
     <TextView
         android:id="@+id/information_text"
