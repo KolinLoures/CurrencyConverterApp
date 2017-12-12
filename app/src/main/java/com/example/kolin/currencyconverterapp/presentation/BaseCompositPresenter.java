@@ -15,7 +15,7 @@ public class BaseCompositPresenter<V> extends BasePresenter<V> {
         compositeDisposable.add(disposable);
     }
 
-    protected void clearDisposables() {
+    public void clearDisposables() {
         compositeDisposable.clear();
     }
 
