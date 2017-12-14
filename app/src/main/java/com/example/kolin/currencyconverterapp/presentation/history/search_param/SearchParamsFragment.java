@@ -91,7 +91,7 @@ public class SearchParamsFragment extends MvpAppCompatFragment implements Search
         Calendar now = Calendar.getInstance();
         datePickerDialog = DatePickerDialog.newInstance(callBack, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setOnCancelListener(dialog -> onCancelDialog());
-        datePickerDialog.setOnDismissListener(dialog -> onCancelDialog());
+//        datePickerDialog.setOnDismissListener(dialog -> onCancelDialog());
 
         presenter.loadParams();
     }
