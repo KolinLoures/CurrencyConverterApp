@@ -21,7 +21,6 @@ public class SearchParamsPresenter extends BasePresenter<SearchParamsView> {
     }
 
     public void  loadParams(){
-        super.onFirstViewAttach();
         Disposable di = getSearchParams
                 .createUseCase()
                 .subscribe(renderer -> getViewState().renderSearchPramsView(renderer));

@@ -63,6 +63,10 @@ public class SearchParamsRecyclerAdapter extends RecyclerView.Adapter<SearchPara
         notifyItemInserted(this.data.size() - 1);
     }
 
+    public void clearChekedIds(){
+        this.checkedIds.clear();
+    }
+
     public void setCheckedIds(List<Integer> checkedIds){
         this.checkedIds.addAll(checkedIds);
     }

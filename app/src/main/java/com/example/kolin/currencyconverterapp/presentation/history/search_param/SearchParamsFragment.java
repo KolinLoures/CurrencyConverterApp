@@ -92,8 +92,6 @@ public class SearchParamsFragment extends MvpAppCompatFragment implements Search
         datePickerDialog = DatePickerDialog.newInstance(callBack, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setOnCancelListener(dialog -> onCancelDialog());
 //        datePickerDialog.setOnDismissListener(dialog -> onCancelDialog());
-
-        presenter.loadParams();
     }
 
 
@@ -137,6 +135,8 @@ public class SearchParamsFragment extends MvpAppCompatFragment implements Search
 
         progressBar = view.findViewById(R.id.fragment_params_progress);
         progressBar.setVisibility(View.GONE);
+
+        presenter.loadParams();
     }
 
     private void clickSpinnerItem(int position) {
@@ -255,6 +255,7 @@ public class SearchParamsFragment extends MvpAppCompatFragment implements Search
 
         if (renderer.getData() != null && renderer.getSearchParam() != null) {
             progressBar.setVisibility(View.GONE);
+            adapter.clearChekedIds();
             adapter.setCheckedIds(renderer.getSearchParam().getCheckedCurrencies());
             adapter.addAll(renderer.getData());
             lastPickedSpinnerItem = renderer.getSearchParam().getType();
